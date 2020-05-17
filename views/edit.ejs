@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>글 수정</h1>
+    <hr />
+
+    <form action="/board/<%= post.id %>?_method=PUT" method="post">
+      <table>
+        <tr>
+          <td>
+            <input type="text" name="editTitle" value="<%= post.title %>" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" name="editWriter" value="<%= post.writer %>" />
+          </td>
+        </tr>
+      </table>
+      <input type="submit" value="수정하기" />
+    </form>
+  </body>
+</html>
