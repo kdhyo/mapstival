@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>목록 추가하기</h1>
+    <hr />
+
+    <form action="/map/main" method="POST">
+      <select name="startMonth">
+        <option value="01">01월</option>
+        <option value="02">02월</option>
+        <option value="03">03월</option>
+        <option value="04">04월</option>
+        <option value="05" selected="selected">05월</option>
+        <option value="06">06월</option>
+        <option value="07">07월</option>
+        <option value="08">08월</option>
+        <option value="09">09월</option>
+        <option value="10">10월</option>
+        <option value="11">11월</option>
+        <option value="12">12월</option>
+      </select>
+      <select name="startYear">
+        <option value="2019">2019</option>
+        <option value="2020" selected="selected">2020</option>
+        <option value="2021">2021</option>
+      </select>
+      <select name="f_area"">
+        <option value="" selected="selected">전국</option>
+        <option value="1">서울</option>
+        <option value="2">인천</option>
+        <option value="3">대전</option>
+        <option value="4">대구</option>
+        <option value="5">광주</option>
+        <option value="6">부산</option>
+        <option value="7">울산</option>
+        <option value="8">세종</option>
+        <option value="31">경기</option>
+        <option value="32">강원</option>
+        <option value="33">충북</option>
+        <option value="34">충남</option>
+        <option value="35">경북</option>
+        <option value="36">경남</option>
+        <option value="37">전북</option>
+        <option value="38">전남</option>
+        <option value="39">제주</option>
+      </select>
+      <input type="submit" value="선택" />
+    </form>
+    <form action="/map/detail" method="POST">
+      <% if(data != null) { %>
+      <% for(i = 0; i < data.length; i++){ %> <br />
+      제목: <%= data[i].title%> <br />
+      장소: <%= data[i].addr1 %><br />
+      일정: <%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %><br />
+      <button name="<%=data[i].contentid%>" type="submit">
+        <% if(data[i].firstimage != null) {%>
+        <img src="<%= data[i].firstimage%>" />
+        <% } else { %>
+          <img src="../../images/imagenone.png" />
+          <%}%>
+      </button>
+      <br />
+      <% }%>
+      <% } else if(data === null) {%>
+        <a>축제 정보가 존재하지 않습니다.</a>
+        <%}%>
+
+      
+    </form>
+  </body>
+</html>

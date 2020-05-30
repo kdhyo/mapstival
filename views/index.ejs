@@ -101,12 +101,13 @@
                   type="submit"
                   class="btn btn-lg btn-primary btn-block signup-btn"
                 />
-                <a href="user/signup"
-                  ><button class="btn btn-lg btn-primary btn-block signup-btn">
-                    회원가입
-                  </button></a
-                >
               </form>
+              <a href="user/signup"
+                ><button class="btn btn-lg btn-primary btn-block signup-btn">
+                  회원가입
+                </button></a
+              >
+
               <% } else {%>
               <form action="/user/logout" method="get">
                 <input type="submit" value="로그아웃" />

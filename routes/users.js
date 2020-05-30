@@ -84,7 +84,7 @@ router.post("/login", async function (req, res, next) {
 router.get("/logout", function (req, res, next) {
   console.log("두둥");
   req.session.destroy();
-  res.clearCookie("sid");
+  res.clearCookie("hyo");
 
   res.redirect("/");
 });

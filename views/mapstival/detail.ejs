@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <META http-equiv="Content_type" content="text/html" />
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>목록 추가하기</h1>
+    <hr />
+
+    <form action="/map/main" method="POST">
+      <table>
+        <tr>
+          <td>
+            <input
+              type="number"
+              name="startDate"
+              placeholder="제목을 입력하세요."
+            />
+          </td>
+        </tr>
+      </table>
+      <input type="submit" value="전송하기" />
+    </form>
+    
+  </select>
+    <table>
+      <tr>
+        <td>제목</td>
+        <td>작성자</td>
+        <td>작성일</td>
+      </tr>
+    </table>
+
+    <% text = data.overview.replace(/<br\/>/gi, "\n");%>
+    <% text =
+    text.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");%>
+    <%text = text.replace(/&lt;/gi, "<"); %>
+
+    <%= text = text.replace(/&gt;/gi, ">");%>
+  </body>
+</html>
