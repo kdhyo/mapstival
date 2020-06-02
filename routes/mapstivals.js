@@ -36,8 +36,6 @@ router.post("/main", function (req, res, next) {
   const startMonth = req.body.startMonth;
   const startDate = startYear + startMonth + "01";
   const f_area = req.body.f_area;
-
-  this.startDate = startDate;
   axios
     .get(`${apiSetting(startDate, f_area)}`)
     .then((response) => {
@@ -70,21 +68,17 @@ router.post("/main", function (req, res, next) {
 router.post("/detail", function (req, res, next) {
   let setting = req.body;
   let value = "";
-
   for (const key in setting) {
     value = key;
-
     // console.log(value);
   }
   let INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y`;
-
   axios
     .get(`${INFO_URL}`)
     .then((response) => {
       let tourData = null;
       tourData = response.data.response.body.items.item;
       // console.log(tourData);
-
       res.render("mapstival/detail", { data: tourData });
     })
     .catch((e) => {
