@@ -6,38 +6,31 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>목록 추가하기</h1>
-    <hr />
+    <h1><%= data.title%></h1>
 
-    <form action="/map/main" method="POST">
-      <table>
-        <tr>
-          <td>
-            <input
-              type="number"
-              name="startDate"
-              placeholder="제목을 입력하세요."
-            />
-          </td>
-        </tr>
-      </table>
-      <input type="submit" value="전송하기" />
-    </form>
-    
-  </select>
-    <table>
-      <tr>
-        <td>제목</td>
-        <td>작성자</td>
-        <td>작성일</td>
-      </tr>
-    </table>
+    <h2>축제 설명</h2>
+    <%if(data.firstimage != null) { %>
+    <div><img src="<%= data.firstimage %>" /></div>
+    <% } else { %>
+    <div><img src="../../images/imagenone.png" /></div>
+    <%}%>
 
-    <% text = data.overview.replace(/<br\/>/gi, "\n");%>
-    <% text =
-    text.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");%>
-    <%text = text.replace(/&lt;/gi, "<"); %>
+    <div><%- data.overview%></div>
+    <div><%= data.contenttypeid%></div>
 
-    <%= text = text.replace(/&gt;/gi, ">");%>
+    <div>
+      <h2>
+        전화번호 :
+        <button
+          type="button"
+          name="button"
+          onclick="location.href='tel:<%-data.tel%>'"
+        >
+          <%= data.tel %>
+        </button>
+      </h2>
+    </div>
+    <div><h2>홈페이지 : <%- data.homepage %></h2></div>
+    <div><h2>축제주소 : <%= data.addr1 %></h2></div>
   </body>
 </html>
