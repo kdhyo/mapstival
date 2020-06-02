@@ -1,5 +1,6 @@
 node_modules
 apikey.json
 config.json
+gapikey.ejs
 package-lock.json
 sessions
