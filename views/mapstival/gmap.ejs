@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+      var latdata = "<%= lat %>";
+      var equdata = "<%= equ %>";
+      var lat = latdata.split(",").map(Number);
+      var equ = equdata.split(",").map(Number);
+
+      const neighborhoods = [];
+
+      for (i = 0; i <= lat.length; i++) {
+        neighborhoods.push({ lat: lat[i], lng: equ[i] });
+      }
+
+      var markers = [];
+      var map;
+
+      function initMap() {
+        drop();
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: { lat: 37.39995, lng: 126.923585 },
+        });
+      }
+
+      function drop() {
+        clearMarkers();
+        for (var i = 0; i < neighborhoods.length; i++) {
+          addMarkerWithTimeout(neighborhoods[i], i * 100); // i*숫자로 마커들 떨어지는 속도 조절
+        }
+      }
+
+      var image = "../../icon/image/flower.gif";
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function () {
+          markers.push(
+            new google.maps.Marker({
+              position: position,
+              map: map,
+              animation: google.maps.Animation.DROP,
+              title: "hello", //마커에 마우스 대면 이름뜨게
+              icon: image,
+            })
+          );
+        }, timeout);
+      }
+
+      function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        markers = [];
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=<%=GAPI_KEY%>&callback=initMap"
+      async
+      defer
+    ></script>
+  </body>
+</html>
