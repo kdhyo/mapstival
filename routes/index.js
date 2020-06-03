@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require("mysql"); // mysql 모듈 require
 const models = require("../models");
 
-// 커넥션 연결
+// 커넥션 연결 test
 let client = mysql.createConnection({
   user: "root",
   password: "qwe123",
