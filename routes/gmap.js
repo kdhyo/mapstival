@@ -7,7 +7,7 @@ const GAPI_KEY = GAPI.GMAP_KEY;
 const lat = [];
 const equ = [];
 
-//축제 메인페이지 하기
+//축제 메인페이지 하기 111
 router.get("/main", function (req, res, next) {
   //위도 경도 넣는곳
   for (i = 0; i < 10; i++) {
