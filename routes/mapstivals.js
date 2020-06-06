@@ -65,7 +65,7 @@ router.post("/main", function (req, res, next) {
 });
 
 //상세정보 페이지 이동
-router.post("/detail", function (req, res, next) {
+router.post("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
   for (const key in setting) {
@@ -73,7 +73,7 @@ router.post("/detail", function (req, res, next) {
     // console.log(value);
   }
   let INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y`;
-  axios
+  await axios
     .get(`${INFO_URL}`)
     .then((response) => {
       let tourData = null;
@@ -98,45 +98,6 @@ function apiSetting(startDate, f_area) {
   let URL = `${API_URL}searchFestival?serviceKey=${API_KEY}&MobileOS=ETC&MobileApp=mapstival&listYN=Y&areaCode=${f_area}&eventStartDate=${startDate}`;
   return URL;
 }
-
-// async function httpRequest() {
-//   try {
-//     // url += queryParams;
-//     const URL = URL;
-//     const response = await axios.get(URL);
-//     xml = convert.xml2json(response, { compact: true, spaces: 4 });
-//     xml = JSON.parse(xml);
-//     console.log(response);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// async function getUser() {
-//   try {
-//     // url += queryParams;
-//     const response = await axios.get(URL);
-//     console.log(response);
-//     return response;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// function axiosTest() {
-//   // var strr = [];
-//   URL += queryParams;
-//   axios
-//     .get(URL)
-//     .then(function (response) {
-//       (response) => response;
-//     })
-
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-//   return response;
-// }
 
 function getDate() {
   const date = new Date();
