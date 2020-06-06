@@ -9,20 +9,38 @@ const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
 const API_ETC = API.API_ETC;
 
-let startDate = "20200501";
-let SEARCH_URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&eventStartDate=${startDate}`;
-
 //축제 메인페이지
-router.get("/main", function (req, res, next) {
-  axios
-    .get(`${SEARCH_URL}`)
-    .then((response) => {
-      const tourData = [];
-      for (i = 0; i < 10; i++) {
-        tourData.push(response.data.response.body.items.item[i]);
-        // console.log(tourData[i]);
-      }
+router.get("/", function (req, res, next) {
+  const f_area = req.query.f_area;
 
+  const newDate = new Date();
+  let Year = `newDate.getFullYear()`;
+  let Month = `newDate.getMonth()`;
+  if (Month < 10) {
+    Month = `0${Month}`;
+  }
+  const today = `${Year}${Month}01`;
+
+  axios
+    .get(`${apiSetting(today, f_area)}`)
+    .then((response) => {
+      let tourData = [];
+      const list = response.data.response.body.items.item;
+      if (Array.isArray(list)) {
+        if (list != undefined) {
+          for (data in list) {
+            tourData.push(list[data]);
+          }
+        } else {
+          console.log("두번째 if");
+          tourData = null;
+        }
+      } else if (response.data.response.body.items === "") {
+        console.log("첫번째 if");
+        tourData = null;
+      } else {
+        tourData.push(list);
+      }
       res.render("mapstival/main", { data: tourData });
     })
     .catch((e) => {
@@ -95,7 +113,7 @@ function detailSetting() {
 
 // 행사 날짜 설정
 function apiSetting(startDate, f_area) {
-  let URL = `${API_URL}searchFestival?serviceKey=${API_KEY}&MobileOS=ETC&MobileApp=mapstival&listYN=Y&areaCode=${f_area}&eventStartDate=${startDate}`;
+  let URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=6&eventStartDate=${startDate}`;
   return URL;
 }
 
