@@ -50,7 +50,7 @@
       </select>
       <input type="submit" value="선택" />
     </form>
-    <form action="/map/detail" method="POST">
+    <form action="/map/detail" method="POST" name="<%=data[i].contentid%>">
       <% if(data != null) { %>
       <% for(i = 0; i < data.length; i++){ %> <br />
       제목: <%= data[i].title%> <br />
