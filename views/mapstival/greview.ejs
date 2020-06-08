@@ -5,6 +5,9 @@ var map;
 var service;
 var infowindow;
 
+var rating = '<%= rating %>'
+var ratingPutNumber = '<%= ratingPutNumber %>'
+
 function initMap() {
   var sydney = new google.maps.LatLng(-33.867, 151.195);
 
@@ -30,4 +33,5 @@ function initMap() {
   });
 }
 
+alert("평점 : " + rating + " 리뷰 : " +ratingPutNumber + "개")
 </script>
