@@ -8,38 +8,84 @@ const axios = require("axios");
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
 const API_ETC = API.API_ETC;
-
-let startDate = "20200501";
-let SEARCH_URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&eventStartDate=${startDate}`;
+let INFO_URL = null;
+let URL = null;
+let tourData = [];
+let pageNo = 1;
 
 //축제 메인페이지
-router.get("/main", function (req, res, next) {
-  axios
-    .get(`${SEARCH_URL}`)
-    .then((response) => {
-      const tourData = [];
-      for (i = 0; i < 10; i++) {
-        tourData.push(response.data.response.body.items.item[i]);
-        // console.log(tourData[i]);
-      }
+router.get("/", function (req, res, next) {
+  const f_area = req.query.f_area;
+  let link = `/mapstival${String(req.url)}`;
+  pageNo = `1`;
 
-      res.render("mapstival/main", { data: tourData });
+  const newDate = new Date();
+  let Year = newDate.getFullYear();
+  let Month = newDate.getMonth();
+  //파라미타 값이 있으면 그걸로
+  if (req.query.year != null) {
+    Year = req.query.year;
+  }
+  if (req.query.Month != null) {
+    Month = req.query.Month;
+  }
+
+  if (Month < 10) {
+    Month = `0${Month}`;
+  }
+  const today = `${Year}${Month}01`;
+
+  const selected = {
+    Month: `${Month}`,
+    Year: `${Year}`,
+    f_area: `${f_area}`,
+  };
+
+  axios
+    .get(`${apiSetting(today, f_area, pageNo)}`)
+    .then((response) => {
+      let tourData = [];
+      const list = response.data.response.body.items.item;
+      if (Array.isArray(list)) {
+        if (list != undefined) {
+          for (data in list) {
+            tourData.push(list[data]);
+          }
+        } else {
+          tourData = null;
+        }
+      } else if (response.data.response.body.items === "") {
+        tourData = null;
+      } else {
+        tourData.push(list);
+      }
+      res.render("mapstival/main", {
+        data: tourData,
+        link: link,
+        selected: selected,
+      });
     })
     .catch((e) => {
       res.send(e);
     });
 });
 
-//축제 날짜 지역 받아오기
+//축제 날짜 지역 post로 받아오기
 router.post("/main", function (req, res, next) {
   const startYear = req.body.startYear;
   const startMonth = req.body.startMonth;
   const startDate = startYear + startMonth + "01";
   const f_area = req.body.f_area;
+  const selected = {
+    Month: `${startMonth}`,
+    Year: `${startYear}`,
+    f_area: `${f_area}`,
+  };
+  pageNo = `1`;
   axios
-    .get(`${apiSetting(startDate, f_area)}`)
+    .get(`${apiSetting(startDate, f_area, pageNo)}`)
     .then((response) => {
-      let tourData = [];
+      tourData = [];
       const list = response.data.response.body.items.item;
       if (Array.isArray(list)) {
         if (list != undefined) {
@@ -57,7 +103,10 @@ router.post("/main", function (req, res, next) {
         tourData.push(list);
       }
       // console.log(tourData);
-      res.render("mapstival/main", { data: tourData });
+      res.render("mapstival/main", {
+        data: tourData,
+        selected: selected,
+      });
     })
     .catch((e) => {
       res.send(e);
@@ -65,21 +114,28 @@ router.post("/main", function (req, res, next) {
 });
 
 //상세정보 페이지 이동
-router.post("/detail", function (req, res, next) {
+router.post("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
   for (const key in setting) {
     value = key;
-    // console.log(value);
+    console.log(value);
   }
-  let INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y`;
-  axios
+
+  INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
+  let DETAIL_URL = `${API_URL}detailIntro?ServiceKey=${API_KEY}${API_ETC}&contentId=${value}&contentTypeId=15`;
+  let tourData = null;
+  await axios
     .get(`${INFO_URL}`)
     .then((response) => {
-      let tourData = null;
       tourData = response.data.response.body.items.item;
+      console.log(tourData);
+      axios.get(`${DETAIL_URL}`).then((response) => {
+        detail_Data = response.data.response.body.items.item;
+        console.log(detail_Data);
+      });
       // console.log(tourData);
-      res.render("mapstival/detail", { data: tourData });
+      res.render("mapstival/detail", { data: tourData, detail: detail_Data });
     })
     .catch((e) => {
       res.send(e);
@@ -88,55 +144,48 @@ router.post("/detail", function (req, res, next) {
   // res.send(INFO_URL);
 });
 
-// 상세페이지 셋팅
-function detailSetting() {
-  let;
-}
+// 지도페이지 이동
+const lat = [];
+const equ = [];
+router.get("/gmap", function (req, res, next) {
+  axios
+    .get(`${URL}`)
+    .then((response) => {
+      let tourData = [];
+      const list = response.data.response.body.items.item;
+
+      if (Array.isArray(list)) {
+        if (list != undefined) {
+          for (data in list) {
+            tourData.push(list[data]);
+          }
+        } else {
+          tourData = null;
+        }
+      } else if (response.data.response.body.items === "") {
+        tourData = null;
+      } else {
+        tourData.push(list);
+      }
+      //위도 경도 넣는곳
+      for (i = 0; i < tourData.length; i++) {
+        lat.push(tourData[i].mapy);
+        equ.push(tourData[i].mapx);
+      }
+      res.render("mapstival/gmap", { lat: lat, equ: equ });
+      lat.length = 0;
+      equ.length = 0;
+    })
+    .catch((e) => {
+      res.send(e);
+    });
+});
 
 // 행사 날짜 설정
-function apiSetting(startDate, f_area) {
-  let URL = `${API_URL}searchFestival?serviceKey=${API_KEY}&MobileOS=ETC&MobileApp=mapstival&listYN=Y&areaCode=${f_area}&eventStartDate=${startDate}`;
+function apiSetting(startDate, f_area, pageNo) {
+  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=${pageNo}&numOfRows=6&eventStartDate=${startDate}`;
   return URL;
 }
-
-// async function httpRequest() {
-//   try {
-//     // url += queryParams;
-//     const URL = URL;
-//     const response = await axios.get(URL);
-//     xml = convert.xml2json(response, { compact: true, spaces: 4 });
-//     xml = JSON.parse(xml);
-//     console.log(response);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// async function getUser() {
-//   try {
-//     // url += queryParams;
-//     const response = await axios.get(URL);
-//     console.log(response);
-//     return response;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// function axiosTest() {
-//   // var strr = [];
-//   URL += queryParams;
-//   axios
-//     .get(URL)
-//     .then(function (response) {
-//       (response) => response;
-//     })
-
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-//   return response;
-// }
 
 function getDate() {
   const date = new Date();
@@ -150,6 +199,39 @@ function getDate() {
   day = "0" + 1;
   var result = year.toString() + month.toString() + day;
   return result;
+}
+
+function pageUp() {
+  pageNo++;
+  URL += `&pageNo=${pageNo}`;
+  axios
+    .get(URL)
+    .then((response) => {
+      const list = response.data.response.body.items.item;
+      if (Array.isArray(list)) {
+        if (list != undefined) {
+          for (data in list) {
+            tourData.push(list[data]);
+          }
+        } else {
+          console.log("두번째 if");
+          tourData = null;
+        }
+      } else if (response.data.response.body.items === "") {
+        console.log("첫번째 if");
+        tourData = null;
+      } else {
+        tourData.push(list);
+      }
+      // console.log(tourData);
+      res.render("mapstival/main", {
+        data: tourData,
+        selected: selected,
+      });
+    })
+    .catch((e) => {
+      res.send(e);
+    });
 }
 
 module.exports = router;

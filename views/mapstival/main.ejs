@@ -1,75 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>Mapstival</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="/css/aos.css">
+
+    <link rel="stylesheet" href="/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/icomoon.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .dropbtn {
+        background-color: none;
+        color: none;
+        padding: 0px;
+        font-size: 0px;
+        border: none;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 150px;
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.5);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding:0;
+        text-decoration: none;
+        display: block;
+        opacity: 0.5;
+      }
+
+      .dropdown-content a:hover {background-color: #fff; opacity: 1;}
+
+      .dropdown:hover .dropdown-content {display: block;}
+
+      .dropdown:hover .dropbtn {background-color: none;}
+
+      button {border: 0px; outline: 0px; background-color: #fff;}
+      .buttons {text-align: center; padding-top: 30px;}
+    </style>
   </head>
   <body>
-    <h1>목록 추가하기</h1>
-    <hr />
-
-    <form action="/map/main" method="POST">
-      <select name="startMonth">
-        <option value="01">01월</option>
-        <option value="02">02월</option>
-        <option value="03">03월</option>
-        <option value="04">04월</option>
-        <option value="05" selected="selected">05월</option>
-        <option value="06">06월</option>
-        <option value="07">07월</option>
-        <option value="08">08월</option>
-        <option value="09">09월</option>
-        <option value="10">10월</option>
-        <option value="11">11월</option>
-        <option value="12">12월</option>
-      </select>
-      <select name="startYear">
-        <option value="2019">2019</option>
-        <option value="2020" selected="selected">2020</option>
-        <option value="2021">2021</option>
-      </select>
-      <select name="f_area"">
-        <option value="" selected="selected">전국</option>
-        <option value="1">서울</option>
-        <option value="2">인천</option>
-        <option value="3">대전</option>
-        <option value="4">대구</option>
-        <option value="5">광주</option>
-        <option value="6">부산</option>
-        <option value="7">울산</option>
-        <option value="8">세종</option>
-        <option value="31">경기</option>
-        <option value="32">강원</option>
-        <option value="33">충북</option>
-        <option value="34">충남</option>
-        <option value="35">경북</option>
-        <option value="36">경남</option>
-        <option value="37">전북</option>
-        <option value="38">전남</option>
-        <option value="39">제주</option>
-      </select>
-      <input type="submit" value="선택" />
-    </form>
-    <form action="/map/detail" method="POST">
-      <% if(data != null) { %>
-      <% for(i = 0; i < data.length; i++){ %> <br />
-      제목: <%= data[i].title%> <br />
-      장소: <%= data[i].addr1 %><br />
-      일정: <%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %><br />
-      <button name="<%=data[i].contentid%>" type="submit">
-        <% if(data[i].firstimage != null) {%>
-        <img src="<%= data[i].firstimage%>" />
-        <% } else { %>
-          <img src="../../images/imagenone.png" />
-          <%}%>
-      </button>
-      <br />
-      <% }%>
-      <% } else if(data === null) {%>
-        <a>축제 정보가 존재하지 않습니다.</a>
-        <%}%>
-
+    
+    <div class="buttons">
       
-    </form>
+      <form action="/mapstival/main" method="POST">
+        <select name="startMonth">
+          <option value="01" <%= (selected.Month === '01') ? 'selected' : "" %>>01월</option>
+          <option value="02" <%= (selected.Month === '02') ? 'selected' : "" %> >02월</option>
+          <option value="03" <%= (selected.Month === '03') ? 'selected' : "" %> >03월</option>
+          <option value="04" <%= (selected.Month === '04') ? 'selected' : "" %> >04월</option>
+          <option value="05" <%= (selected.Month === '05') ? 'selected' : "" %> >05월</option>
+          <option value="06" <%= (selected.Month === '06') ? 'selected' : "" %> >06월</option>
+          <option value="07" <%= (selected.Month === '07') ? 'selected' : "" %> >07월</option>
+          <option value="08" <%= (selected.Month === '08') ? 'selected' : "" %> >08월</option>
+          <option value="09" <%= (selected.Month === '09') ? 'selected' : "" %> >09월</option>
+          <option value="10" <%= (selected.Month === '10') ? 'selected' : "" %> >10월</option>
+          <option value="11" <%= (selected.Month === '11') ? 'selected' : "" %> >11월</option>
+          <option <%= (selected.Month === '12') ? 'selected' : "" %> value="12"  >12월</option>
+        </select>
+        <select name="startYear">
+          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019</option>
+          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020</option>
+          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021</option>
+        </select>
+        <select name="f_area">
+          <option value="" <%= (selected.f_area === '') ? 'selected' : "" %> >전국</option>
+          <option value="1" <%= (selected.f_area === '1') ? 'selected' : "" %> >서울</option>
+          <option value="2" <%= (selected.f_area === '2') ? 'selected' : "" %> >인천</option>
+          <option value="3" <%= (selected.f_area === '3') ? 'selected' : "" %> >대전</option>
+          <option value="4" <%= (selected.f_area === '4') ? 'selected' : "" %> >대구</option>
+          <option value="5" <%= (selected.f_area === '5') ? 'selected' : "" %> >광주</option>
+          <option value="6" <%= (selected.f_area === '6') ? 'selected' : "" %> >부산</option>
+          <option value="7" <%= (selected.f_area === '7') ? 'selected' : "" %> >울산</option>
+          <option value="8" <%= (selected.f_area === '8') ? 'selected' : "" %> >세종</option>
+          <option value="31" <%= (selected.f_area === '31') ? 'selected' : "" %> >경기</option>
+          <option value="32" <%= (selected.f_area === '32') ? 'selected' : "" %> >강원</option>
+          <option value="33" <%= (selected.f_area === '33') ? 'selected' : "" %> >충북</option>
+          <option value="34" <%= (selected.f_area === '34') ? 'selected' : "" %> >충남</option>
+          <option value="35" <%= (selected.f_area === '35') ? 'selected' : "" %> >경북</option>
+          <option value="36" <%= (selected.f_area === '36') ? 'selected' : "" %> >경남</option>
+          <option value="37" <%= (selected.f_area === '37') ? 'selected' : "" %> >전북</option>
+          <option value="38" <%= (selected.f_area === '38') ? 'selected' : "" %> >전남</option>
+          <option value="39" <%= (selected.f_area === '39') ? 'selected' : "" %> >제주</option>
+        </select>
+        <input type="submit" value="선택" />
+      </form>
+      <div class="dropdown">
+        <a href="/mapstival/gmap" ><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
+        <div class="dropdown-content">
+        </div>
+      </div>
+    </div>
+  </div>
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+          <% if(data != null) { %>
+          <% for (i=0; i < data.length; i++) { %>
+          <div class="col-md-4 ftco-animate">
+            <div class="blog-entry" data-aos-delay="100">
+              <form action="/mapstival/detail" method="POST">
+              <% if(data[i].firstimage != null) {%>
+                <button name="<%=data[i].contentid%>" type="submit">
+                  <img  class="block-20" src="<%= data[i].firstimage%>" />
+            </button>
+              <% } else { %>
+                <a name="<%=data[i].contentid%>" href="javascript:;" onclick="parentNode.submit();" class="block-20" style="background-image: url('/images/imagenone.png')">
+                </a>
+                <% } %>
+              </form>
+              <div class="text p-4 d-block">
+                <div class="meta mb-3">
+                  <div><a href="#">일정</a></div>
+                  <div><a href="#"><%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %></a></div>
+                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                </div>
+                <h3 class="heading"><a href="#"><%= data[i].title%> </a></h3>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% } else if(data === null) {%>
+            <a>축제 정보가 존재하지 않습니다.</a>
+            <%}%>
+        </div>
+        <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+              <button onclick="pageUp()"><img src="/images/more.png" width="140px" height="60px"></button><br><br><br><br>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --><br><br>
+  <b>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></b>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.easing.1.3.js"></script>
+  <script src="/js/jquery.waypoints.min.js"></script>
+  <script src="/js/jquery.stellar.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/aos.js"></script>
+  <script src="/js/jquery.animateNumber.min.js"></script>
+  <script src="/js/bootstrap-datepicker.js"></script>
+  <script src="/js/jquery.timepicker.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="/js/google-map.js"></script>
+  <script src="/js/main.js"></script>
+    
+  <script>
+    var f_area = null;
+    var year = `2020`;
+    var month = `05`;
+    var url = `?f_area=${f_area}&year=${year}&Month=${month}`
+    document.querySelector('.ajaxsend').addEventListener("click",function(){
+      console.log("enend")
+})
+  </script>
   </body>
 </html>
