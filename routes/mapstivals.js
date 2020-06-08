@@ -4,7 +4,9 @@ const models = require("../models");
 const convert = require("xml-js");
 const API = require("../config/apikey");
 const axios = require("axios");
+const GAPI = require("../config/gapikey.json");
 
+const GAPI_KEY = GAPI.GAPI_KEY;
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
 const API_ETC = API.API_ETC;
@@ -12,6 +14,13 @@ let INFO_URL = null;
 let URL = null;
 let tourData = [];
 let pageNo = 1;
+
+let reference = null;
+let rating = null;
+let ratingPutNumber = null;
+let gmapx = null;
+let gmapy = null;
+let gtitle = null;
 
 //축제 메인페이지
 router.get("/", function (req, res, next) {
@@ -117,9 +126,9 @@ router.post("/main", function (req, res, next) {
 router.post("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
+
   for (const key in setting) {
     value = key;
-    console.log(value);
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
@@ -129,13 +138,23 @@ router.post("/detail", async function (req, res, next) {
     .get(`${INFO_URL}`)
     .then((response) => {
       tourData = response.data.response.body.items.item;
-      console.log(tourData);
+      gmapx = tourData.mapx;
+      gmapy = tourData.mapy;
+      gtitle = tourData.title;
+
       axios.get(`${DETAIL_URL}`).then((response) => {
         detail_Data = response.data.response.body.items.item;
-        console.log(detail_Data);
+        // console.log(detail_Data);
+
+        //구글 평점 리뷰 가져오기
+        getResponse(() => {
+          res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
+        });
+
       });
+
       // console.log(tourData);
-      res.render("mapstival/detail", { data: tourData, detail: detail_Data });
+      // res.render("mapstival/detail", { data: tourData, detail: detail_Data });
     })
     .catch((e) => {
       res.send(e);
@@ -143,6 +162,48 @@ router.post("/detail", async function (req, res, next) {
 
   // res.send(INFO_URL);
 });
+
+// 위에서 리뷰평점 함수호출로 불러올거임
+function getResponse(callback) {
+  var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
+  var reviewlat = gmapx // 리뷰 적도
+  var reviewequ = gmapy //리뷰 위도
+  console.log(reviewName);
+  console.log(reviewlat);
+  console.log(reviewequ);
+
+  axios
+    .get(`https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`)
+    .then((response) => {
+      console.log(response.data.status)
+      if (response.data.status == "OK") {
+        console.log(response.data.results[0].name);
+        reference = response.data.results[0].reference;
+        console.log("reference : " + reference);
+
+        axios
+          .get(`https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`)
+          .then((response) => {
+            // for (i = 0; i < 10; i++) {
+            //   tourData.push(response.data.response.body.items.item[i]);
+            // }
+            rating = response.data.result.rating;
+            ratingPutNumber = response.data.result.user_ratings_total;
+
+            callback(null);
+          });
+      } else {
+        rating = ""
+        ratingPutNumber = ""
+        reference = ""
+
+        return callback(null);
+
+      }
+
+    })
+}
+
 
 // 지도페이지 이동
 const lat = [];

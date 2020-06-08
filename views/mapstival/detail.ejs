@@ -69,6 +69,11 @@
           <div><img src="../../images/imagenone.png" class="img-fluid" /></div>
           <%}%>
             </p>
+            <%if(ratingPutNumber) { %>
+            <p>
+              평점 : <%= rating %> 리뷰수 : <%= ratingPutNumber %>
+            </p>
+            <% } %>
           <h2 class="mb-3">축제 상세내용</h2>
           <p>
             <%- data.overview%>
@@ -108,10 +113,6 @@
           <p>
             <%= detail.playtime %>
           </p>
-          <p>
-            <img src="/images/image_8.jpg" alt="" class="img-fluid" />
-          </p>
-
           <div class="tag-widget post-tag-container mb-5 mt-5">
             <div class="tagcloud">
               <a href="#" class="tag-cloud-link">Life</a>

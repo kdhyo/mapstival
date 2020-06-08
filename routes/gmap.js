@@ -26,6 +26,7 @@ router.get("/", function (req, res, next) {
   equ.length = 0;
 });
 
+// review 가져오기
 router.get("/greview", function (req, res, next) {
 
   getResponse(() => {
@@ -59,10 +60,10 @@ function getResponse(callback) {
           ratingPutNumber.length = 1;
 
           callback(null);
-        });
+        })
     })
     .catch((e) => {
-      res.send(e);
+
     });
 }
 
