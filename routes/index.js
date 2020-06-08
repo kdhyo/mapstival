@@ -10,23 +10,6 @@ let client = mysql.createConnection({
   database: "mapstival",
 });
 
-// router.get("/create", function (req, res, next) {
-//   client.query("SELECT * FROM users;", function (err, result, fields) {
-//     if (err) {
-//       console.log(err);
-//       console.log("쿼리문에 오류가 있습니다.");
-//     } else {
-//       res.render("create", {
-//         results: result,
-//       });
-//     }
-//   });
-// });
-
-// router.get("/", function (req, res, next) {
-//   res.render("index", { title: "Express" });
-// });
-
 //로그인 GET
 router.get("/", function (req, res) {
   let session = req.session;

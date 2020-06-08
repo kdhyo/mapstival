@@ -12,7 +12,14 @@ const API_ETC = API.API_ETC;
 let INFO_URL = null;
 let URL = null;
 let tourData = [];
-let pageNo = 1;
+let FNumber = 6;
+let hidden = "";
+
+let startYear = 2020;
+let startMonth = 05;
+let startDate = 20200501;
+let f_area = 1;
+let selected = [];
 
 let reference = null;
 let rating = null;
@@ -24,8 +31,6 @@ let gtitle = null;
 //축제 메인페이지
 router.get("/", function (req, res, next) {
   const f_area = req.query.f_area;
-  let link = `/mapstival${String(req.url)}`;
-  pageNo = `1`;
 
   const newDate = new Date();
   let Year = newDate.getFullYear();
@@ -50,7 +55,7 @@ router.get("/", function (req, res, next) {
   };
 
   axios
-    .get(`${apiSetting(today, f_area, pageNo)}`)
+    .get(`${apiSetting(today, f_area, FNumber)}`)
     .then((response) => {
       let tourData = [];
       const list = response.data.response.body.items.item;
@@ -69,8 +74,8 @@ router.get("/", function (req, res, next) {
       }
       res.render("mapstival/main", {
         data: tourData,
-        link: link,
         selected: selected,
+        hidden: hidden,
       });
     })
     .catch((e) => {
@@ -80,18 +85,26 @@ router.get("/", function (req, res, next) {
 
 //축제 날짜 지역 post로 받아오기
 router.post("/main", function (req, res, next) {
-  const startYear = req.body.startYear;
-  const startMonth = req.body.startMonth;
-  const startDate = startYear + startMonth + "01";
-  const f_area = req.body.f_area;
-  const selected = {
-    Month: `${startMonth}`,
-    Year: `${startYear}`,
-    f_area: `${f_area}`,
-  };
-  pageNo = `1`;
+  console.log(req.body);
+  if (req.body.startYear) {
+    startYear = req.body.startYear;
+    startMonth = req.body.startMonth;
+    cstartDate = startYear + startMonth + "01";
+    f_area = req.body.f_area;
+    selected = {
+      Month: `${startMonth}`,
+      Year: `${startYear}`,
+      f_area: `${f_area}`,
+    };
+    FNumber = 6;
+    hidden = "";
+  } else if (req.body.buttonClick) {
+    MaxNumber = 6 + FNumber;
+    FNumber += 6;
+  }
+
   axios
-    .get(`${apiSetting(startDate, f_area, pageNo)}`)
+    .get(`${apiSetting(startDate, f_area, FNumber)}`)
     .then((response) => {
       tourData = [];
       const list = response.data.response.body.items.item;
@@ -110,10 +123,14 @@ router.post("/main", function (req, res, next) {
       } else {
         tourData.push(list);
       }
-      console.log(tourData);
+      if (tourData.length < FNumber) {
+        hidden = "ok";
+      }
+      console.log(`투어데이터 : ${tourData.length}`);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
+        hidden: hidden,
       });
     })
     .catch((e) => {
@@ -128,7 +145,6 @@ router.post("/detail", async function (req, res, next) {
 
   for (const key in setting) {
     value = key;
-
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
@@ -146,7 +162,12 @@ router.post("/detail", async function (req, res, next) {
     gtitle = tourData.title;
     //구글 평점 리뷰 가져오기
     getResponse(() => {
-      res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
+      res.render("mapstival/detail", {
+        data: tourData,
+        detail: detail_Data,
+        rating: rating,
+        ratingPutNumber: ratingPutNumber,
+      });
     });
   } catch (err) {
     res.send(err);
@@ -155,23 +176,27 @@ router.post("/detail", async function (req, res, next) {
 
 function getResponse(callback) {
   var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
-  var reviewlat = gmapx // 리뷰 적도
-  var reviewequ = gmapy //리뷰 위도
+  var reviewlat = gmapx; // 리뷰 적도
+  var reviewequ = gmapy; //리뷰 위도
   console.log(reviewName);
   console.log(reviewlat);
   console.log(reviewequ);
 
   axios
-    .get(`https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`)
+    .get(
+      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`
+    )
     .then((response) => {
-      console.log(response.data.status)
+      console.log(response.data.status);
       if (response.data.status == "OK") {
         console.log(response.data.results[0].name);
         reference = response.data.results[0].reference;
         console.log("reference : " + reference);
 
         axios
-          .get(`https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`)
+          .get(
+            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`
+          )
           .then((response) => {
             // for (i = 0; i < 10; i++) {
             //   tourData.push(response.data.response.body.items.item[i]);
@@ -182,15 +207,13 @@ function getResponse(callback) {
             callback(null);
           });
       } else {
-        rating = ""
-        ratingPutNumber = ""
-        reference = ""
+        rating = "";
+        ratingPutNumber = "";
+        reference = "";
 
         return callback(null);
-
       }
-
-    })
+    });
 }
 // 지도페이지 이동
 const lat = [];
@@ -230,8 +253,8 @@ router.get("/gmap", function (req, res, next) {
 });
 
 // 행사 날짜 설정
-function apiSetting(startDate, f_area, pageNo) {
-  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=${pageNo}&numOfRows=6&eventStartDate=${startDate}`;
+function apiSetting(startDate, f_area, FNumber) {
+  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=${FNumber}&eventStartDate=${startDate}`;
   return URL;
 }
 
