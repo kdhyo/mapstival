@@ -28,7 +28,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
       <a class="navbar-brand" href="index.html  ">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -40,23 +40,23 @@
 
       </div>
     </div>
-  </nav>
+  </nav> -->
   <!-- END nav -->
 
-  <section class="home-slider ftco-degree-bg">
+  <!-- <section class="home-slider ftco-degree-bg">
     <div class="slider-item bread-wrap" style="background-image: url('images/bg_1.jpg');"
       data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center">
           <div class="col-md-10 col-sm-12 ftco-animate mb-4 text-center">
-            <!--<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="blog.html">Blog</a></span> <span>Single Blog</span></p>-->
+            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="blog.html">Blog</a></span> <span>Single Blog</span></p>
             <h1 class="mb-3"><%= data.title%></h1>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section class="ftco-section ftco-degree-bg">
     <div class="container">
@@ -69,32 +69,46 @@
           <div><img src="../../images/imagenone.png" class="img-fluid" /></div>
           <%}%>
             </p>
-          <h2 class="mb-3">축제 상세내용</h2>
+            
+            <div class="about-author d-flex p-5 bg-light">
+              <div class="bio align-self-md-center mr-5">
+                <img src="/images/leave.jpg" width="200px" height="200px" alt="Image placeholder"/>
+              </div>
+              <div class="desc align-self-md-center">
+                <h2>축제 상세내용</h2>
+                <p>
+                  <%- data.overview%>
+                </p>
+              </div>
+            </div>
+          <!-- <h2 class="mb-3">축제 상세내용</h2>
           <p>
             <%- data.overview%>
-          </p>
-          
-            <p>
-              전화번호 :
-        <button
-          type="button"
-          name="button"
-          onclick="location.href='tel:<%-data.tel%>'"
-          >
-          <p><%= data.tel %></p>
-          </button>
-          <div>
-            <h2>홈페이지</h2>
+          </p> -->
+
+          <h2>홈페이지</h2>
             <p>
               <%- data.homepage %>
             </p>
-          </div>
-          <div>
+          
+          <h2>전화번호</h2>
+        <!-- <button
+          type="button"
+          name="button"
+          onclick="location.href='tel:<%-data.tel%>'"
+          > -->
+          <p><%= data.tel %></p>
+          </button>
+          <!-- <div>
+             <h2>홈페이지</h2>
+            <p>
+              <%- data.homepage %>
+            </p>
+          </div> -->
             <h2>축제주소</h2>
             <p>
               <%= data.addr1 %>
             </p>
-          </div>
           </p>
           <h2 class="mb-3 mt-5">이용요금</h2>
           <p>
@@ -108,20 +122,20 @@
           <p>
             <%= detail.playtime %>
           </p>
-          <p>
+          <!-- <p>
             <img src="/images/image_8.jpg" alt="" class="img-fluid" />
-          </p>
+          </p> -->
 
-          <div class="tag-widget post-tag-container mb-5 mt-5">
+          <!-- <div class="tag-widget post-tag-container mb-5 mt-5">
             <div class="tagcloud">
               <a href="#" class="tag-cloud-link">Life</a>
               <a href="#" class="tag-cloud-link">Sport</a>
               <a href="#" class="tag-cloud-link">Tech</a>
               <a href="#" class="tag-cloud-link">Travel</a>
             </div>
-          </div>
+          </div> -->
 
-          <div class="about-author d-flex p-5 bg-light">
+          <!-- <div class="about-author d-flex p-5 bg-light">
             <div class="bio align-self-md-center mr-5">
               <img src="/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4" />
             </div>
@@ -134,14 +148,14 @@
                 similique, inventore eos fugit cupiditate numquam!
               </p>
             </div>
-          </div>
+          </div> -->
 
           <div class="pt-5 mt-5">
             <h3 class="mb-5">6 Comments</h3>
             <ul class="comment-list">
               <li class="comment">
                 <div class="vcard bio">
-                  <img src="/images/person_1.jpg" alt="Image placeholder" />
+                  <img src="/images/leave.jpg" alt="Image placeholder" />
                 </div>
                 <div class="comment-body">
                   <h3>John Doe</h3>
@@ -158,7 +172,7 @@
 
               <li class="comment">
                 <div class="vcard bio">
-                  <img src="/images/person_1.jpg" alt="Image placeholder" />
+                  <img src="/images/leave.jpg" alt="Image placeholder" />
                 </div>
                 <div class="comment-body">
                   <h3>John Doe</h3>
@@ -170,8 +184,9 @@
                     iure! Quam voluptas earum impedit necessitatibus, nihil?
                   </p>
                   <p><a href="#" class="reply">Reply</a></p>
+                  <br><br>
                 </div>
-
+<!-- 
                 <ul class="children">
                   <li class="comment">
                     <div class="vcard bio">
@@ -232,9 +247,9 @@
                     </ul>
                   </li>
                 </ul>
-              </li>
+              </li> -->
 
-              <li class="comment">
+              <!-- <li class="comment">
                 <div class="vcard bio">
                   <img src="/images/person_1.jpg" alt="Image placeholder" />
                 </div>
@@ -250,10 +265,10 @@
                   <p><a href="#" class="reply">Reply</a></p>
                 </div>
               </li>
-            </ul>
+            </ul> -->
             <!-- END comment-list -->
-
-            <div class="comment-form-wrap pt-5">
+            <!--comment-->
+            <!-- <div class="comment-form-wrap pt-5">
               <h3 class="mb-5">Leave a comment</h3>
               <form action="#" class="p-5 bg-light">
                 <div class="form-group">
@@ -277,10 +292,12 @@
                   <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary" />
                 </div>
               </form>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- .col-md-8 -->
+        
+        <!--keyword-->
         <div class="col-md-4 sidebar ftco-animate">
           <div class="sidebar-box">
             <form action="#" class="search-form">
@@ -403,8 +420,8 @@
     </div>
   </section>
   <!-- .section -->
-
-  <footer class="ftco-footer ftco-bg-dark ftco-section">
+  <!--footer-->
+  <!-- <footer class="ftco-footer ftco-bg-dark ftco-section">
     <div class="container">
       <div class="row mb-5">
         <div class="col-md">
@@ -469,16 +486,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center"> -->
+          <br><br>
+          <footer class="ftco-footer ftco-bg-dark ftco-section">
           <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            All rights reserved | This template is made with
-            <i class="icon-heart" aria-hidden="true"></i> by
-            <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <b>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved<i class="icon-heart" aria-hidden="true"></i> by <a href="https://trello.com/b/Y084VB5M/02%ED%8C%80%EC%8A%B9%EC%9D%B5-%EC%A7%80%EC%9C%A8-%EB%8F%99%ED%9A%A8" target="_blank">Team 2</a></b>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
         </div>

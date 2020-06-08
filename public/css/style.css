@@ -8051,9 +8051,10 @@ textarea.form-control {
   background: #3c312e; }
 
 .ftco-footer {
+  text-align: center;
   font-size: 16px;
   background: #29bae4;
-  padding: 12em 0 8em 0; }
+  padding: 2px 0 1px 0; }
   .ftco-footer .ftco-footer-logo {
     text-transform: uppercase;
     letter-spacing: .1em; }
@@ -8068,7 +8069,8 @@ textarea.form-control {
   .ftco-footer p {
     color: rgba(255, 255, 255, 0.7); }
   .ftco-footer a {
-    color: rgba(255, 255, 255, 0.7); }
+    font-size: 20px;
+    color:  #fff; }
     .ftco-footer a:hover {
       color: #fff; }
   .ftco-footer .ftco-heading-2 {
@@ -8355,7 +8357,8 @@ textarea.form-control {
       font-size: 20px;
       margin-bottom: 16px; }
       .blog-entry .text .heading a {
-        color: #404044; }
+        color: #404044;
+      font-size: 16px; }
         .blog-entry .text .heading a:hover, .blog-entry .text .heading a:focus, .blog-entry .text .heading a:active {
           color: #78d5ef; }
     .blog-entry .text .meta-chat {
