@@ -155,8 +155,11 @@
         <div class="row mt-5">
           <div class="col text-center">
             <div class="block-27">
-              <button onclick="pageUp()"><img src="/images/more.png" width="140px" height="60px"></button><br><br><br><br>
-
+              <% if(hidden == "") { %>
+              <form action="/mapstival/main" method="POST">
+              <button name="buttonClick" value="ok"><img src="/images/more.png" width="140px" height="60px" /></button><br><br><br><br>
+            </form>
+            <%}%>
             </div>
           </div>
         </div>
@@ -197,15 +200,5 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/js/google-map.js"></script>
   <script src="/js/main.js"></script>
-    
-  <script>
-    var f_area = null;
-    var year = `2020`;
-    var month = `05`;
-    var url = `?f_area=${f_area}&year=${year}&Month=${month}`
-    document.querySelector('.ajaxsend').addEventListener("click",function(){
-      console.log("enend")
-})
-  </script>
   </body>
 </html>

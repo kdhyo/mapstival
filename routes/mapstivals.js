@@ -3,7 +3,6 @@ const router = express.Router();
 const models = require("../models");
 const API = require("../config/apikey");
 const axios = require("axios");
-const async = require("async");
 
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
@@ -11,13 +10,18 @@ const API_ETC = API.API_ETC;
 let INFO_URL = null;
 let URL = null;
 let tourData = [];
-let pageNo = 1;
+let FNumber = 6;
+let hidden = "";
+
+let startYear = 2020;
+let startMonth = 05;
+let startDate = 20200501;
+let f_area = 1;
+let selected = [];
 
 //축제 메인페이지
 router.get("/", function (req, res, next) {
   const f_area = req.query.f_area;
-  let link = `/mapstival${String(req.url)}`;
-  pageNo = `1`;
 
   const newDate = new Date();
   let Year = newDate.getFullYear();
@@ -42,7 +46,7 @@ router.get("/", function (req, res, next) {
   };
 
   axios
-    .get(`${apiSetting(today, f_area, pageNo)}`)
+    .get(`${apiSetting(today, f_area, FNumber)}`)
     .then((response) => {
       let tourData = [];
       const list = response.data.response.body.items.item;
@@ -61,8 +65,8 @@ router.get("/", function (req, res, next) {
       }
       res.render("mapstival/main", {
         data: tourData,
-        link: link,
         selected: selected,
+        hidden: hidden,
       });
     })
     .catch((e) => {
@@ -72,18 +76,26 @@ router.get("/", function (req, res, next) {
 
 //축제 날짜 지역 post로 받아오기
 router.post("/main", function (req, res, next) {
-  const startYear = req.body.startYear;
-  const startMonth = req.body.startMonth;
-  const startDate = startYear + startMonth + "01";
-  const f_area = req.body.f_area;
-  const selected = {
-    Month: `${startMonth}`,
-    Year: `${startYear}`,
-    f_area: `${f_area}`,
-  };
-  pageNo = `1`;
+  console.log(req.body);
+  if (req.body.startYear) {
+    startYear = req.body.startYear;
+    startMonth = req.body.startMonth;
+    cstartDate = startYear + startMonth + "01";
+    f_area = req.body.f_area;
+    selected = {
+      Month: `${startMonth}`,
+      Year: `${startYear}`,
+      f_area: `${f_area}`,
+    };
+    FNumber = 6;
+    hidden = "";
+  } else if (req.body.buttonClick) {
+    MaxNumber = 6 + FNumber;
+    FNumber += 6;
+  }
+
   axios
-    .get(`${apiSetting(startDate, f_area, pageNo)}`)
+    .get(`${apiSetting(startDate, f_area, FNumber)}`)
     .then((response) => {
       tourData = [];
       const list = response.data.response.body.items.item;
@@ -102,10 +114,14 @@ router.post("/main", function (req, res, next) {
       } else {
         tourData.push(list);
       }
-      console.log(tourData);
+      if (tourData.length < FNumber) {
+        hidden = "ok";
+      }
+      console.log(`투어데이터 : ${tourData.length}`);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
+        hidden: hidden,
       });
     })
     .catch((e) => {
@@ -199,8 +215,8 @@ router.get("/gmap", function (req, res, next) {
 });
 
 // 행사 날짜 설정
-function apiSetting(startDate, f_area, pageNo) {
-  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=${pageNo}&numOfRows=6&eventStartDate=${startDate}`;
+function apiSetting(startDate, f_area, FNumber) {
+  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=${FNumber}&eventStartDate=${startDate}`;
   return URL;
 }
 
