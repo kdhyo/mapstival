@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
-const convert = require("xml-js");
 const API = require("../config/apikey");
 const axios = require("axios");
+const async = require("async");
 
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
@@ -102,7 +102,7 @@ router.post("/main", function (req, res, next) {
       } else {
         tourData.push(list);
       }
-      // console.log(tourData);
+      console.log(tourData);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
@@ -117,33 +117,50 @@ router.post("/main", function (req, res, next) {
 router.post("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
+  console.log(setting);
   for (const key in setting) {
     value = key;
-    console.log(value);
+    console.log(`키값 가져오기 성공! : ${value}`);
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
   let DETAIL_URL = `${API_URL}detailIntro?ServiceKey=${API_KEY}${API_ETC}&contentId=${value}&contentTypeId=15`;
   let tourData = null;
-  await axios
-    .get(`${INFO_URL}`)
-    .then((response) => {
-      tourData = response.data.response.body.items.item;
-      console.log(tourData);
-      axios.get(`${DETAIL_URL}`).then((response) => {
-        detail_Data = response.data.response.body.items.item;
-        console.log(detail_Data);
-      });
-      // console.log(tourData);
-      res.render("mapstival/detail", { data: tourData, detail: detail_Data });
-    })
-    .catch((e) => {
-      res.send(e);
-    });
+  let detail_Data = null;
 
-  // res.send(INFO_URL);
+  try {
+    const INFO = await axios.get(INFO_URL);
+    const DETAIL = await axios.get(DETAIL_URL);
+    tourData = INFO.data.response.body.items.item;
+    detail_Data = DETAIL.data.response.body.items.item;
+    console.log(`투어데이터 ${tourData}`);
+    console.log(`디테일데이터 ${detail_Data}`);
+    res.render("mapstival/detail", { data: tourData, detail: detail_Data });
+  } catch (err) {
+    res.send(err);
+  }
 });
 
+// const infodata = async function (INFO_URL, callback) {
+//   await axios
+//     .get(`${INFO_URL}`)
+//     .then((response) => {
+//       this.tourData = response.data.response.body.items.item;
+//       console.log(response.data.response.body.items);
+//       callback();
+//     })
+//     .catch((e) => {
+//       res.send(e);
+//     });
+// };
+
+// const detaildata = async function (DETAIL_URL, callback) {
+//   axios.get(`${DETAIL_URL}`).then((response) => {
+//     this.detail_Data = response.data.response.body.items.item;
+//     console.log(detail_Data);
+//     callback();
+//   });
+// };
 // 지도페이지 이동
 const lat = [];
 const equ = [];

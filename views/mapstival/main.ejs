@@ -132,8 +132,9 @@
                   <img  class="block-20" src="<%= data[i].firstimage%>" />
             </button>
               <% } else { %>
-                <a name="<%=data[i].contentid%>" href="javascript:;" onclick="parentNode.submit();" class="block-20" style="background-image: url('/images/imagenone.png')">
-                </a>
+                <button name="<%=data[i].contentid%>" type="submit">
+                  <img  class="block-20" src="/images/imagenone.png" />
+            </button>
                 <% } %>
               </form>
               <div class="text p-4 d-block">
