@@ -3,7 +3,12 @@ const router = express.Router();
 const models = require("../models");
 const API = require("../config/apikey");
 const axios = require("axios");
+<<<<<<< HEAD
+=======
+const GAPI = require("../config/gapikey.json");
+>>>>>>> 0c760a2c2031bc37139f651a6fac98ea28f6aa49
 
+const GAPI_KEY = GAPI.GAPI_KEY;
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
 const API_ETC = API.API_ETC;
@@ -18,6 +23,13 @@ let startMonth = 05;
 let startDate = 20200501;
 let f_area = 1;
 let selected = [];
+
+let reference = null;
+let rating = null;
+let ratingPutNumber = null;
+let gmapx = null;
+let gmapy = null;
+let gtitle = null;
 
 //축제 메인페이지
 router.get("/", function (req, res, next) {
@@ -133,10 +145,10 @@ router.post("/main", function (req, res, next) {
 router.post("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
-  console.log(setting);
+
   for (const key in setting) {
     value = key;
-    console.log(`키값 가져오기 성공! : ${value}`);
+
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
@@ -149,34 +161,57 @@ router.post("/detail", async function (req, res, next) {
     const DETAIL = await axios.get(DETAIL_URL);
     tourData = INFO.data.response.body.items.item;
     detail_Data = DETAIL.data.response.body.items.item;
-    console.log(`투어데이터 ${tourData}`);
-    console.log(`디테일데이터 ${detail_Data}`);
-    res.render("mapstival/detail", { data: tourData, detail: detail_Data });
+    gmapx = tourData.mapx;
+    gmapy = tourData.mapy;
+    gtitle = tourData.title;
+    //구글 평점 리뷰 가져오기
+    getResponse(() => {
+      res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
+    });
   } catch (err) {
     res.send(err);
   }
 });
 
-// const infodata = async function (INFO_URL, callback) {
-//   await axios
-//     .get(`${INFO_URL}`)
-//     .then((response) => {
-//       this.tourData = response.data.response.body.items.item;
-//       console.log(response.data.response.body.items);
-//       callback();
-//     })
-//     .catch((e) => {
-//       res.send(e);
-//     });
-// };
+function getResponse(callback) {
+  var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
+  var reviewlat = gmapx // 리뷰 적도
+  var reviewequ = gmapy //리뷰 위도
+  console.log(reviewName);
+  console.log(reviewlat);
+  console.log(reviewequ);
 
-// const detaildata = async function (DETAIL_URL, callback) {
-//   axios.get(`${DETAIL_URL}`).then((response) => {
-//     this.detail_Data = response.data.response.body.items.item;
-//     console.log(detail_Data);
-//     callback();
-//   });
-// };
+  axios
+    .get(`https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`)
+    .then((response) => {
+      console.log(response.data.status)
+      if (response.data.status == "OK") {
+        console.log(response.data.results[0].name);
+        reference = response.data.results[0].reference;
+        console.log("reference : " + reference);
+
+        axios
+          .get(`https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`)
+          .then((response) => {
+            // for (i = 0; i < 10; i++) {
+            //   tourData.push(response.data.response.body.items.item[i]);
+            // }
+            rating = response.data.result.rating;
+            ratingPutNumber = response.data.result.user_ratings_total;
+
+            callback(null);
+          });
+      } else {
+        rating = ""
+        ratingPutNumber = ""
+        reference = ""
+
+        return callback(null);
+
+      }
+
+    })
+}
 // 지도페이지 이동
 const lat = [];
 const equ = [];
