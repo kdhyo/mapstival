@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
-const convert = require("xml-js");
 const API = require("../config/apikey");
 const axios = require("axios");
 const GAPI = require("../config/gapikey.json");
@@ -111,7 +110,7 @@ router.post("/main", function (req, res, next) {
       } else {
         tourData.push(list);
       }
-      // console.log(tourData);
+      console.log(tourData);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
@@ -129,41 +128,31 @@ router.post("/detail", async function (req, res, next) {
 
   for (const key in setting) {
     value = key;
+
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
   let DETAIL_URL = `${API_URL}detailIntro?ServiceKey=${API_KEY}${API_ETC}&contentId=${value}&contentTypeId=15`;
   let tourData = null;
-  await axios
-    .get(`${INFO_URL}`)
-    .then((response) => {
-      tourData = response.data.response.body.items.item;
-      gmapx = tourData.mapx;
-      gmapy = tourData.mapy;
-      gtitle = tourData.title;
+  let detail_Data = null;
 
-      axios.get(`${DETAIL_URL}`).then((response) => {
-        detail_Data = response.data.response.body.items.item;
-        // console.log(detail_Data);
-
-        //구글 평점 리뷰 가져오기
-        getResponse(() => {
-          res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
-        });
-
-      });
-
-      // console.log(tourData);
-      // res.render("mapstival/detail", { data: tourData, detail: detail_Data });
-    })
-    .catch((e) => {
-      res.send(e);
+  try {
+    const INFO = await axios.get(INFO_URL);
+    const DETAIL = await axios.get(DETAIL_URL);
+    tourData = INFO.data.response.body.items.item;
+    detail_Data = DETAIL.data.response.body.items.item;
+    gmapx = tourData.mapx;
+    gmapy = tourData.mapy;
+    gtitle = tourData.title;
+    //구글 평점 리뷰 가져오기
+    getResponse(() => {
+      res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
     });
-
-  // res.send(INFO_URL);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
-// 위에서 리뷰평점 함수호출로 불러올거임
 function getResponse(callback) {
   var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
   var reviewlat = gmapx // 리뷰 적도
@@ -203,8 +192,6 @@ function getResponse(callback) {
 
     })
 }
-
-
 // 지도페이지 이동
 const lat = [];
 const equ = [];

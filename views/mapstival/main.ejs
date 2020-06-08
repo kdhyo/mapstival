@@ -71,25 +71,6 @@
     <div class="buttons">
       
       <form action="/mapstival/main" method="POST">
-        <select name="startMonth">
-          <option value="01" <%= (selected.Month === '01') ? 'selected' : "" %>>01월</option>
-          <option value="02" <%= (selected.Month === '02') ? 'selected' : "" %> >02월</option>
-          <option value="03" <%= (selected.Month === '03') ? 'selected' : "" %> >03월</option>
-          <option value="04" <%= (selected.Month === '04') ? 'selected' : "" %> >04월</option>
-          <option value="05" <%= (selected.Month === '05') ? 'selected' : "" %> >05월</option>
-          <option value="06" <%= (selected.Month === '06') ? 'selected' : "" %> >06월</option>
-          <option value="07" <%= (selected.Month === '07') ? 'selected' : "" %> >07월</option>
-          <option value="08" <%= (selected.Month === '08') ? 'selected' : "" %> >08월</option>
-          <option value="09" <%= (selected.Month === '09') ? 'selected' : "" %> >09월</option>
-          <option value="10" <%= (selected.Month === '10') ? 'selected' : "" %> >10월</option>
-          <option value="11" <%= (selected.Month === '11') ? 'selected' : "" %> >11월</option>
-          <option <%= (selected.Month === '12') ? 'selected' : "" %> value="12"  >12월</option>
-        </select>
-        <select name="startYear">
-          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019</option>
-          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020</option>
-          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021</option>
-        </select>
         <select name="f_area">
           <option value="" <%= (selected.f_area === '') ? 'selected' : "" %> >전국</option>
           <option value="1" <%= (selected.f_area === '1') ? 'selected' : "" %> >서울</option>
@@ -110,6 +91,25 @@
           <option value="38" <%= (selected.f_area === '38') ? 'selected' : "" %> >전남</option>
           <option value="39" <%= (selected.f_area === '39') ? 'selected' : "" %> >제주</option>
         </select>
+        <select name="startYear">
+          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019</option>
+          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020</option>
+          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021</option>
+        </select>
+        <select name="startMonth">
+          <option value="01" <%= (selected.Month === '01') ? 'selected' : "" %>>01월</option>
+          <option value="02" <%= (selected.Month === '02') ? 'selected' : "" %> >02월</option>
+          <option value="03" <%= (selected.Month === '03') ? 'selected' : "" %> >03월</option>
+          <option value="04" <%= (selected.Month === '04') ? 'selected' : "" %> >04월</option>
+          <option value="05" <%= (selected.Month === '05') ? 'selected' : "" %> >05월</option>
+          <option value="06" <%= (selected.Month === '06') ? 'selected' : "" %> >06월</option>
+          <option value="07" <%= (selected.Month === '07') ? 'selected' : "" %> >07월</option>
+          <option value="08" <%= (selected.Month === '08') ? 'selected' : "" %> >08월</option>
+          <option value="09" <%= (selected.Month === '09') ? 'selected' : "" %> >09월</option>
+          <option value="10" <%= (selected.Month === '10') ? 'selected' : "" %> >10월</option>
+          <option value="11" <%= (selected.Month === '11') ? 'selected' : "" %> >11월</option>
+          <option <%= (selected.Month === '12') ? 'selected' : "" %> value="12"  >12월</option>
+        </select>
         <input type="submit" value="선택" />
       </form>
       <div class="dropdown">
@@ -129,12 +129,13 @@
               <form action="/mapstival/detail" method="POST">
               <% if(data[i].firstimage != null) {%>
                 <button name="<%=data[i].contentid%>" type="submit">
-                  <img  class="block-20" src="<%= data[i].firstimage%>" />
+                  <img  class="block-20" src="<%= data[i].firstimage%>" width="335px" />
             </button>
-              <% } else { %>
-                <a name="<%=data[i].contentid%>" href="javascript:;" onclick="parentNode.submit();" class="block-20" style="background-image: url('/images/imagenone.png')">
-                </a>
-                <% } %>
+            <% } else { %>
+              <button name="<%=data[i].contentid%>" type="submit">
+                <img  class="block-20" src="/images/imagenone.png"  width="335px" />
+          </button>
+              <% } %>
               </form>
               <div class="text p-4 d-block">
                 <div class="meta mb-3">
@@ -142,7 +143,7 @@
                   <div><a href="#"><%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %></a></div>
                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                 </div>
-                <h3 class="heading"><a href="#"><%= data[i].title%> </a></h3>
+                <h3 class="heading"><a href="#"><%= data[i].title%><br></a></h3>
               </div>
             </div>
           </div>
@@ -161,15 +162,17 @@
         </div>
       </div>
     </section>
-
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --><br><br>
-  <b>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></b>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <br><br>
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <p>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <b>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved<i class="icon-heart" aria-hidden="true"></i> by <a href="https://trello.com/b/Y084VB5M/02%ED%8C%80%EC%8A%B9%EC%9D%B5-%EC%A7%80%EC%9C%A8-%EB%8F%99%ED%9A%A8" target="_blank">Team 2</a></b>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+      </p>
+    </div>
+  </div>
+</div>
+</footer>
     
   
 
