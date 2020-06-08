@@ -3,10 +3,7 @@ const router = express.Router();
 const models = require("../models");
 const API = require("../config/apikey");
 const axios = require("axios");
-<<<<<<< HEAD
-=======
 const GAPI = require("../config/gapikey.json");
->>>>>>> 0c760a2c2031bc37139f651a6fac98ea28f6aa49
 
 const GAPI_KEY = GAPI.GAPI_KEY;
 const API_KEY = API.API_KEY;
@@ -148,7 +145,6 @@ router.post("/detail", async function (req, res, next) {
 
   for (const key in setting) {
     value = key;
-
   }
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
@@ -166,7 +162,12 @@ router.post("/detail", async function (req, res, next) {
     gtitle = tourData.title;
     //구글 평점 리뷰 가져오기
     getResponse(() => {
-      res.render("mapstival/detail", { data: tourData, detail: detail_Data, rating: rating, ratingPutNumber: ratingPutNumber });
+      res.render("mapstival/detail", {
+        data: tourData,
+        detail: detail_Data,
+        rating: rating,
+        ratingPutNumber: ratingPutNumber,
+      });
     });
   } catch (err) {
     res.send(err);
@@ -175,23 +176,27 @@ router.post("/detail", async function (req, res, next) {
 
 function getResponse(callback) {
   var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
-  var reviewlat = gmapx // 리뷰 적도
-  var reviewequ = gmapy //리뷰 위도
+  var reviewlat = gmapx; // 리뷰 적도
+  var reviewequ = gmapy; //리뷰 위도
   console.log(reviewName);
   console.log(reviewlat);
   console.log(reviewequ);
 
   axios
-    .get(`https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`)
+    .get(
+      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`
+    )
     .then((response) => {
-      console.log(response.data.status)
+      console.log(response.data.status);
       if (response.data.status == "OK") {
         console.log(response.data.results[0].name);
         reference = response.data.results[0].reference;
         console.log("reference : " + reference);
 
         axios
-          .get(`https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`)
+          .get(
+            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`
+          )
           .then((response) => {
             // for (i = 0; i < 10; i++) {
             //   tourData.push(response.data.response.body.items.item[i]);
@@ -202,15 +207,13 @@ function getResponse(callback) {
             callback(null);
           });
       } else {
-        rating = ""
-        ratingPutNumber = ""
-        reference = ""
+        rating = "";
+        ratingPutNumber = "";
+        reference = "";
 
         return callback(null);
-
       }
-
-    })
+    });
 }
 // 지도페이지 이동
 const lat = [];
