@@ -39,6 +39,7 @@ app.use("/user", require("./routes/users"));
 app.use("/mapstival", require("./routes/mapstivals"));
 app.use("/map", require("./routes/map"));
 app.use("/gmap", require("./routes/gmap"));
+app.use("/board", require("./routes/board"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

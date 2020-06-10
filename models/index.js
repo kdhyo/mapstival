@@ -37,11 +37,13 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// DB객체에 시퀄라이즈 객체를 sequelize 속성으로 바인딩한다.
+db.sequelize = sequelize; //mysql db 관련 객체
+db.Sequelize = Sequelize; // ORM 관련된 객체
 
 db.User = require("./user")(sequelize, Sequelize);
 db.Posr = require("./post")(sequelize, Sequelize);
 db.Reply = require("./reply")(sequelize, Sequelize);
+db.Board = require("./board")(sequelize, Sequelize);
 
 module.exports = db;
