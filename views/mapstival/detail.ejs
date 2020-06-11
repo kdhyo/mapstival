@@ -6,6 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
+
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet" />
 
   <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css" />
@@ -19,6 +20,8 @@
 
   <link rel="stylesheet" href="/css/ionicons.min.css" />
 
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/bootstrap-datepicker.css" />
   <link rel="stylesheet" href="/css/jquery.timepicker.css" />
 
@@ -39,6 +42,7 @@
   .rat {
     text-align: center;
   }
+
 </style>
 
 <body>
@@ -59,38 +63,58 @@
             </div>
             <div class="desc align-self-md-center">
         <h1 class="festivaltitle"><%- data.title%></h1>
+        <% include ../includes/topbutton %>
         <p>
           <%- data.overview%>
         </p>
       </div>
     </div>
-    <!-- <h2 class="mb-3">축제 상세내용</h2>
-        <p>
-          <%- data.overview%>
-        </p> -->
     <br>
-    <h4>홈페이지 : <%- data.homepage %></h4><br>
+    <h4>홈페이지 :
+      <% if(data.homepage == "") { %>
+      -
+      <% } else { %>
+      <%- data.homepage %>
+      <% } %>
+    </h4><br>
 
-    <h4>전화번호 : <%= data.tel %></h4><br>
-    <!-- <button
-        type="button"
-        name="button"
-        onclick="location.href='tel:<%-data.tel%>'"
-        >
-    </button>-->
+    <h4>전화번호 :
+      <% if(data.tel == "") { %>
+      -
+      <% } else { %>
+      <%- data.tel %>
+      <% } %>
+    </h4><br>
+    <h4>축제주소 :
+      <% if(data.addr1 == "") { %>
+      -
+      <% } else { %>
+      <%- data.addr1 %>
+      <% } %>
+    </h4>
+    <h4 class="mb-3 mt-5">이용요금 :
+      <% if(detail.usetimefestival == "") { %>
+      -
+      <% } else { %>
+      <%- detail.usetimefestival %>
+      <% } %>
+    </h4>
 
-    <!-- <div>
-           <h2>홈페이지</h2>
-          <p>
-            <%- data.homepage %>
-          </p>
-        </div> -->
-    <h4>축제주소 : <%= data.addr1 %></h4>
-    <h4 class="mb-3 mt-5">이용요금 : <%- detail.usetimefestival %></h4>
+    <h4 class="mb-3 mt-5">축제기간 :
+      <% if(detail.eventstartdate == "") { %>
+      -
+      <% } else { %>
+      <%= detail.eventstartdate %> ~ <%= detail.eventenddate %>
+      <% } %>
+    </h4>
 
-    <h4 class="mb-3 mt-5">축제기간 : <%= detail.eventstartdate %> ~ <%= detail.eventenddate %></h4>
-
-    <h4 class="mb-3 mt-5">운영시간 : <%- detail.playtime %></h4>
+    <h4 class="mb-3 mt-5">운영시간 :
+      <% if(detail.playtime == "") { %>
+      -
+      <% } else { %>
+      <%- detail.playtime %>
+      <% } %>
+    </h4>
     <div class="comment-form-wrap pt-5">
       <form action="/board/create?id=<%=data.contentid%>" class="p-5 bg-light" method="post">
         <h4 class="mb-5">축제는 어땠나요?<br>소중한 후기를 적어주세요!</h4>
@@ -122,31 +146,34 @@
       </form>
     </div>
     <div class="pt-5 mt-5">
-      <h3 class="mb-5">직접 남기는 후기!!!</h3>
+      <h3 class="mb-5">직접 남기는 후기!!!
+        <p><%= dbData.length%> REVIEW</p>
+      </h3>
+      
       <ul class="comment-list">
         <% if(dbData !== ""){ %>
         <% for(i=0; i < dbData.length; i++) { %>
-          <li class="comment">
-            <div class="vcard bio">
-              <img src="/images/leave.jpg" alt="Image placeholder" />
+        <li class="comment">
+          <div class="vcard bio">
+            <img src="/images/leave.jpg" alt="Image placeholder" />
+          </div>
+          <div class="comment-body">
+            <h3><%= dbData[i].nickname%></h3>
+            <div class="meta"><%= dbData[i].updatedAt %></div>
+            <div class="meta">평점:<%= dbData[i].scope%>점
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn py-0 px-1 btn-primary"" type=" button" data-toggle="collapse"
+                data-target=".multi-collapse<%=[i]%>" aria-expanded="false" aria-controls="togglePW<%=[i]%>">
+                edit</button>
             </div>
-            <div class="comment-body">
-              <h3><%= dbData[i].nickname%></h3>
-              <div class="meta"><%= dbData[i].updatedAt %></div>
-              <div class="meta">평점:<%= dbData[i].scope%>점
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn py-0 px-1 btn-primary"" type="button" data-toggle="collapse"
-                  data-target=".multi-collapse<%=[i]%>" aria-expanded="false" aria-controls="togglePW<%=[i]%>">
-                  edit</button>
-              </div>
-              <p>
-                <%= dbData[i].review %>
-              </p>
-              <form action="/board/passwordCheck" class="p-5 bg-light" method="post">
+            <p>
+              <%= dbData[i].review %>
+            </p>
+            <form action="/board/passwordCheck" class="p-5 bg-light" method="post">
               <input type="hidden" name="idx" value="<%= dbData[i].id%>" />
               <div class="collapse multi-collapse<%=[i]%>" id="togglePW<%=[i]%>">
                 <div class="card card-body">
@@ -155,8 +182,8 @@
                 </div>
               </div>
             </form>
-            </div>
-          </li>
+          </div>
+        </li>
         <% } %>
         <% } %>
 
@@ -171,14 +198,20 @@
         <div class="form-group">
           <span class="icon fa fa-search"></span>
           <h3 class="star">
-            <% include ../includes/star %>
+            <% for(i=0; i < Math.floor(rating); i++) { %>
+            <span style="font-size:20px; color:gold;" class="glyphicon glyphicon-star"></span>
+            <% } %>
           </h3>
-          <!-- <input type="text" class="form-control" placeholder="Type a keyword and hit enter" /> -->
-          <h3 class="rat"> <%if(ratingPutNumber) { %>
+          <span class="ion-android-star"></span>
+          <h3 class="rat">
+            <%if(ratingPutNumber) { %>
             <p>
               평점 : <%= rating %> 리뷰수 : <%= ratingPutNumber %>
             </p>
-            <% } %></h3>
+            <% } else { %>
+            <p>존재하는 리뷰가 없습니다.</p>
+            <% } %>
+          </h3>
         </div>
       </form>
     </div>
@@ -478,6 +511,7 @@
     </svg>
   </div>
 
+
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="/js/popper.min.js"></script>
@@ -511,6 +545,7 @@
     })
   </script>
 
+<script src="/js/topbutton.js"></script>
 </body>
 
 </html>
