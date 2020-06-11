@@ -2,6 +2,13 @@ var latdata = "";
 var equdata = "";
 var lat = "";
 var equ = "";
+var map_area = ""; //도시 위치
+//메인 줌 위치 크기 
+var mainX = "";
+var mainY = "";
+var mainZoom = "";
+
+var title = "";
 
 const neighborhoods = [];
 
@@ -12,23 +19,125 @@ for (i = 0; i <= lat.length; i++) {
 var markers = [];
 var map;
 
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 15,
-    center: { lat: 37.39995, lng: 126.923585 },
-  });
-}
-
-function dataIn(lat, equ) {
+function dataIn(lat, equ, f_area, gmapTitle) {
   latdata = lat;
   equdata = equ;
+  map_area = f_area;
+  title = gmapTitle;
   lat = latdata.split(",").map(Number);
   equ = equdata.split(",").map(Number);
-
-  for (i = 0; i <= lat.length; i++) {
+  gmapTitle = title.split(",").map(String)
+  for (i = 0; i <= lat.length-1; i++) {
     neighborhoods.push({ lat: parseFloat(lat[i]), lng: parseFloat(equ[i]) });
+    console.log(i+1+"번째 배열"+"gmapTitle22 : "+gmapTitle[i]);
   }
+  mapArea(map_area);
   drop();
+}
+
+function mapArea(map_area) {
+  //지역별 좌표, 줌값 설정(스위치문)
+  switch (map_area) {
+    case "": //전국
+      mainZoom = 6;
+      mainX = 36.465195;
+      mainY = 127.863747;
+      break;
+    case "1": //서울
+      mainZoom = 11;
+      mainX = 37.551556;
+      mainY = 126.990861;
+      break;
+    case "2": //인천
+      mainZoom = 11;
+      mainX = 37.466165;
+      mainY = 126.649085;
+      break;
+    case "3": //대전
+      mainZoom = 11;
+      mainX = 36.346959;
+      mainY = 127.392177;
+      break;
+    case "4": //대구
+      mainZoom = 11;
+      mainX = 35.854728;
+      mainY = 128.566214;
+      break;
+    case "5": //광주
+      mainZoom = 11;
+      mainX = 35.153180;
+      mainY = 126.840166;
+      break;
+    case "6": //부산
+      mainZoom = 11;
+      mainX = 35.181779;
+      mainY = 129.059329;
+      break;
+    case "7": //울산
+      mainZoom = 11;
+      mainX = 35.543268;
+      mainY = 129.284248;
+      break;
+    case "8": //세종
+      mainZoom = 11;
+      mainX = 36.586154;
+      mainY = 127.246597;
+      break;
+    case "31": //경기
+      mainZoom = 9;
+      mainX = 37.512633;
+      mainY = 127.234031;
+      break;
+    case "32": //강원
+      mainZoom = 8.1;
+      mainX = 37.770767;
+      mainY = 128.433250;
+      break;
+    case "33": //충북
+      mainZoom = 8.5;
+      mainX = 36.654629;
+      mainY = 127.926352;
+      break;
+    case "34": //충남
+      mainZoom = 8.5;
+      mainX = 36.513964;
+      mainY = 126.936500;
+      break;
+    case "35": //경북
+      mainZoom = 8;
+      mainX = 36.359974;
+      mainY = 128.694732;
+      break;
+    case "36": //경남
+      mainZoom = 8.8;
+      mainX = 35.340135;
+      mainY = 128.413596;
+      break;
+    case "37": //전북
+      mainZoom = 9;
+      mainX = 35.752749;
+      mainY = 127.165214;
+      break;
+    case "38": //전남
+      mainZoom = 8.6;
+      mainX = 34.895643;
+      mainY = 126.890437;
+      break;
+    case "39": //제주
+      mainZoom = 9.8;
+      mainX = 33.382609;
+      mainY = 126.555830;
+      break;
+    default :
+  }
+}
+
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: parseFloat(mainZoom),
+    center: { lat: parseFloat(mainX), lng: parseFloat(mainY) },
+  });
 }
 
 function drop() {

@@ -46,29 +46,15 @@
         <div class="row block-9">
           <div class="col-md-6 pr-md-5">
             <div class="sidebar-box ftco-animate">
-              <div class="categories"><b>
+              <div class="categories">
+                <b>
                 <h3>Festival List</h3>
-                <li>
-                  <a href="#">Festival Type 1<span>(6)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 2<span>(2)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 3<span>(4)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 4<span>(8)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 5<span>(11)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 6<span>(7)</span></a>
-                </li>
-                <li>
-                  <a href="#">Festival Type 7<span>(5)</span></a>
-                </li></b>
+                <% for(i=0;i<tourData.length;i++){ %>
+                  <li>
+                    <a href="#"><%= tourData[i].title %><span>(6)</span></a>
+                  </li>    
+                  <% } %>
+                </b>
               </div>
             </div>
 
@@ -110,8 +96,11 @@
   <script src="/js/bootstrap-datepicker.js"></script>
   <script src="/js/jquery.timepicker.min.js"></script>
   <script src="/js/gmapScript.js"></script>
+  <script>
+    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>'); })()
+  </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
-    <script>(function(){ dataIn('<%= lat %>','<%= equ %>'); })()</script>
+
   <script src="/js/main.js"></script>
     
   </body>

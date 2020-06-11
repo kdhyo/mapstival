@@ -30,7 +30,7 @@ let gtitle = null;
 
 //축제 메인페이지
 router.get("/", function (req, res, next) {
-  const f_area = req.query.f_area;
+  f_area = req.query.f_area;
 
   const newDate = new Date();
   let Year = newDate.getFullYear();
@@ -218,13 +218,14 @@ function getResponse(callback) {
 // 지도페이지 이동
 const lat = [];
 const equ = [];
+const gmapTitle = [];
+const gmapUrl = [];
 router.get("/gmap", function (req, res, next) {
   axios
     .get(`${URL}`)
     .then((response) => {
       let tourData = [];
       const list = response.data.response.body.items.item;
-
       if (Array.isArray(list)) {
         if (list != undefined) {
           for (data in list) {
@@ -238,12 +239,16 @@ router.get("/gmap", function (req, res, next) {
       } else {
         tourData.push(list);
       }
+      console.log(tourData[1].title);
       //위도 경도 넣는곳
       for (i = 0; i < tourData.length; i++) {
         lat.push(tourData[i].mapy);
         equ.push(tourData[i].mapx);
+        gmapTitle.push(tourData[i].title);
+        gmapUrl.push(tourData[i].mapx);
       }
-      res.render("mapstival/gmap", { lat: lat, equ: equ });
+
+      res.render("mapstival/gmap", { lat: lat, equ: equ, f_area: f_area, gmapTitle:gmapTitle, tourData:tourData});
       lat.length = 0;
       equ.length = 0;
     })
