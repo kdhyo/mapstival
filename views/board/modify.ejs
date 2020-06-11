@@ -1,0 +1,76 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="/css/star.css" />
+</head>
+
+<body>
+  <table style="width: 100%;">
+    <form action="/board/update" method="post">
+      <tr>
+        <td>이름</td>
+        <td>
+          <input type="text" id="nickname" name="nickname" style="width: 100%;" value="<%= dbName %>" />
+        </td>
+        <td>비밀번호</td>
+        <td>
+          <input type="password" id="password" name="password" style="width: 100%;" value="" onfocus="this.value=''" />
+        </td>
+        <%- include ../includes/star %>
+        <td>리뷰내용</td>
+        <td>
+          <input type="text" id="review" name="review" style="width: 100%;" value="<%= dbReView %>" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4" style="text-align: center;">
+          <div>
+            <input type="hidden" name="index" id="index" value="<%= idx %>" />
+            <input type="hidden" name="fastivalId" id="fastivalId" value="<%=dbId%>" />
+            <input type="submit" value="수정" id="btnSave" />
+    </form>
+    <form action="/mapstival/detail" method="get">
+      <input type="submit" id="btnList" onclick="" value="목록" />
+    </form>
+    <input type="button" id="btnDelete" href="#" onclick="fnDeleteData('<%=idx%>');" value="삭제" />
+    </div>
+    </td>
+    </tr>
+  </table>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/star.js"></script>
+  <script>
+
+    //저장 버튼을 클릭 시 백엔드 저장 api 호출 데이터 저장처리 후 목록 페이지 이동
+    $("#btnSave").click(function () {
+      if ($("#nickname").val() == "") {
+        alert("이름을 입력해주세요.");
+        $("#nickname").focus();
+        return false;
+      }
+      if ($("#password").val() == "") {
+        alert("비밀번호를 입력해주세요.");
+        $("#password").focus();
+        return false;
+      }
+      if ($("#review").val() == "") {
+        alert("후기내용을 입력해주세요.");
+        $("#review").focus();
+        return false;
+      }
+    })
+
+    //삭제확인을 받은 후 삭제하는 라우터로 이동
+    function fnDeleteData(idx) {
+      if (confirm("정말로 삭제하시겠습니까?")) {
+        location.href = "/board/delete?id=" + idx;
+      } else {
+        alert("삭제를 취소하셨습니다.");
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const board = models.Board;
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const API = require("../config/apikey");
 const axios = require("axios");
 const GAPI = require("../config/gapikey.json");
@@ -139,13 +142,12 @@ router.post("/main", function (req, res, next) {
 });
 
 //상세정보 페이지 이동
-router.post("/detail", async function (req, res, next) {
+//비동기 처리방식
+router.get("/detail", async function (req, res, next) {
   let setting = req.body;
   let value = "";
 
-  for (const key in setting) {
-    value = key;
-  }
+  value = req.query.id;
 
   INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
   let DETAIL_URL = `${API_URL}detailIntro?ServiceKey=${API_KEY}${API_ETC}&contentId=${value}&contentTypeId=15`;
@@ -155,6 +157,16 @@ router.post("/detail", async function (req, res, next) {
   try {
     const INFO = await axios.get(INFO_URL);
     const DETAIL = await axios.get(DETAIL_URL);
+
+    //db 데이터 가져오기
+    const dbData = await board.findAll({
+      where: {
+        festival_id: {
+          [Op.like]: value,
+        },
+      },
+    });
+
     tourData = INFO.data.response.body.items.item;
     detail_Data = DETAIL.data.response.body.items.item;
     gmapx = tourData.mapx;
@@ -167,6 +179,7 @@ router.post("/detail", async function (req, res, next) {
         detail: detail_Data,
         rating: rating,
         ratingPutNumber: ratingPutNumber,
+        dbData: dbData,
       });
     });
   } catch (err) {
@@ -178,9 +191,6 @@ function getResponse(callback) {
   var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
   var reviewlat = gmapx; // 리뷰 적도
   var reviewequ = gmapy; //리뷰 위도
-  console.log(reviewName);
-  console.log(reviewlat);
-  console.log(reviewequ);
 
   axios
     .get(

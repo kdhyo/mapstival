@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>1
+  <head>
     <title>Mapstival</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,13 +32,11 @@
         padding: 0px;
         font-size: 0px;
         border: none;
-        outline: none;
       }
 
       .dropdown {
         position: relative;
         display: inline-block;
-        outline: none;
       }
 
       .dropdown-content {
@@ -48,7 +46,6 @@
         min-width: 150px;
         box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.5);
         z-index: 1;
-        outline: none;
       }
 
       .dropdown-content a {
@@ -57,72 +54,24 @@
         text-decoration: none;
         display: block;
         opacity: 0.5;
-        outline: none;
       }
 
-      .dropdown-content a:hover {background-color: #fff; opacity: 1; outline: none;}
+      .dropdown-content a:hover {background-color: #fff; opacity: 1;}
 
-      .dropdown:hover .dropdown-content {display: block; outline: none;}
+      .dropdown:hover .dropdown-content {display: block;}
 
-      .dropdown:hover .dropbtn {background-color: none; outline: none;}
+      .dropdown:hover .dropbtn {background-color: none;}
 
-      button {border: 0px; outline: 0px; background-color: #fff; outline: none;}
-
-    .buttons {text-align: center; padding-top: 30px; outline: none;}
-
-    .area{
-      width: 80px;
-      height: 30px;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#85d3ff;
-      text-align:center;
-      /* color: #85d3ff; */
-      opacity: 1;
-    }
-    .year{
-      width: 80px;
-      height: 30px;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#a9b5fd;
-      text-align:center;
-      /* color: #a9b5fd; */
-      opacity: 1;
-    }
-    .month{
-      width: 80px;
-      height: 30px;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#c49efe;
-      text-align:center;
-      /* color: #e389fc; */
-      opacity: 1;
-    }
-    input {
-       width: 80px;
-      height: 40px;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#e389fc;
-      text-align:center;
-      background: #fff;
-      color: #000;}
-
-      .rcc{
-        padding-top: 15px;
-      }
+      button {border: 0px; outline: 0px; background-color: #fff;}
+      .buttons {text-align: center; padding-top: 30px;}
     </style>
   </head>
   <body>
     
     <div class="buttons">
-      <div class="dropdown">
-        <a href="/mapstival/gmap" ><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
-      </div>
+      
       <form action="/mapstival/main" method="POST">
-        <select class="area" name="f_area">
+        <select name="f_area">
           <option value="" <%= (selected.f_area === '') ? 'selected' : "" %> >전국</option>
           <option value="1" <%= (selected.f_area === '1') ? 'selected' : "" %> >서울</option>
           <option value="2" <%= (selected.f_area === '2') ? 'selected' : "" %> >인천</option>
@@ -142,12 +91,12 @@
           <option value="38" <%= (selected.f_area === '38') ? 'selected' : "" %> >전남</option>
           <option value="39" <%= (selected.f_area === '39') ? 'selected' : "" %> >제주</option>
         </select>
-        <select class="year" name="startYear">
-          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019년</option>
-          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020년</option>
-          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021년</option>
+        <select name="startYear">
+          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019</option>
+          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020</option>
+          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021</option>
         </select>
-        <select class="month" name="startMonth">
+        <select name="startMonth">
           <option value="01" <%= (selected.Month === '01') ? 'selected' : "" %>>01월</option>
           <option value="02" <%= (selected.Month === '02') ? 'selected' : "" %> >02월</option>
           <option value="03" <%= (selected.Month === '03') ? 'selected' : "" %> >03월</option>
@@ -161,11 +110,15 @@
           <option value="11" <%= (selected.Month === '11') ? 'selected' : "" %> >11월</option>
           <option <%= (selected.Month === '12') ? 'selected' : "" %> value="12"  >12월</option>
         </select>
-        <input type="submit" value="변경" />
+        <input type="submit" value="선택" />
       </form>
+      <div class="dropdown">
+        <a href="/mapstival/gmap" ><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
+        <div class="dropdown-content">
+        </div>
+      </div>
     </div>
   </div>
-  <% include ../includes/topbutton %>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
         <div class="row">
@@ -181,7 +134,7 @@
             </button>
             <% } else { %>
               <button type="submit">
-                <img  class="block-20" src="/images/imagenone7.png"  width="335px" />
+                <img  class="block-20" src="/images/imagenone.png"  width="335px" />
           </button>
               <% } %>
               </form>
@@ -200,9 +153,9 @@
             <a>축제 정보가 존재하지 않습니다.</a>
             <%}%>
         </div>
-        <div>
+        <div class="row mt-5">
           <div class="col text-center">
-            <div class="rcc">
+            <div class="block-27">
               <% if(hidden == "") { %>
               <form action="/mapstival/main" method="POST">
               <button name="buttonClick" value="ok"><img src="/images/more.png" width="140px" height="60px" /></button><br><br><br><br>
@@ -239,6 +192,5 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/js/google-map.js"></script>
   <script src="/js/main.js"></script>
-  <script src="/js/topbutton.js"></script>
   </body>
 </html>
