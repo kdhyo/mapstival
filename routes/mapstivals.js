@@ -95,7 +95,6 @@ router.get("/", function (req, res, next) {
 
 //축제 날짜 지역 post로 받아오기
 router.post("/main", function (req, res, next) {
-  console.log(req.body);
   if (req.body.startYear) {
     startYear = req.body.startYear;
     startMonth = req.body.startMonth;
@@ -113,7 +112,7 @@ router.post("/main", function (req, res, next) {
     FNumber += 6;
   }
 
-  console.log(startDate);
+  // console.log(startDate);
 
   axios
     .get(`${apiSetting(startDate, f_area, FNumber)}`)
@@ -196,7 +195,6 @@ router.get("/detail", async function (req, res, next) {
     try {
       const options = await axios.get(api_url, config);
       blogData = options.data.items;
-      console.log(blogData); //blogData[1].title 하면 제목 가져올 수 있음.
     } catch (error) {
       console.log(`에러${error}`);
     }
@@ -226,11 +224,8 @@ function getResponse(callback) {
       `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`
     )
     .then((response) => {
-      console.log(response.data.status);
       if (response.data.status == "OK") {
-        console.log(response.data.results[0].name);
         reference = response.data.results[0].reference;
-        console.log("reference : " + reference);
 
         axios
           .get(
@@ -287,7 +282,6 @@ router.get("/gmap", function (req, res, next) {
         gmapUrl.push(tourData[i].mapx);
         id.push(tourData[i].contentid);
       }
-      console.log(tourData);
       res.render("mapstival/gmap", {
         lat: lat,
         equ: equ,
