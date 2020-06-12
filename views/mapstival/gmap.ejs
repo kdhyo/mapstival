@@ -30,14 +30,74 @@
     <link rel="stylesheet" href="/css/flaticon.css" />
     <link rel="stylesheet" href="/css/icomoon.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
   </head>
+
+  <style>
+    .area{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#85d3ff;
+      text-align:center;
+      font-weight: 500;
+      font-size:20px;
+      background-color: #fff;
+      color: #85d3ff;
+      /* color: #85d3ff; */
+      opacity: 1;
+    }
+    .year{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#a9b5fd;
+      text-align:center;
+      font-weight: 500;
+      font-size:20px;
+      background-color: #fff;
+      color: #a9b5fd;
+      /* color: #a9b5fd; */
+      opacity: 1;
+    }
+    .month{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#c49efe;
+      text-align:center;
+      background-color: #fff;
+      font-weight: 500;
+      font-size:20px;
+      color: #c49efe;
+      /* color: #e389fc; */
+      opacity: 1;
+    }
+        input {
+       width: 80px;
+      height: 40px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#e389fc;
+      text-align:center;
+      background: #fff;
+      color: #000;}
+    body {}
+    section{padding-top: 100px; padding-bottom: 160px;}
+
+    .movebutton{text-align: center; padding-top: 100px;}
+  </style>
+
   <body>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
+    <!-- <nav
+      class="ftco-footer"
     >
       <div class="container">
-        <a class="navbar-brand" href="/">HOME</a>
+        <a class="navbar-brand" href="/" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HOME</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -47,14 +107,25 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="oi oi-menu"></span> Menu
-        </button>
+          <!-- <span class="oi oi-menu"></span> Menu
+        </button> -->
 
-        <div class="collapse navbar-collapse" id="ftco-nav"></div>
+        <!-- <div class="collapse navbar-collapse" id="ftco-nav"></div>
       </div>
-    </nav>
+    </nav> -->
 
-    <section class="ftco-section contact-section ftco-degree-bg">
+    <div class="movebutton">
+    <button class="area">HOME</button>
+    <button class="year">MAP</button>
+    <button class="month">GALLERY</button>
+    </div>
+
+    <section>
+      <!-- <div class="movebutton">
+        <button class="area"></button>
+        <button class="year"></button>
+        <button class="month"></button>
+        </div> -->
       <div class="container bg-light">
         <div class="row block-9">
           <div class="col-md-6 pr-md-5">
@@ -92,9 +163,9 @@
         </div>
       </div>
     </section>
-    <br /><br />
+    <div>
     <% include ../includes/footer %>
-
+  </div class="foot">
     <!-- loader -->
     <div id="ftco-loader" class="show fullscreen">
       <svg class="circular" width="48px" height="48px">

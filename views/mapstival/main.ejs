@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>1
+  <head>
     <title>Mapstival</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="/css/jquery.timepicker.css">
 
-    
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
     <link rel="stylesheet" href="/css/flaticon.css">
     <link rel="stylesheet" href="/css/icomoon.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -77,6 +78,7 @@
       border-radius: 5px;
       border-color:#85d3ff;
       text-align:center;
+      color: #85d3ff;
       /* color: #85d3ff; */
       opacity: 1;
     }
@@ -87,6 +89,7 @@
       border-radius: 5px;
       border-color:#a9b5fd;
       text-align:center;
+      color: #a9b5fd;
       /* color: #a9b5fd; */
       opacity: 1;
     }
@@ -97,6 +100,7 @@
       border-radius: 5px;
       border-color:#c49efe;
       text-align:center;
+      color: #c49efe;
       /* color: #e389fc; */
       opacity: 1;
     }
@@ -108,10 +112,20 @@
       border-color:#e389fc;
       text-align:center;
       background: #fff;
-      color: #000;}
+      color: #000;
+      color: #e389fc;
+  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
+}
+
 
       .rcc{
         padding-top: 15px;
+      }
+
+      #festivaltitle{
+        font-size: 20px;
+        font-weight: 10;
+        color: black;
       }
     </style>
   </head>
@@ -191,7 +205,7 @@
                   <div><a href="#"><%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %></a></div>
                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                 </div>
-                <h3 class="heading"><a href="#"><%= data[i].title%><br></a></h3>
+                <h3 id="festivaltitle"><a href="#"><%= data[i].title%><br></a></h3>
               </div>
             </div>
           </div>
