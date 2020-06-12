@@ -10,4 +10,8 @@ $(function () {
   $("#HomeButton").click(function () {
     window.location = "/map";
   });
+
+  $("#BackButton").click(function () {
+    window.history.back();
+  });
 });

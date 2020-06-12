@@ -11704,8 +11704,13 @@ textarea.form-control {
   bottom: 75px;
 }
 #HomeButton {
-  right: 51px;
-  bottom: 155px;
+  right: 56px;
+  bottom: 152px;
+}
+
+#BackButton {
+  right: 55px;
+  bottom: 207px;
 }
 @font-face {
   font-family: "SDKukdetopokki-Lt";
