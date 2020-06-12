@@ -151,7 +151,7 @@ async function drop(gmapTitle, contentid) {
   }, 500);
 }
 
-var image = "../images/flower2.png";
+var image = "../images/flower.gif";
 function addMarkerWithTimeout(position, timeout, gmapTitle, i, contentid) {
   window.setTimeout(function () {
     markers.push(

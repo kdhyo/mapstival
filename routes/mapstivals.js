@@ -138,7 +138,6 @@ router.post("/main", function (req, res, next) {
       if (tourData.length < FNumber) {
         hidden = "ok";
       }
-      console.log(`투어데이터는? ${tourData}`);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
@@ -149,24 +148,6 @@ router.post("/main", function (req, res, next) {
       res.send(e);
     });
 });
-
-// router.get('/blog', async (req, res) => {
-//   var api_url = 'https://openapi.naver.com/v1/search/blog.json?query=' + encodeURI('안녕')+'&display=5'; // json 결과
-//   //  var options = {
-//   //      url: api_url,
-//   //      headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-//   //   };
-//   var config ={
-//     headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-//   }
-
-//     try {
-//       const options =  await axios.get(api_url, config);
-//       console.log(options.data.items[0].title)
-//     } catch (error) {
-//       console.log(`에러${error}`)
-//     }
-// });
 
 //상세정보 페이지 이동
 //비동기 처리방식

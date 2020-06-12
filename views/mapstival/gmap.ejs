@@ -132,9 +132,9 @@
               <div class="categories">
                 <b>
                 <h3>Festival List</h3>
-                <% for(i=0;i<tourData.length;i++){ %>
+                <% for(i=0;i < tourData.length; i++){ %>
                   <li>
-                    <a href="detail?id=<%= tourData[i].contentid %>"><%= tourData[i].title %><span>(6)</span></a>
+                    <a href="detail?id=<%= tourData[i].contentid %>"><%- tourData[i].title %><span>(6)</span></a>
                   </li>    
                   <% } %>
                 </b>
