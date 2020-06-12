@@ -87,7 +87,6 @@
             </div>
             <div class="desc align-self-md-center">
         <h1 class="festivaltitle"><%- data.title%></h1>
-        <% include ../includes/topbutton %>
         <p>
           <%- data.overview%>
         </p>
@@ -143,11 +142,6 @@
       <form action="/board/create?id=<%=data.contentid%>" class="p-5 bg-light" method="post">
         <h4 class="mb-5">축제는 어땠나요?<br>소중한 후기를 적어주세요!</h4>
         <div class="form-group">
-          <label for="name">Gender *</label><br>
-          <input type="radio" name="gender" checked="checked" value="female" /> 남성
-          <input type="radio" name="gender" value="male" /> 여성
-        </div>
-        <div class="form-group">
           <label for="name">Name *</label>
           <input type="text" value="익명" onfocus="this.value=''" class="form-control" id="name" name="name" />
         </div>
@@ -192,9 +186,9 @@
             <p>
               <%= dbData[i].review %>
             </p>
-            <form action="/board/passwordCheck" class="p-5 bg-light" method="post">
+            <form action="/board/passwordCheck" method="post" class="collapse multi-collapse<%=[i]%>" id="togglePW<%=[i]%>">
               <input type="hidden" name="idx" value="<%= dbData[i].id%>" />
-              <div class="collapse multi-collapse<%=[i]%>" id="togglePW<%=[i]%>">
+              <div >
                 <div class="card card-body">
                   <input type="password" id="password" name="password" value="" / placeholder="글 작성시 등록한 비밀번호를 입력하세요.">
                   <input type="submit" value="확인" />
@@ -234,26 +228,6 @@
         </div>
       </form>
     </div>
-    <div class="sidebar-box ftco-animate">
-      <div class="categories">
-        <h3>Categories</h3>
-        <li>
-          <a href="#">Food <span>(12)</span></a>
-        </li>
-        <li>
-          <a href="#">Dish <span>(22)</span></a>
-        </li>
-        <li>
-          <a href="#">Desserts <span>(37)</span></a>
-        </li>
-        <li>
-          <a href="#">Drinks <span>(42)</span></a>
-        </li>
-        <li>
-          <a href="#">Ocassion <span>(14)</span></a>
-        </li>
-      </div>
-    </div>
 
     <div class="sidebar-box ftco-animate">
       <h3>Recent Blog</h3>
@@ -284,6 +258,7 @@
   </section>
 
   <br><br>
+  <% include ../includes/topbutton %>
   <% include ../includes/footer %>
 
   <!-- loader -->

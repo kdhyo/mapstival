@@ -6,8 +6,6 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const { sequelize } = require("./models");
 const methodOverride = require("method-override");
-let session = require("express-session");
-let FileStore = require("session-file-store")(session);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -16,19 +14,6 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
-// 세션정보
-app.use(
-  session({
-    key: "hyo",
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 24000 * 60 * 60, // 쿠키 유효 기간 24시간
-    },
-    store: new FileStore(),
-  })
-);
 
 app.use(logger("dev"));
 app.use(express.json());
