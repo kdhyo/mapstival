@@ -4,7 +4,7 @@
   "description": "mapstival-sever",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www --ignore sessions/*"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@types/googlemaps": "^3.39.6",
