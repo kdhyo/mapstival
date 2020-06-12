@@ -287,6 +287,7 @@ router.get("/gmap", function (req, res, next) {
         gmapUrl.push(tourData[i].mapx);
         id.push(tourData[i].contentid);
       }
+      console.log(tourData);
       res.render("mapstival/gmap", {
         lat: lat,
         equ: equ,

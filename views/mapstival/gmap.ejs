@@ -93,38 +93,11 @@
   </style>
 
   <body>
-    <!-- <nav
-      class="ftco-footer"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="/" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HOME</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <!-- <span class="oi oi-menu"></span> Menu
-        </button> -->
-
-        <!-- <div class="collapse navbar-collapse" id="ftco-nav"></div>
-      </div>
-    </nav> -->
-
     <div class="movebutton">
     <button class="area" type="button" onclick="location.href='/map'">HOME</button>
     <button class="month" onclick="history.go(-1);">GALLERY</button>
     </div>
-
     <section>
-      <!-- <div class="movebutton">
-        <button class="area"></button>
-        <button class="year"></button>
-        <button class="month"></button>
-        </div> -->
       <div class="container bg-light">
         <div class="row block-9">
           <div class="col-md-6 pr-md-5">
@@ -134,7 +107,7 @@
                 <h3>Festival List</h3>
                 <% for(i=0;i < tourData.length; i++){ %>
                   <li>
-                    <a href="detail?id=<%= tourData[i].contentid %>"><%- tourData[i].title %><span>(6)</span></a>
+                    <a href="detail?id=<%- tourData[i].contentid %>"><%- tourData[i].title %><span>(6)</span></a>
                   </li>    
                   <% } %>
                 </b>
@@ -189,7 +162,7 @@
   <script src="/js/jquery.timepicker.min.js"></script>
   <script src="/js/gmapScript.js"></script>
   <script>
-    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>','<%= id %>'); })()
+    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%- gmapTitle %>','<%= id %>'); })()
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
   <script src="/js/main.js"></script>
