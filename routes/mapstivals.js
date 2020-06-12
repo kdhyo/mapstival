@@ -8,6 +8,12 @@ const API = require("../config/apikey");
 const axios = require("axios");
 const GAPI = require("../config/gapikey.json");
 
+//네이버 블로그 API 준비
+var naverid = require("../config/naverKey.json");
+var naversecret = require("../config/naverKey.json");
+var client_id = naverid.client_id;
+var client_secret = naversecret.client_secret;
+
 const GAPI_KEY = GAPI.GAPI_KEY;
 const API_KEY = API.API_KEY;
 const API_URL = API.API_URL;
@@ -129,7 +135,6 @@ router.post("/main", function (req, res, next) {
       if (tourData.length < FNumber) {
         hidden = "ok";
       }
-      console.log(`투어데이터 : ${tourData.length}`);
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
@@ -141,6 +146,25 @@ router.post("/main", function (req, res, next) {
     });
 });
 
+// router.get('/blog', async (req, res) => {
+//   var api_url = 'https://openapi.naver.com/v1/search/blog.json?query=' + encodeURI('안녕')+'&display=5'; // json 결과
+//   //  var options = {
+//   //      url: api_url,
+//   //      headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+//   //   };
+//   var config ={
+//     headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+//   }
+
+//     try {
+//       const options =  await axios.get(api_url, config);
+//       console.log(options.data.items[0].title)
+//     } catch (error) {
+//       console.log(`에러${error}`)
+//     }
+// });
+
+ 
 //상세정보 페이지 이동
 //비동기 처리방식
 router.get("/detail", async function (req, res, next) {
@@ -172,9 +196,24 @@ router.get("/detail", async function (req, res, next) {
     gmapx = tourData.mapx;
     gmapy = tourData.mapy;
     gtitle = tourData.title;
+
+    //네이버 API
+    var blogData = "";
+    var api_url = 'https://openapi.naver.com/v1/search/blog.json?query=' + encodeURI(gtitle)+'&display=6'; // json 결과
+    var config ={
+      headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+    }
+    try {
+      const options =  await axios.get(api_url, config);
+      blogData = options.data.items;
+      console.log(blogData); //blogData[1].title 하면 제목 가져올 수 있음.
+    } catch (error) {
+      console.log(`에러${error}`)
+    }
     //구글 평점 리뷰 가져오기
     getResponse(() => {
       res.render("mapstival/detail", {
+        blogData : blogData,
         data: tourData,
         detail: detail_Data,
         rating: rating,
@@ -228,13 +267,15 @@ function getResponse(callback) {
 // 지도페이지 이동
 const lat = [];
 const equ = [];
+const id = [];
+const gmapTitle = [];
+const gmapUrl = [];
 router.get("/gmap", function (req, res, next) {
   axios
     .get(`${URL}`)
     .then((response) => {
       let tourData = [];
       const list = response.data.response.body.items.item;
-
       if (Array.isArray(list)) {
         if (list != undefined) {
           for (data in list) {
@@ -252,10 +293,15 @@ router.get("/gmap", function (req, res, next) {
       for (i = 0; i < tourData.length; i++) {
         lat.push(tourData[i].mapy);
         equ.push(tourData[i].mapx);
+        gmapTitle.push(tourData[i].title);
+        gmapUrl.push(tourData[i].mapx);
+        id.push(tourData[i].contentid);
       }
-      res.render("mapstival/gmap", { lat: lat, equ: equ });
+      res.render("mapstival/gmap", { lat: lat, equ: equ, f_area: f_area, gmapTitle:gmapTitle, tourData:tourData, id: id});
       lat.length = 0;
       equ.length = 0;
+      gmapTitle.length = 0;
+      id.length = 0;
     })
     .catch((e) => {
       res.send(e);

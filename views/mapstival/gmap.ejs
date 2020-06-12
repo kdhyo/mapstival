@@ -132,29 +132,13 @@
             <div class="sidebar-box ftco-animate">
               <div class="categories">
                 <b>
-                  <h3>Festival List</h3>
+                <h3>Festival List</h3>
+                <% for(i=0;i<tourData.length;i++){ %>
                   <li>
-                    <a href="#">Festival Type 1<span>(6)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 2<span>(2)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 3<span>(4)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 4<span>(8)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 5<span>(11)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 6<span>(7)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Festival Type 7<span>(5)</span></a>
-                  </li></b
-                >
+                    <a href="detail?id=<%= tourData[i].contentid %>"><%= tourData[i].title %><span>(6)</span></a>
+                  </li>    
+                  <% } %>
+                </b>
               </div>
             </div>
           </div>
@@ -191,26 +175,25 @@
       </svg>
     </div>
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.easing.1.3.js"></script>
-    <script src="/js/jquery.waypoints.min.js"></script>
-    <script src="/js/jquery.stellar.min.js"></script>
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/jquery.magnific-popup.min.js"></script>
-    <script src="/js/aos.js"></script>
-    <script src="/js/jquery.animateNumber.min.js"></script>
-    <script src="/js/bootstrap-datepicker.js"></script>
-    <script src="/js/jquery.timepicker.min.js"></script>
-    <script src="/js/gmapScript.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
-    <script>
-      (function () {
-        dataIn("<%= lat %>", "<%= equ %>");
-      })();
-    </script>
-    <script src="/js/main.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.easing.1.3.js"></script>
+  <script src="/js/jquery.waypoints.min.js"></script>
+  <script src="/js/jquery.stellar.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/aos.js"></script>
+  <script src="/js/jquery.animateNumber.min.js"></script>
+  <script src="/js/bootstrap-datepicker.js"></script>
+  <script src="/js/jquery.timepicker.min.js"></script>
+  <script src="/js/gmapScript.js"></script>
+  <script>
+    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>','<%= id %>'); })()
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
+  <script src="/js/main.js"></script>
+    
   </body>
 </html>

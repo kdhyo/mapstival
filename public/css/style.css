@@ -11305,14 +11305,18 @@ textarea.form-control {
   width: 80px;
 }
 
-.block-21 .text {
-  width: calc(100% - 100px);
-}
 .block-21 .text .heading {
   font-size: 18px;
   font-weight: 300;
 }
+.block-21 .text .heading1 {
+  font-size: 14px;
+  font-weight: 300;
+}
 .block-21 .text .heading a {
+  color: #404044;
+}
+.block-21 .text .heading1 a {
   color: #404044;
 }
 .block-21 .text .heading a:hover,
