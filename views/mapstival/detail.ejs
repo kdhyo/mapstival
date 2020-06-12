@@ -42,7 +42,6 @@
   .rat {
     text-align: center;
   }
-
 </style>
 
 <body>
@@ -238,246 +237,26 @@
 
     <div class="sidebar-box ftco-animate">
       <h3>Recent Blog</h3>
+      <% for(i=0; i<blogData.length; i++){ %>
       <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_1.jpg);"></a>
         <div class="text">
           <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
+            <a href="<%= blogData[i].link %>"><img src="/images/title.png" width="40px" height="35px">&nbsp&nbsp<%- blogData[i].title %></a>
+          </h3>
+          <h3 class="heading1">
+            <a href="<%= blogData[i].link %>"><%- blogData[i].description %></a>
           </h3>
           <div class="meta">
             <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
+              <a href="<%= blogData[i].link %>"><img src="/images/naverblog.png" width="20px" height="16px">&nbsp;<%- blogData[i].bloggername %></a>
             </div>
             <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
+              <a href="<%= blogData[i].link %>">&nbsp;<span class="icon-calendar"></span>&nbsp;&nbsp;<%- blogData[i].postdate %></a>
+            </div><br /><br />
           </div>
-        </div>
+        </div><br/>
       </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_2.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_3.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_1.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_2.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_3.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_1.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_2.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_3.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_1.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_2.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(/images/image_3.jpg);"></a>
-        <div class="text">
-          <h3 class="heading">
-            <a href="#">Even the all-powerful Pointing has no control about the
-              blind texts</a>
-          </h3>
-          <div class="meta">
-            <div>
-              <a href="#"><span class="icon-calendar"></span> July 12, 2018</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-person"></span> Admin</a>
-            </div>
-            <div>
-              <a href="#"><span class="icon-chat"></span> 19</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <% } %>
     </div>
 
 

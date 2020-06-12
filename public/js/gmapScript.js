@@ -7,32 +7,29 @@ var map_area = ""; //도시 위치
 var mainX = "";
 var mainY = "";
 var mainZoom = "";
-
-var title = "";
+var gmapTitle = "";
+var contentid = "";
 
 const neighborhoods = [];
-
-for (i = 0; i <= lat.length; i++) {
-  neighborhoods.push({ lat: parseFloat(lat[i]), lng: parseFloat(equ[i]) });
-}
 
 var markers = [];
 var map;
 
-function dataIn(lat, equ, f_area, gmapTitle) {
+function dataIn(lat, equ, f_area, gmapTitle, contentid) {
   latdata = lat;
   equdata = equ;
   map_area = f_area;
   title = gmapTitle;
+  id = contentid;
   lat = latdata.split(",").map(Number);
   equ = equdata.split(",").map(Number);
-  gmapTitle = title.split(",").map(String)
+  contentid = id.split(",").map(Number);
+  gmapTitle = title.split(",").map(String); 
   for (i = 0; i <= lat.length-1; i++) {
     neighborhoods.push({ lat: parseFloat(lat[i]), lng: parseFloat(equ[i]) });
-    console.log(i+1+"번째 배열"+"gmapTitle22 : "+gmapTitle[i]);
   }
   mapArea(map_area);
-  drop();
+  drop(gmapTitle, contentid);
 }
 
 function mapArea(map_area) {
@@ -49,9 +46,9 @@ function mapArea(map_area) {
       mainY = 126.990861;
       break;
     case "2": //인천
-      mainZoom = 11;
-      mainX = 37.466165;
-      mainY = 126.649085;
+      mainZoom = 10;
+      mainX = 37.570200;
+      mainY = 126.633742;
       break;
     case "3": //대전
       mainZoom = 11;
@@ -140,25 +137,30 @@ function initMap() {
   });
 }
 
-function drop() {
+async function drop(gmapTitle, contentid) {
   clearMarkers();
-  for (var i = 0; i < neighborhoods.length; i++) {
-    addMarkerWithTimeout(neighborhoods[i], i * 100); // i*숫자로 마커들 떨어지는 속도 조절
-  }
+  window.setTimeout(function () {
+    for (i = 0; i < neighborhoods.length; i++) {
+      addMarkerWithTimeout(neighborhoods[i], i * 150, gmapTitle[i], i, contentid); // 'neighborhoods[i]' 는 적도 위도값, 'i * 100' 는 마커들 떨어지는 속도 조절, 'gmapTitle[i]' 는 마커들 마우스 커서시 타이틀 보여주기
+    }
+  }, 500);
 }
 
 var image = "../images/flower.gif";
-function addMarkerWithTimeout(position, timeout) {
+function addMarkerWithTimeout(position, timeout, gmapTitle, i, contentid) {
   window.setTimeout(function () {
     markers.push(
       new google.maps.Marker({
-        position: position,
+        position: position, //적도 위도
         map: map,
         animation: google.maps.Animation.DROP,
-        title: "hello", //마커에 마우스 대면 이름뜨게
+        title: gmapTitle  , //마커에 마우스 대면 이름뜨게
         icon: image,
       })
     );
+      google.maps.event.addListener(markers[i],'click', function() {
+        window.location = "detail?id="+contentid[i];
+      });
   }, timeout);
 }
 

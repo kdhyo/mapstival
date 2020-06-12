@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "qwe123",
+    "password": "multi1004",
     "database": "mapstival",
     "host": "127.0.0.1",
     "dialect": "mysql",

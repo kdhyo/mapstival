@@ -64,7 +64,7 @@
                 <h3>Festival List</h3>
                 <% for(i=0;i<tourData.length;i++){ %>
                   <li>
-                    <a href="#"><%= tourData[i].title %><span>(6)</span></a>
+                    <a href="detail?id=<%= tourData[i].contentid %>"><%= tourData[i].title %><span>(6)</span></a>
                   </li>    
                   <% } %>
                 </b>
@@ -119,10 +119,9 @@
   <script src="/js/jquery.timepicker.min.js"></script>
   <script src="/js/gmapScript.js"></script>
   <script>
-    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>'); })()
+    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>','<%= id %>'); })()
   </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
-
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
   <script src="/js/main.js"></script>
     
   </body>

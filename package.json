@@ -27,6 +27,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
+    "@types/google-maps": "^3.2.2",
     "nodemon": "^2.0.4"
   }
 }
