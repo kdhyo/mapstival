@@ -124,55 +124,31 @@ router.get("/delete", async (req, res) => {
   }
 });
 
-//게시글 정보 업데이트
-// router.post("/update", async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     let inputPassword = req.body.password;
-//     let salt = result.dataValues.salt;
-//     let hashPassword = crypto
-//       .createHash("sha512")
-//       .update(inputPassword + salt)
-//       .digest("hex");
-
-//     let data = {
-//       festival_id: req.body.festival_id,
-//       nickname: req.body.nickname,
-//       password: hashPassword,
-//       scope: req.body.scope,
-//       review: req.body.review,
-//       salt: salt,
-//     };
-
-//     console.log(`디비데이터까진 불러왔냐${data}`);
-//     let updateData = await models.Board.update(data, {
-//       where: { id: data.id },
-//     });
-
-//     //서버에서 전달하는 데이터의 포맷을 일원화 해서 프론트에 전달하면
-//     //프론트 개발자와의 협업에서 좀 더 효율적이고 용이하다.
-//     return res.json({
-//       code: 200,
-//       result: updateData,
-//       message: "정상적으로 수정되었습니다.",
-//     });
-//   } catch (error) {
-//     return res.send(error);
-//   }
-// });
-
 router.post("/update", async (req, res) => {
   console.log(req.body);
   let idx = req.body.index;
   let festival_id = req.body.fastivalId;
   let nickname = req.body.nickname;
-  let password = req.body.password;
   let review = req.body.review;
   let scope = req.body.scope;
 
+  //패스워드를 sha512와 salt 랜덤변수를 활용하여 암호화
+  let inputPassword = req.body.password;
+  let salt = Math.round(new Date().valueOf() * Math.random()) + "";
+  let hashPassword = crypto
+    .createHash("sha512")
+    .update(inputPassword + salt)
+    .digest("hex");
+
   try {
     const updateData = await models.board.update(
-      { nickname: nickname, password: password, review: review, scope: scope },
+      {
+        nickname: nickname,
+        password: hashPassword,
+        review: review,
+        scope: scope,
+        salt: salt,
+      },
       { where: { id: idx } }
     );
 
