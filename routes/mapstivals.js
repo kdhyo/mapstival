@@ -221,7 +221,7 @@ function getResponse(callback) {
 
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&sensor=false&key=${GAPI_KEY}`
+      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&key=${GAPI_KEY}`
     )
     .then((response) => {
       if (response.data.status == "OK") {
@@ -229,7 +229,7 @@ function getResponse(callback) {
 
         axios
           .get(
-            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&sensor=false&key=${GAPI_KEY}`
+            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&key=${GAPI_KEY}`
           )
           .then((response) => {
             // for (i = 0; i < 10; i++) {
