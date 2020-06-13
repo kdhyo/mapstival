@@ -30,31 +30,74 @@
     <link rel="stylesheet" href="/css/flaticon.css" />
     <link rel="stylesheet" href="/css/icomoon.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
   </head>
+
+  <style>
+    .area{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#85d3ff;
+      text-align:center;
+      font-weight: 500;
+      font-size:20px;
+      background-color: #fff;
+      color: #85d3ff;
+      /* color: #85d3ff; */
+      opacity: 1;
+    }
+    .year{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#a9b5fd;
+      text-align:center;
+      font-weight: 500;
+      font-size:20px;
+      background-color: #fff;
+      color: #a9b5fd;
+      /* color: #a9b5fd; */
+      opacity: 1;
+    }
+    .month{
+      width: 120px;
+      height: 50px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#c49efe;
+      text-align:center;
+      background-color: #fff;
+      font-weight: 500;
+      font-size:20px;
+      color: #c49efe;
+      /* color: #e389fc; */
+      opacity: 1;
+    }
+        input {
+       width: 80px;
+      height: 40px;
+      border-width: 4px;
+      border-radius: 5px;
+      border-color:#e389fc;
+      text-align:center;
+      background: #fff;
+      color: #000;}
+    body {}
+    section{padding-top: 100px; padding-bottom: 160px;}
+
+    .movebutton{text-align: center; padding-top: 100px;}
+  </style>
+
   <body>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="/">HOME</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav"></div>
-      </div>
-    </nav>
-
-    <section class="ftco-section contact-section ftco-degree-bg">
+    <div class="movebutton">
+    <button class="area" type="button" onclick="location.href='/map'">HOME</button>
+    <button class="month" onclick="history.go(-1);">GALLERY</button>
+    </div>
+    <section>
       <div class="container bg-light">
         <div class="row block-9">
           <div class="col-md-6 pr-md-5">
@@ -62,9 +105,9 @@
               <div class="categories">
                 <b>
                 <h3>Festival List</h3>
-                <% for(i=0;i<tourData.length;i++){ %>
+                <% for(i=0;i < tourData.length; i++){ %>
                   <li>
-                    <a href="detail?id=<%= tourData[i].contentid %>"><%= tourData[i].title %><span>(6)</span></a>
+                    <a href="detail?id=<%- tourData[i].contentid %>"><%- tourData[i].title %><span>(6)</span></a>
                   </li>    
                   <% } %>
                 </b>
@@ -76,9 +119,9 @@
         </div>
       </div>
     </section>
-    <br /><br />
+    <div>
     <% include ../includes/footer %>
-
+  </div class="foot">
     <!-- loader -->
     <div id="ftco-loader" class="show fullscreen">
       <svg class="circular" width="48px" height="48px">
@@ -119,7 +162,7 @@
   <script src="/js/jquery.timepicker.min.js"></script>
   <script src="/js/gmapScript.js"></script>
   <script>
-    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%= gmapTitle %>','<%= id %>'); })()
+    (function(){ dataIn('<%= lat %>','<%= equ %>','<%= f_area %>','<%- gmapTitle %>','<%= id %>'); })()
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7lGjC1U4IAhcB7eYjAph5r0lkEfKwKuY&callback=initMap"></script>
   <script src="/js/main.js"></script>

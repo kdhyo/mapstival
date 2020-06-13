@@ -11692,10 +11692,9 @@ textarea.form-control {
 }
 .ScrollButton {
   position: fixed; /* 버튼의 위치 고정 */
-  right: 10px; /* x 위치 입력 */
+  right: 60px; /* x 위치 입력 */
   cursor: pointer; /* 호버링 했을 때 커서 모양 변경 */
   z-index: 10; /* 다른 태그에 가려지지 않게 우선순위 변경 */
-  display: none; /* 스크롤 위치에 상관없이 보이게 하려면 생략 */
 }
 /* 두 태그에 각각 y 위치 입력 */
 #TopButton {
@@ -11703,4 +11702,34 @@ textarea.form-control {
 }
 #BottomButton {
   bottom: 75px;
+}
+#HomeButton {
+  right: 56px;
+  bottom: 152px;
+}
+
+#BackButton {
+  right: 55px;
+  bottom: 207px;
+}
+@font-face {
+  font-family: "SDKukdetopokki-Lt";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/SDKukdetopokki-aLt00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#festivaltitle {
+  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
+}
+
+.area {
+  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
+}
+.year {
+  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
+}
+.month {
+  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
 }

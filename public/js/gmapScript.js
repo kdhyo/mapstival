@@ -3,7 +3,7 @@ var equdata = "";
 var lat = "";
 var equ = "";
 var map_area = ""; //도시 위치
-//메인 줌 위치 크기 
+//메인 줌 위치 크기
 var mainX = "";
 var mainY = "";
 var mainZoom = "";
@@ -24,8 +24,8 @@ function dataIn(lat, equ, f_area, gmapTitle, contentid) {
   lat = latdata.split(",").map(Number);
   equ = equdata.split(",").map(Number);
   contentid = id.split(",").map(Number);
-  gmapTitle = title.split(",").map(String); 
-  for (i = 0; i <= lat.length-1; i++) {
+  gmapTitle = title.split(",").map(String);
+  for (i = 0; i <= lat.length - 1; i++) {
     neighborhoods.push({ lat: parseFloat(lat[i]), lng: parseFloat(equ[i]) });
   }
   mapArea(map_area);
@@ -47,7 +47,7 @@ function mapArea(map_area) {
       break;
     case "2": //인천
       mainZoom = 10;
-      mainX = 37.570200;
+      mainX = 37.5702;
       mainY = 126.633742;
       break;
     case "3": //대전
@@ -62,7 +62,7 @@ function mapArea(map_area) {
       break;
     case "5": //광주
       mainZoom = 11;
-      mainX = 35.153180;
+      mainX = 35.15318;
       mainY = 126.840166;
       break;
     case "6": //부산
@@ -88,7 +88,7 @@ function mapArea(map_area) {
     case "32": //강원
       mainZoom = 8.1;
       mainX = 37.770767;
-      mainY = 128.433250;
+      mainY = 128.43325;
       break;
     case "33": //충북
       mainZoom = 8.5;
@@ -98,7 +98,7 @@ function mapArea(map_area) {
     case "34": //충남
       mainZoom = 8.5;
       mainX = 36.513964;
-      mainY = 126.936500;
+      mainY = 126.9365;
       break;
     case "35": //경북
       mainZoom = 8;
@@ -123,12 +123,11 @@ function mapArea(map_area) {
     case "39": //제주
       mainZoom = 9.8;
       mainX = 33.382609;
-      mainY = 126.555830;
+      mainY = 126.55583;
       break;
-    default :
+    default:
   }
 }
-
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -141,7 +140,13 @@ async function drop(gmapTitle, contentid) {
   clearMarkers();
   window.setTimeout(function () {
     for (i = 0; i < neighborhoods.length; i++) {
-      addMarkerWithTimeout(neighborhoods[i], i * 150, gmapTitle[i], i, contentid); // 'neighborhoods[i]' 는 적도 위도값, 'i * 100' 는 마커들 떨어지는 속도 조절, 'gmapTitle[i]' 는 마커들 마우스 커서시 타이틀 보여주기
+      addMarkerWithTimeout(
+        neighborhoods[i],
+        i * 150,
+        gmapTitle[i],
+        i,
+        contentid
+      ); // 'neighborhoods[i]' 는 적도 위도값, 'i * 100' 는 마커들 떨어지는 속도 조절, 'gmapTitle[i]' 는 마커들 마우스 커서시 타이틀 보여주기
     }
   }, 500);
 }
@@ -154,13 +159,13 @@ function addMarkerWithTimeout(position, timeout, gmapTitle, i, contentid) {
         position: position, //적도 위도
         map: map,
         animation: google.maps.Animation.DROP,
-        title: gmapTitle  , //마커에 마우스 대면 이름뜨게
+        title: gmapTitle, //마커에 마우스 대면 이름뜨게
         icon: image,
       })
     );
-      google.maps.event.addListener(markers[i],'click', function() {
-        window.location = "detail?id="+contentid[i];
-      });
+    google.maps.event.addListener(markers[i], "click", function () {
+      window.location = "detail?id=" + contentid[i];
+    });
   }, timeout);
 }
 
