@@ -68,7 +68,6 @@
       background-color: #fff;
     }
 </style>
-
 <body>
   <div class="container">
     <div class="row">
@@ -203,7 +202,6 @@
     </div>
   </div>
   <!-- .col-md-8 -->
-
   <!--keyword-->
   <div class="col-md-4 sidebar ftco-animate">
     <div class="sidebar-box">
@@ -211,15 +209,22 @@
         <div class="form-group">
           <span class="icon fa fa-search"></span>
           <h3 class="star">
-            <% for(i=0; i < Math.floor(rating); i++) { %>
-            <span style="font-size:20px; color:gold;" class="glyphicon glyphicon-star"></span>
+            <% for(i=0; i < rating; i++) { %>
+            <span style="font-size:20px; color:gold;"><img src="../images/star.png" /></span>
             <% } %>
+            <%if(rating != "") {%>
+              <span style="font-size:20px; color:gold;"><img src="../images/star<%=ratings%>.png" /></span>
+              <% } %>
+            <% for(i = rating+(ratings/10); i < 4.1; i++) { %>
+              <span style="font-size:20px; color:gold;"><img src="../images/star0.png" /></span>
+            <% } %>
+            
           </h3>
           <span class="ion-android-star"></span>
           <h3 class="rat">
             <%if(ratingPutNumber) { %>
             <p>
-              평점 : <%= rating %> 리뷰수 : <%= ratingPutNumber %>
+              평점 : <%= rating %>.<%=ratings%> 리뷰수 : <%= ratingPutNumber %>
             </p>
             <% } else { %>
             <p>존재하는 리뷰가 없습니다.</p>
@@ -292,6 +297,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+ 
   <script>
     //버튼 빈칸인지 확인하기
     $(document).ready(function () {

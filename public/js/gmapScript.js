@@ -151,20 +151,20 @@ async function drop(gmapTitle, contentid) {
   }, 500);
 }
 
-var image = "../images/flower.gif";
+var image = "../images/flower.gif"; //꽃모양 아이콘
 function addMarkerWithTimeout(position, timeout, gmapTitle, i, contentid) {
   window.setTimeout(function () {
     markers.push(
       new google.maps.Marker({
         position: position, //적도 위도
         map: map,
-        animation: google.maps.Animation.DROP,
-        title: gmapTitle, //마커에 마우스 대면 이름뜨게
-        icon: image,
+        animation: google.maps.Animation.DROP, // 마커가 떨어지는 애니메이션 구현
+        title: gmapTitle, //마커에 마우스 대면 각각의 축제 이름뜨게
+        icon: image, // 아이콘 꽃모양으로 변경
       })
     );
     google.maps.event.addListener(markers[i], "click", function () {
-      window.location = "detail?id=" + contentid[i];
+      window.location = "detail?id=" + contentid[i]; //마커 클릭시 url을 설정하여 상세페이지로 이동시키는 이벤트
     });
   }, timeout);
 }

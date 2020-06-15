@@ -82,6 +82,9 @@ router.get("/", function (req, res, next) {
       } else {
         tourData.push(list);
       }
+      if (tourData.length < FNumber) {
+        hidden = "ok";
+      }
       res.render("mapstival/main", {
         data: tourData,
         selected: selected,
@@ -200,11 +203,16 @@ router.get("/detail", async function (req, res, next) {
     }
     //구글 평점 리뷰 가져오기
     getResponse(() => {
+      var ratings = rating%1;
+      ratings = (ratings.toFixed(1))*10;
+      rating = Math.floor(rating);
+
       res.render("mapstival/detail", {
         blogData: blogData,
         data: tourData,
         detail: detail_Data,
         rating: rating,
+        ratings:ratings,
         ratingPutNumber: ratingPutNumber,
         dbData: dbData,
       });
