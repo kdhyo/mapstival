@@ -33,8 +33,12 @@
 
 </head>
 <style>
+  @font-face { font-family: 'Cafe24Simplehae'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff'); font-weight: normal; font-style: normal; }
   .festivaltitle {
     text-align: center;
+  }
+  .heading1{
+    font-family: "Cafe24Simplehae", "NanumGothic", SDKukdetopokki-Lt;
   }
 
   .star {
@@ -67,6 +71,12 @@
       opacity: 1;
       background-color: #fff;
     }
+    .hr1 {
+    border: 0;
+    height: 1.5px;
+    background: #ccc;
+  }
+
 </style>
 <body>
   <div class="container">
@@ -240,7 +250,9 @@
       <div class="block-21 mb-4 d-flex">
         <div class="text">
           <h3 class="heading">
+            <b>
             <a href="<%= blogData[i].link %>" target="_blank"><img src="/images/title.png" width="40px" height="35px">&nbsp&nbsp<%- blogData[i].title %></a>
+            </b>
           </h3>
           <h3 class="heading1">
             <a href="<%= blogData[i].link %>" target="_blank"><%- blogData[i].description %></a>
@@ -251,7 +263,7 @@
             </div>
             <div>
               <a href="<%= blogData[i].link %>" target="_blank">&nbsp;<span class="icon-calendar"></span>&nbsp;&nbsp;<%- blogData[i].postdate %></a>
-            </div><br /><br />
+            </div><br /><hr class="hr1" />
           </div>
         </div><br/>
       </div>
