@@ -1,4 +1,8 @@
-[MapStival] 2020 상반기 졸업작품
+# [MapStival] 2020 상반기 졸업작품
+
+## 전국 축제를 한 눈에!!
+
+맵스티벌[MapStival]페이지(http://kdhyo.kr)
 
 ## 1. 설치방법
 
