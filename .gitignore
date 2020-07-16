@@ -1,4 +1,7 @@
 node_modules
 package-lock.json
-config
 sessions
+/config/apikey.json
+/config/config.json
+/config/gapikey.json
+/config/naverKey.json
