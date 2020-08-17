@@ -21,7 +21,6 @@ app.use(cookieParser());
 
 app.use("/", require("./routes/index"));
 app.use("/mapstival", require("./routes/mapstivals"));
-app.use("/map", require("./routes/map"));
 app.use("/board", require("./routes/board"));
 
 // catch 404 and forward to error handler

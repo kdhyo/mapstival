@@ -8,4 +8,8 @@ router.get("/", function (req, res) {
   res.render("index");
 });
 
+router.get("/map", function (req, res, next) {
+  res.render("map/map");
+});
+
 module.exports = router;
