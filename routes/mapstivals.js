@@ -43,21 +43,14 @@ router.get("/", function (req, res, next) {
   let year = newDate.getFullYear();
   let month = newDate.getMonth() + 1;
 
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  const today = `${year}${month}01`;
-
   const selected = {
     month: `${month}`,
     year: `${year}`,
     area: `${area}`,
-    today: `${today}`,
   };
 
   res.render("mapstival/main", {
     selected,
-    hidden,
     API,
   });
 });

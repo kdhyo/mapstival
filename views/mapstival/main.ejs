@@ -162,56 +162,95 @@
     const FESTIVAL_URL = "<%- API.festivalAPI.API_URL %>";
     const FESTIVAL_ETC = "<%- API.festivalAPI.API_ETC %>";
 
+    //지역, 연도, 월, 현재날짜 설정 변수
+    let area = "<%- selected.area %>"
+    let nowYear = parseInt("<%- selected.year %>");
+    let nowMonth = "<%- selected.month %>"
+    const areaAll = ['전국', '서울', '인천', '대전', '대구', '광주', '부산', '울산', '세종', '경기', '강원', '충북', '충남', '경북', '경남', '전북', '전남', '제주']
+    const valueAll = ['', '1', '2', '3', '4', '5', '6', '7', '8', '31', '32', '33', '34', '35', '36', '37', '38', '39'];
+    const yearAll = [nowYear - 1, nowYear, nowYear + 1];
+
+    if (nowMonth < 10) {
+      nowMonth = `0${nowMonth}`;
+  }
+  let today = `${nowYear}${nowMonth}01`;
+
+    //페이지 번호
+    let pageNum = 1;
+
     // 지역, 연도, 월 선택박스 생성
     function optionAdd() {
-      const area = "<%- selected.area %>"
-      const nowYear = parseInt("<%- selected.year %>");
-      const nowMonth = parseInt("<%- selected.month %>")
-      const today = "<%- selected.today %>"
-      const areaAll = ['전국', '서울', '인천','대전','대구','광주','부산','울산','세종','경기','강원','충북','충남','경북','경남','전북','전남','제주']
-      const valueAll = ['','1','2','3','4','5','6','7','8','31','32','33','34','35','36','37','38','39'];
-      const yearAll = [nowYear -1, nowYear, nowYear+1];
+      axios.get('/').then(function () {
+        for (let i = 0; i < areaAll.length; i++) {
+          if (valueAll[i] === area) {
+            $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
+          } else {
+            $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
+          }
+        }
+      })
+        .then(function () {
+          for (const year in yearAll) {
+            if (yearAll[year] === nowYear) {
+              $('#year').append(`<option value="${yearAll[year]}" selected >${yearAll[year]}년</option>`)
+            } else {
+              $('#year').append(`<option value="${yearAll[year]}" >${yearAll[year]}년</option>`)
+            }
+          }
+        })
+        .then(function () {
+          for (let i = 1; i <= 12; i++) {
+            if (i === parseInt(nowMonth)) {
+              $('#month').append(`<option value="${i}" selected>${i}월</option>`)
+            } else {
+              $('#month').append(`<option value="${i}">${i}월</option>`)
+            }
+          }
+        })
 
-      axios.get('/').then(function() {
-        for(let i = 0; i < areaAll.length; i++) {
-        if(valueAll[i] === area) {
-          $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
-        } else {
-          $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
-        }
-      }
-      })
-      .then(function() {
-        for(const year in yearAll) {
-          if(yearAll[year] === nowYear) {
-          $('#year').append(`<option value="${yearAll[year]}" selected >${yearAll[year]}년</option>`)
-          } else {
-            $('#year').append(`<option value="${yearAll[year]}" >${yearAll[year]}년</option>`)
-          }
-        }
-      })
-      .then(function() {
-        console.log(nowMonth)
-        for(let i = 1; i<=12; i++) {
-          if(i === nowMonth) {
-            $('#month').append(`<option value="${i}" selected>${i}월</option>`)
-          } else {
-            $('#month').append(`<option value="${i}">${i}월</option>`)
-          }
-        }
-      })
-      
     }
 
-    function init() {
-      optionAdd()
-      axios.get(`${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=1&pageNo=1&numOfRows=6&eventEndDate=20200801`)
+    function changeArea(value) {
+      area = value;
+      pageNum = 1;
+      $('#eventStart').empty();
+      $('#morebtn').empty();
+      festivalList()
+    }
+
+    function changeYear(value) {
+      nowYear = value;
+      today = `${nowYear}${nowMonth}01`;
+      pageNum = 1;
+      $('#eventStart').empty();
+      $('#morebtn').empty();
+      festivalList()
+    }
+
+    function changeMonth(value) {
+      nowMonth = value;
+      today = `${nowYear}${nowMonth}01`;
+      pageNum = 1;
+      $('#eventStart').empty();
+      $('#morebtn').empty();
+      festivalList()
+    }
+
+    function onMore() {
+      pageNum += 1;
+      festivalList()
+    }
+
+    function festivalList() {
+      axios.get(`${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${area}&pageNo=${pageNum}&numOfRows=6&eventEndDate=${today}`)
         .then(function (response) {
           const list = response.data.response.body.items.item;
           console.log(list)
-          list.forEach(data => {
-            $('#eventStart').append(
-              `
+          if (Array.isArray(list)) {
+            if (list !== undefined) {
+              list.forEach(data => {
+                $('#eventStart').append(
+                  `
               <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
             <div class="blog-entry" data-aos-delay="100">
               <form action="/mapstival/detail" method="get">
@@ -232,10 +271,59 @@
             </div>
           </div>
               `
+                );
+              })
+              if (list.length === 6) {
+            $('#morebtn').empty()
+            $('#morebtn').append(
+              `
+              <button name="buttonClick" onclick="onMore()"><img src="/images/more.png" width="140px"
+              height="60px" /></button><br><br><br><br>
+              `
+            )
+          } else {
+            $('#morebtn').empty();
+          }
+            } else {
+              $('#eventStart').empty();
+              $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
+            }
+          } else if (response.data.response.body.items == "") {
+            $('#eventStart').empty();
+            $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
+          } else {
+            $('#eventStart').append(
+              `
+              <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+            <div class="blog-entry" data-aos-delay="100">
+              <form action="/mapstival/detail" method="get">
+                <input type="hidden" name="id" value="${list.contentid}">
+                <button type="submit">
+                  <img  class="block-20" src="${list.firstimage}" width="335px" />
+            </button>
+              </form>
+              <div class="text p-4 d-block">
+                <div class="meta mb-3">
+                  <div>일정</div>
+                  <div class="appendHtml"> </div>
+                  <div>${list.eventstartdate} ~ ${list.eventenddate}</div>
+                  <div><a class="meta-chat"><span class="icon-chat"></span> 6</a></div>
+                </div>
+                <h3 id="festivaltitle">${list.title}<br></h3>
+              </div>
+            </div>
+          </div>
+              `
             );
-          })
+          }
         })
     }
+
+    function init() {
+      festivalList()
+      optionAdd()
+    }
+
     init()
 
   </script>
@@ -247,14 +335,14 @@
     <div class="dropdown">
       <a href="/mapstival/gmap"><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
     </div>
-  <br/>
-    <select class="area" id="area" name="area">
+    <br />
+    <select onchange="changeArea(this.value)" class="area" id="area" name="area">
     </select>
-    <select class="year" id="year" name="year">
+    <select onchange="changeYear(this.value)" class="year" id="year" name="year">
     </select>
-    <select class="month" id="month" name="month">
+    <select onchange="changeMonth(this.value)" class="month" id="month" name="month">
     </select>
-  
+
   </div>
   </div>
   <% include ../includes/topbutton %>
@@ -264,47 +352,42 @@
       </div>
       <div>
         <div class="col text-center">
-          <div class="rcc">
-            <% if(hidden == "") { %>
-            <form action="/mapstival/main" method="POST">
-              <button name="buttonClick" value="ok"><img src="/images/more.png" width="140px"
-                  height="60px" /></button><br><br><br><br>
-            </form>
-            <%}%>
-            </div>
+          <div class="rcc" id="morebtn">
+
           </div>
         </div>
       </div>
-    </section>
-    <br><br>
-    <% include ../includes/footer %>
+    </div>
+  </section>
+  <br><br>
+  <% include ../includes/footer %>
 
 
-            <!-- loader -->
-            <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-                <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-                <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                  stroke="#F96D00" /></svg></div>
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" /></svg></div>
 
 
 
 
-            <script src="/js/jquery-migrate-3.0.1.min.js"></script>
-            <script src="/js/popper.min.js"></script>
-            <script src="/js/bootstrap.min.js"></script>
-            <script src="/js/jquery.easing.1.3.js"></script>
-            <script src="/js/jquery.waypoints.min.js"></script>
-            <script src="/js/jquery.stellar.min.js"></script>
-            <script src="/js/owl.carousel.min.js"></script>
-            <script src="/js/jquery.magnific-popup.min.js"></script>
-            <script src="/js/aos.js"></script>
-            <script src="/js/jquery.animateNumber.min.js"></script>
-            <script src="/js/bootstrap-datepicker.js"></script>
-            <script src="/js/jquery.timepicker.min.js"></script>
-            <script
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-            <script src="/js/main.js"></script>
-            <script src="/js/topbutton.js"></script>
+  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.easing.1.3.js"></script>
+  <script src="/js/jquery.waypoints.min.js"></script>
+  <script src="/js/jquery.stellar.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/aos.js"></script>
+  <script src="/js/jquery.animateNumber.min.js"></script>
+  <script src="/js/bootstrap-datepicker.js"></script>
+  <script src="/js/jquery.timepicker.min.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/topbutton.js"></script>
 </body>
 
 </html>
