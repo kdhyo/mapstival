@@ -172,8 +172,8 @@
 
     if (nowMonth < 10) {
       nowMonth = `0${nowMonth}`;
-  }
-  let today = `${nowYear}${nowMonth}01`;
+    }
+    let today = `${nowYear}${nowMonth}01`;
 
     //페이지 번호
     let pageNum = 1;
@@ -229,6 +229,9 @@
 
     function changeMonth(value) {
       nowMonth = value;
+      if (nowMonth < 10) {
+        nowMonth = `0${nowMonth}`;
+      }
       today = `${nowYear}${nowMonth}01`;
       pageNum = 1;
       $('#eventStart').empty();
@@ -274,16 +277,16 @@
                 );
               })
               if (list.length === 6) {
-            $('#morebtn').empty()
-            $('#morebtn').append(
-              `
+                $('#morebtn').empty()
+                $('#morebtn').append(
+                  `
               <button name="buttonClick" onclick="onMore()"><img src="/images/more.png" width="140px"
               height="60px" /></button><br><br><br><br>
               `
-            )
-          } else {
-            $('#morebtn').empty();
-          }
+                )
+              } else {
+                $('#morebtn').empty();
+              }
             } else {
               $('#eventStart').empty();
               $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
