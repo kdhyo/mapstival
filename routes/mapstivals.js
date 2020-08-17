@@ -6,17 +6,15 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const API = require("../config/apikey");
 const axios = require("axios");
-const GAPI = require("../config/gapikey.json");
-const naverid = require("../config/naverKey.json");
-const naversecret = require("../config/naverKey.json");
 
 // API key 선언
-const client_id = naverid.client_id;
-const client_secret = naversecret.client_secret;
-const GAPI_KEY = GAPI.GAPI_KEY;
-const API_KEY = API.API_KEY;
-const API_URL = API.API_URL;
-const API_ETC = API.API_ETC;
+const GOOGLE_KEY = API.googleAPI.API_KEY;
+const NAVER_ID = API.naverAPI.CLIENT_ID;
+const NAVER_SECRET = API.naverAPI.CLIENT_SECRET;
+
+const FESTIVAL_KEY = API.festivalAPI.API_KEY;
+const FESTIVAL_URL = API.festivalAPI.API_URL;
+const FESTIVAL_ETC = API.festivalAPI.API_ETC;
 
 let INFO_URL = null;
 let URL = null;
@@ -159,8 +157,8 @@ router.get("/detail", async function (req, res, next) {
 
   value = req.query.id;
 
-  INFO_URL = `${API_URL}detailCommon?ServiceKey=${API_KEY}&contentId=${value}${API_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
-  let DETAIL_URL = `${API_URL}detailIntro?ServiceKey=${API_KEY}${API_ETC}&contentId=${value}&contentTypeId=15`;
+  INFO_URL = `${FESTIVAL_URL}detailCommon?ServiceKey=${FESTIVAL_KEY}&contentId=${value}${FESTIVAL_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
+  let DETAIL_URL = `${FESTIVAL_URL}detailIntro?ServiceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&contentId=${value}&contentTypeId=15`;
   let tourData = null;
   let detail_Data = null;
 
@@ -191,8 +189,8 @@ router.get("/detail", async function (req, res, next) {
       "&display=6"; // json 결과
     var config = {
       headers: {
-        "X-Naver-Client-Id": client_id,
-        "X-Naver-Client-Secret": client_secret,
+        "X-Naver-Client-Id": NAVER_ID,
+        "X-Naver-Client-Secret": NAVER_SECRET,
       },
     };
     try {
@@ -203,8 +201,8 @@ router.get("/detail", async function (req, res, next) {
     }
     //구글 평점 리뷰 가져오기
     getResponse(() => {
-      var ratings = rating%1;
-      ratings = (ratings.toFixed(1))*10;
+      var ratings = rating % 1;
+      ratings = ratings.toFixed(1) * 10;
       rating = Math.floor(rating);
 
       res.render("mapstival/detail", {
@@ -212,7 +210,7 @@ router.get("/detail", async function (req, res, next) {
         data: tourData,
         detail: detail_Data,
         rating: rating,
-        ratings:ratings,
+        ratings: ratings,
         ratingPutNumber: ratingPutNumber,
         dbData: dbData,
       });
@@ -229,7 +227,7 @@ function getResponse(callback) {
 
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&key=${GAPI_KEY}`
+      `https://maps.googleapis.com/maps/api/place/search/json?location=${reviewequ},${reviewlat}&radius=500&types=point_of_interest&name=${reviewName}&key=${GOOGLE_KEY}`
     )
     .then((response) => {
       if (response.data.status == "OK") {
@@ -237,7 +235,7 @@ function getResponse(callback) {
 
         axios
           .get(
-            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&key=${GAPI_KEY}`
+            `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&key=${GOOGLE_KEY}`
           )
           .then((response) => {
             // for (i = 0; i < 10; i++) {
@@ -310,7 +308,7 @@ router.get("/gmap", function (req, res, next) {
 
 // 행사 날짜 설정
 function apiSetting(startDate, f_area, FNumber) {
-  URL = `${API_URL}searchFestival?serviceKey=${API_KEY}${API_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=${FNumber}&eventEndDate=${startDate}`;
+  URL = `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=${FNumber}&eventEndDate=${startDate}`;
   return URL;
 }
 
