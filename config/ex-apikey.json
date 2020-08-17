@@ -1,5 +1,14 @@
 {
-  "API_KEY": "한국관광공사 투어3.0 키값",
-  "API_URL": "http://api.visitkorea.or.kr/openapi/service/rest/KorService/",
-  "API_ETC": "&MobileOS=ETC&MobileApp=mapstival&arrange=D"
+  "festivalAPI": {
+    "API_KEY": "한국관광공사 투어3.0 키값",
+    "API_URL": "http://api.visitkorea.or.kr/openapi/service/rest/KorService/",
+    "API_ETC": "&MobileOS=ETC&MobileApp=mapstival&arrange=D"
+  },
+  "naverAPI": {
+    "CLIENT_ID": "네이버id키",
+    "CLIENT_SECRET": "네이버시크릿키"
+  },
+  "googleAPI": {
+    "API_KEY": "구글api키"
+  }
 }

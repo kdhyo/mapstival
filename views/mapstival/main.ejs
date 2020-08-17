@@ -1,226 +1,274 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <title>Mapstival</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet">
+<head>
+  <title>Mapstival</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="/css/animate.css">
-    
-    <link rel="stylesheet" href="/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/css/magnific-popup.css">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/aos.css">
+  <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="/css/animate.css">
 
-    <link rel="stylesheet" href="/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/css/magnific-popup.css">
 
-    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="/css/jquery.timepicker.css">
+  <link rel="stylesheet" href="/css/aos.css">
 
-    <link rel="shortcut icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" href="/css/ionicons.min.css">
 
-    <link rel="stylesheet" href="/css/flaticon.css">
-    <link rel="stylesheet" href="/css/icomoon.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
-        .dropbtn {
-        background-color: none;
-        color: none;
-        padding: 0px;
-        font-size: 0px;
-        border: none;
-        outline: none;
-      }
+  <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="/css/jquery.timepicker.css">
 
-      .dropdown {
-        position: relative;
-        display: inline-block;
-        outline: none;
-      }
+  <link rel="shortcut icon" href="/images/favicon.ico" />
 
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fff;
-        min-width: 150px;
-        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.5);
-        z-index: 1;
-        outline: none;
-      }
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/css/icomoon.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .dropbtn {
+      background-color: none;
+      color: none;
+      padding: 0px;
+      font-size: 0px;
+      border: none;
+      outline: none;
+    }
 
-      .dropdown-content a {
-        color: black;
-        padding:0;
-        text-decoration: none;
-        display: block;
-        opacity: 0.5;
-        outline: none;
-      }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      outline: none;
+    }
 
-      .dropdown-content a:hover {background-color: #fff; opacity: 1; outline: none;}
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 150px;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      outline: none;
+    }
 
-      .dropdown:hover .dropdown-content {display: block; outline: none;}
+    .dropdown-content a {
+      color: black;
+      padding: 0;
+      text-decoration: none;
+      display: block;
+      opacity: 0.5;
+      outline: none;
+    }
 
-      .dropdown:hover .dropbtn {background-color: none; outline: none;}
+    .dropdown-content a:hover {
+      background-color: #fff;
+      opacity: 1;
+      outline: none;
+    }
 
-      button {border: 0px; outline: 0px; background-color: #fff; outline: none;}
+    .dropdown:hover .dropdown-content {
+      display: block;
+      outline: none;
+    }
 
-    .buttons {text-align: center; padding-top: 30px; outline: none;}
+    .dropdown:hover .dropbtn {
+      background-color: none;
+      outline: none;
+    }
 
-    .area{
+    button {
+      border: 0px;
+      outline: 0px;
+      background-color: #fff;
+      outline: none;
+    }
+
+    .buttons {
+      text-align: center;
+      padding-top: 30px;
+      outline: none;
+    }
+
+    .area {
       width: 80px;
       height: 30px;
       border-width: 2.4px;
       border-radius: 5px;
-      border-color:#85d3ff;
-      text-align:center;
+      border-color: #85d3ff;
+      text-align: center;
       color: #85d3ff;
       /* color: #85d3ff; */
       opacity: 1;
     }
-    .year{
+
+    .year {
       width: 80px;
       height: 30px;
       border-width: 2.4px;
       border-radius: 5px;
-      border-color:#a9b5fd;
-      text-align:center;
+      border-color: #a9b5fd;
+      text-align: center;
       color: #a9b5fd;
       /* color: #a9b5fd; */
       opacity: 1;
     }
-    .month{
+
+    .month {
       width: 80px;
       height: 30px;
       border-width: 2.4px;
       border-radius: 5px;
-      border-color:#c49efe;
-      text-align:center;
+      border-color: #c49efe;
+      text-align: center;
       color: #c49efe;
       /* color: #e389fc; */
       opacity: 1;
     }
+
     input {
-       width: 80px;
+      width: 80px;
       height: 40px;
       border-width: 2.4px;
       border-radius: 5px;
-      border-color:#e389fc;
-      text-align:center;
+      border-color: #e389fc;
+      text-align: center;
       background: #fff;
       color: #000;
       color: #e389fc;
-  font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
-}
+      font-family: "나눔고딕", "NanumGothic", SDKukdetopokki-Lt;
+    }
 
 
-      .rcc{
-        padding-top: 15px;
+    .rcc {
+      padding-top: 15px;
+    }
+
+    #festivaltitle {
+      font-size: 20px;
+      font-weight: 10;
+      color: black;
+    }
+  </style>
+  <script src="/js/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type='text/javascript'>
+    // API key 선언
+    const GOOGLE_KEY = "<%- API.googleAPI.API_KEY %>";
+    const NAVER_ID = "<%- API.naverAPI.CLIENT_ID %>";
+    const NAVER_SECRET = "<%- API.naverAPI.CLIENT_SECRET %>";
+    const FESTIVAL_KEY = "<%- API.festivalAPI.API_KEY %>";
+    const FESTIVAL_URL = "<%- API.festivalAPI.API_URL %>";
+    const FESTIVAL_ETC = "<%- API.festivalAPI.API_ETC %>";
+
+    // 지역, 연도, 월 선택박스 생성
+    function optionAdd() {
+      const area = "<%- selected.area %>"
+      const nowYear = parseInt("<%- selected.year %>");
+      const nowMonth = parseInt("<%- selected.month %>")
+      const today = "<%- selected.today %>"
+      const areaAll = ['전국', '서울', '인천','대전','대구','광주','부산','울산','세종','경기','강원','충북','충남','경북','경남','전북','전남','제주']
+      const valueAll = ['','1','2','3','4','5','6','7','8','31','32','33','34','35','36','37','38','39'];
+      const yearAll = [nowYear -1, nowYear, nowYear+1];
+
+      axios.get('/').then(function() {
+        for(let i = 0; i < areaAll.length; i++) {
+        if(valueAll[i] === area) {
+          $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
+        } else {
+          $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
+        }
       }
+      })
+      .then(function() {
+        for(const year in yearAll) {
+          if(yearAll[year] === nowYear) {
+          $('#year').append(`<option value="${yearAll[year]}" selected >${yearAll[year]}년</option>`)
+          } else {
+            $('#year').append(`<option value="${yearAll[year]}" >${yearAll[year]}년</option>`)
+          }
+        }
+      })
+      .then(function() {
+        console.log(nowMonth)
+        for(let i = 1; i<=12; i++) {
+          if(i === nowMonth) {
+            $('#month').append(`<option value="${i}" selected>${i}월</option>`)
+          } else {
+            $('#month').append(`<option value="${i}">${i}월</option>`)
+          }
+        }
+      })
+      
+    }
 
-      #festivaltitle{
-        font-size: 20px;
-        font-weight: 10;
-        color: black;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="buttons">
-      <% if (data != "") { %>
-      <div class="dropdown">
-        <a href="/mapstival/gmap" ><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
-      </div>
-      <% } %>
-      <form action="/mapstival/main" method="POST">
-        <select class="area" name="f_area">
-          <option value="" <%= (selected.f_area === '') ? 'selected' : "" %> >전국</option>
-          <option value="1" <%= (selected.f_area === '1') ? 'selected' : "" %> >서울</option>
-          <option value="2" <%= (selected.f_area === '2') ? 'selected' : "" %> >인천</option>
-          <option value="3" <%= (selected.f_area === '3') ? 'selected' : "" %> >대전</option>
-          <option value="4" <%= (selected.f_area === '4') ? 'selected' : "" %> >대구</option>
-          <option value="5" <%= (selected.f_area === '5') ? 'selected' : "" %> >광주</option>
-          <option value="6" <%= (selected.f_area === '6') ? 'selected' : "" %> >부산</option>
-          <option value="7" <%= (selected.f_area === '7') ? 'selected' : "" %> >울산</option>
-          <option value="8" <%= (selected.f_area === '8') ? 'selected' : "" %> >세종</option>
-          <option value="31" <%= (selected.f_area === '31') ? 'selected' : "" %> >경기</option>
-          <option value="32" <%= (selected.f_area === '32') ? 'selected' : "" %> >강원</option>
-          <option value="33" <%= (selected.f_area === '33') ? 'selected' : "" %> >충북</option>
-          <option value="34" <%= (selected.f_area === '34') ? 'selected' : "" %> >충남</option>
-          <option value="35" <%= (selected.f_area === '35') ? 'selected' : "" %> >경북</option>
-          <option value="36" <%= (selected.f_area === '36') ? 'selected' : "" %> >경남</option>
-          <option value="37" <%= (selected.f_area === '37') ? 'selected' : "" %> >전북</option>
-          <option value="38" <%= (selected.f_area === '38') ? 'selected' : "" %> >전남</option>
-          <option value="39" <%= (selected.f_area === '39') ? 'selected' : "" %> >제주</option>
-        </select>
-        <select class="year" name="startYear">
-          <option value="2019" <%= (selected.Year === '2019') ? 'selected' : "" %> >2019년</option>
-          <option value="2020" <%= (selected.Year === '2020') ? 'selected' : "" %> >2020년</option>
-          <option value="2021" <%= (selected.Year === '2021') ? 'selected' : "" %> >2021년</option>
-        </select>
-        <select class="month" name="startMonth">
-          <option value="01" <%= (selected.Month === '01') ? 'selected' : "" %>>01월</option>
-          <option value="02" <%= (selected.Month === '02') ? 'selected' : "" %> >02월</option>
-          <option value="03" <%= (selected.Month === '03') ? 'selected' : "" %> >03월</option>
-          <option value="04" <%= (selected.Month === '04') ? 'selected' : "" %> >04월</option>
-          <option value="05" <%= (selected.Month === '05') ? 'selected' : "" %> >05월</option>
-          <option value="06" <%= (selected.Month === '06') ? 'selected' : "" %> >06월</option>
-          <option value="07" <%= (selected.Month === '07') ? 'selected' : "" %> >07월</option>
-          <option value="08" <%= (selected.Month === '08') ? 'selected' : "" %> >08월</option>
-          <option value="09" <%= (selected.Month === '09') ? 'selected' : "" %> >09월</option>
-          <option value="10" <%= (selected.Month === '10') ? 'selected' : "" %> >10월</option>
-          <option value="11" <%= (selected.Month === '11') ? 'selected' : "" %> >11월</option>
-          <option <%= (selected.Month === '12') ? 'selected' : "" %> value="12"  >12월</option>
-        </select>
-        <input type="submit" value="변경" />
-      </form>
-    </div>
-  </div>
-  <% include ../includes/topbutton %>
-    <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
-          <% if(data != "") { %>
-          <% for (i=0; i < data.length; i++) { %>
-          <div class="col-md-4 ftco-animate">
+    function init() {
+      optionAdd()
+      axios.get(`${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=1&pageNo=1&numOfRows=6&eventEndDate=20200801`)
+        .then(function (response) {
+          const list = response.data.response.body.items.item;
+          console.log(list)
+          list.forEach(data => {
+            $('#eventStart').append(
+              `
+              <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
             <div class="blog-entry" data-aos-delay="100">
               <form action="/mapstival/detail" method="get">
-                <input type="hidden" name="id" value="<%= data[i].contentid%>">
-              <% if(data[i].firstimage != null) {%>
+                <input type="hidden" name="id" value="${data.contentid}">
                 <button type="submit">
-                  <img  class="block-20" src="<%= data[i].firstimage%>" width="335px" />
+                  <img  class="block-20" src="${data.firstimage}" width="335px" />
             </button>
-            <% } else { %>
-              <button type="submit">
-                <img  class="block-20" src="/images/imagenone7.png"  width="335px" />
-          </button>
-              <% } %>
               </form>
               <div class="text p-4 d-block">
                 <div class="meta mb-3">
                   <div>일정</div>
-                  <div><%= data[i].eventstartdate %> ~ <%= data[i].eventenddate %></div>
+                  <div class="appendHtml"> </div>
+                  <div>${data.eventstartdate} ~ ${data.eventenddate}</div>
                   <div><a class="meta-chat"><span class="icon-chat"></span> 6</a></div>
                 </div>
-                <h3 id="festivaltitle"><%= data[i].title%><br></h3>
+                <h3 id="festivaltitle">${data.title}<br></h3>
               </div>
             </div>
           </div>
-          <% } %>
-          <% } else {%>
-            <h5>축제 정보가 존재하지 않습니다.</h5>
-            <%}%>
-        </div>
-        <div>
-          <div class="col text-center">
-            <div class="rcc">
-              <% if(hidden == "") { %>
-              <form action="/mapstival/main" method="POST">
-              <button name="buttonClick" value="ok"><img src="/images/more.png" width="140px" height="60px" /></button><br><br><br><br>
+              `
+            );
+          })
+        })
+    }
+    init()
+
+  </script>
+</head>
+
+<body>
+  <div class="buttons">
+
+    <div class="dropdown">
+      <a href="/mapstival/gmap"><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
+    </div>
+  <br/>
+    <select class="area" id="area" name="area">
+    </select>
+    <select class="year" id="year" name="year">
+    </select>
+    <select class="month" id="month" name="month">
+    </select>
+  
+  </div>
+  </div>
+  <% include ../includes/topbutton %>
+  <section class="ftco-section ftco-degree-bg">
+    <div class="container">
+      <div class="row" id="eventStart">
+      </div>
+      <div>
+        <div class="col text-center">
+          <div class="rcc">
+            <% if(hidden == "") { %>
+            <form action="/mapstival/main" method="POST">
+              <button name="buttonClick" value="ok"><img src="/images/more.png" width="140px"
+                  height="60px" /></button><br><br><br><br>
             </form>
             <%}%>
             </div>
@@ -230,32 +278,33 @@
     </section>
     <br><br>
     <% include ../includes/footer %>
-    
-  
-
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-  
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/jquery.easing.1.3.js"></script>
-  <script src="/js/jquery.waypoints.min.js"></script>
-  <script src="/js/jquery.stellar.min.js"></script>
-  <script src="/js/owl.carousel.min.js"></script>
-  <script src="/js/jquery.magnific-popup.min.js"></script>
-  <script src="/js/aos.js"></script>
-  <script src="/js/jquery.animateNumber.min.js"></script>
-  <script src="/js/bootstrap-datepicker.js"></script>
-  <script src="/js/jquery.timepicker.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/topbutton.js"></script>
-  <script>
-    
-  </script>
-  </body>
+            <!-- loader -->
+            <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+                <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+                <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                  stroke="#F96D00" /></svg></div>
+
+
+
+
+            <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="/js/popper.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script src="/js/jquery.easing.1.3.js"></script>
+            <script src="/js/jquery.waypoints.min.js"></script>
+            <script src="/js/jquery.stellar.min.js"></script>
+            <script src="/js/owl.carousel.min.js"></script>
+            <script src="/js/jquery.magnific-popup.min.js"></script>
+            <script src="/js/aos.js"></script>
+            <script src="/js/jquery.animateNumber.min.js"></script>
+            <script src="/js/bootstrap-datepicker.js"></script>
+            <script src="/js/jquery.timepicker.min.js"></script>
+            <script
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/topbutton.js"></script>
+</body>
+
 </html>

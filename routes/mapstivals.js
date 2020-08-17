@@ -11,7 +11,6 @@ const axios = require("axios");
 const GOOGLE_KEY = API.googleAPI.API_KEY;
 const NAVER_ID = API.naverAPI.CLIENT_ID;
 const NAVER_SECRET = API.naverAPI.CLIENT_SECRET;
-
 const FESTIVAL_KEY = API.festivalAPI.API_KEY;
 const FESTIVAL_URL = API.festivalAPI.API_URL;
 const FESTIVAL_ETC = API.festivalAPI.API_ETC;
@@ -38,116 +37,85 @@ let gtitle = null;
 
 //축제 메인페이지
 router.get("/", function (req, res, next) {
-  f_area = req.query.f_area;
+  // 지역 선택 초기 값
+  let area = req.query.area;
+  let newDate = new Date();
+  let year = newDate.getFullYear();
+  let month = newDate.getMonth() + 1;
 
-  const newDate = new Date();
-  let Year = newDate.getFullYear();
-  let Month = newDate.getMonth();
-  //파라미타 값이 있으면 그걸로
-  if (req.query.year != null) {
-    Year = req.query.year;
+  if (month < 10) {
+    month = `0${month}`;
   }
-  if (req.query.Month != null) {
-    Month = req.query.Month;
-  }
-
-  if (Month < 10) {
-    Month = `0${Month}`;
-  }
-  const today = `${Year}${Month}01`;
+  const today = `${year}${month}01`;
 
   const selected = {
-    Month: `${Month}`,
-    Year: `${Year}`,
-    f_area: `${f_area}`,
+    month: `${month}`,
+    year: `${year}`,
+    area: `${area}`,
+    today: `${today}`,
   };
 
-  axios
-    .get(`${apiSetting(today, f_area, FNumber)}`)
-    .then((response) => {
-      let tourData = [];
-      const list = response.data.response.body.items.item;
-      if (Array.isArray(list)) {
-        if (list != undefined) {
-          for (data in list) {
-            tourData.push(list[data]);
-          }
-        } else {
-          tourData = null;
-        }
-      } else if (response.data.response.body.items === "") {
-        tourData = null;
-      } else {
-        tourData.push(list);
-      }
-      if (tourData.length < FNumber) {
-        hidden = "ok";
-      }
-      res.render("mapstival/main", {
-        data: tourData,
-        selected: selected,
-        hidden: hidden,
-      });
-    })
-    .catch((e) => {
-      res.send(e);
-    });
+  res.render("mapstival/main", {
+    selected,
+    hidden,
+    API,
+  });
 });
 
 //축제 날짜 지역 post로 받아오기
-router.post("/main", function (req, res, next) {
-  if (req.body.startYear) {
-    startYear = req.body.startYear;
-    startMonth = req.body.startMonth;
-    startDate = startYear + startMonth + "01";
-    f_area = req.body.f_area;
-    selected = {
-      Month: `${startMonth}`,
-      Year: `${startYear}`,
-      f_area: `${f_area}`,
-    };
-    FNumber = 6;
-    hidden = "";
-  } else if (req.body.buttonClick) {
-    MaxNumber = 6 + FNumber;
-    FNumber += 6;
-  }
+// router.post("/main", function (req, res, next) {
+//   if (req.body.startYear) {
+//     startYear = req.body.startYear;
+//     startMonth = req.body.startMonth;
+//     startDate = startYear + startMonth + "01";
+//     f_area = req.body.f_area;
+//     selected = {
+//       Month: `${startMonth}`,
+//       Year: `${startYear}`,
+//       f_area: `${f_area}`,
+//     };
+//     FNumber = 6;
+//     hidden = "";
+//   } else if (req.body.buttonClick) {
+//     MaxNumber = 6 + FNumber;
+//     FNumber += 6;
+//   }
 
-  // console.log(startDate);
+//   // console.log(startDate);
 
-  axios
-    .get(`${apiSetting(startDate, f_area, FNumber)}`)
-    .then((response) => {
-      tourData = [];
-      const list = response.data.response.body.items.item;
-      if (Array.isArray(list)) {
-        if (list != undefined) {
-          for (data in list) {
-            tourData.push(list[data]);
-          }
-        } else {
-          console.log("두번째 if");
-          tourData = null;
-        }
-      } else if (response.data.response.body.items == "") {
-        console.log("첫번째 if");
-        tourData = "";
-      } else {
-        tourData.push(list);
-      }
-      if (tourData.length < FNumber) {
-        hidden = "ok";
-      }
-      res.render("mapstival/main", {
-        data: tourData,
-        selected: selected,
-        hidden: hidden,
-      });
-    })
-    .catch((e) => {
-      res.send(e);
-    });
-});
+//   axios
+//     .get(`${apiSetting(startDate, f_area, FNumber)}`)
+//     .then((response) => {
+//       tourData = [];
+//       const list = response.data.response.body.items.item;
+//       if (Array.isArray(list)) {
+//         if (list != undefined) {
+//           for (data in list) {
+//             tourData.push(list[data]);
+//           }
+//         } else {
+//           console.log("두번째 if");
+//           tourData = null;
+//         }
+//       } else if (response.data.response.body.items == "") {
+//         console.log("첫번째 if");
+//         tourData = "";
+//       } else {
+//         tourData.push(list);
+//       }
+//       if (tourData.length < FNumber) {
+//         hidden = "ok";
+//       }
+//       res.render("mapstival/main", {
+//         data: tourData,
+//         selected: selected,
+//         hidden: hidden,
+//       });
+//     })
+//     .catch((e) => {
+//       res.send(e);
+//     });
+// });
 
 //상세정보 페이지 이동
 //비동기 처리방식
