@@ -154,14 +154,8 @@
   <script src="/js/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type='text/javascript'>
-    // API key 선언
-    const GOOGLE_KEY = "<%- API.googleAPI.API_KEY %>";
-    const NAVER_ID = "<%- API.naverAPI.CLIENT_ID %>";
-    const NAVER_SECRET = "<%- API.naverAPI.CLIENT_SECRET %>";
-    const FESTIVAL_KEY = "<%- API.festivalAPI.API_KEY %>";
-    const FESTIVAL_URL = "<%- API.festivalAPI.API_URL %>";
-    const FESTIVAL_ETC = "<%- API.festivalAPI.API_ETC %>";
-
+  //페이지 번호
+  let pageNum = 1;
     //지역, 연도, 월, 현재날짜 설정 변수
     let area = "<%- selected.area %>"
     let nowYear = parseInt("<%- selected.year %>");
@@ -170,13 +164,12 @@
     const valueAll = ['', '1', '2', '3', '4', '5', '6', '7', '8', '31', '32', '33', '34', '35', '36', '37', '38', '39'];
     const yearAll = [nowYear - 1, nowYear, nowYear + 1];
 
+    //초기 날짜 설정
     if (nowMonth < 10) {
       nowMonth = `0${nowMonth}`;
     }
-    let today = `${nowYear}${nowMonth}01`;
+    let date = `${nowYear}${nowMonth}01`;
 
-    //페이지 번호
-    let pageNum = 1;
 
     // 지역, 연도, 월 선택박스 생성
     function optionAdd() {
@@ -220,7 +213,7 @@
 
     function changeYear(value) {
       nowYear = value;
-      today = `${nowYear}${nowMonth}01`;
+      date = `${nowYear}${nowMonth}01`;
       pageNum = 1;
       $('#eventStart').empty();
       $('#morebtn').empty();
@@ -232,7 +225,7 @@
       if (nowMonth < 10) {
         nowMonth = `0${nowMonth}`;
       }
-      today = `${nowYear}${nowMonth}01`;
+      date = `${nowYear}${nowMonth}01`;
       pageNum = 1;
       $('#eventStart').empty();
       $('#morebtn').empty();
@@ -244,10 +237,15 @@
       festivalList()
     }
 
-    function festivalList() {
-      axios.get(`${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${area}&pageNo=${pageNum}&numOfRows=6&eventEndDate=${today}`)
-        .then(function (response) {
-          const list = response.data.response.body.items.item;
+    async function festivalList() {
+      const data = {
+            area: area,
+            pageNum: pageNum,
+            date: date
+      }
+      const test = await axios.post(`http://localhost:3000/mapstival/search`, data)
+      .then(function (response) {
+        const list = response.data.items.item;
           console.log(list)
           if (Array.isArray(list)) {
             if (list !== undefined) {
@@ -291,7 +289,7 @@
               $('#eventStart').empty();
               $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
             }
-          } else if (response.data.response.body.items == "") {
+          } else if (response.data.items == "") {
             $('#eventStart').empty();
             $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
           } else {
@@ -320,6 +318,7 @@
             );
           }
         })
+
     }
 
     function init() {

@@ -15,18 +15,7 @@ const FESTIVAL_KEY = API.festivalAPI.API_KEY;
 const FESTIVAL_URL = API.festivalAPI.API_URL;
 const FESTIVAL_ETC = API.festivalAPI.API_ETC;
 
-let INFO_URL = null;
-let URL = null;
-let tourData = [];
-let FNumber = 6;
-let hidden = "";
-
 // 맵 초기값 셋팅
-let startYear = 2020;
-let startMonth = 05;
-let startDate = 20200501;
-let f_area = 1;
-let selected = [];
 
 let reference = null;
 let rating = null;
@@ -48,11 +37,29 @@ router.get("/", function (req, res, next) {
     year: `${year}`,
     area: `${area}`,
   };
-
   res.render("mapstival/main", {
     selected,
-    API,
   });
+});
+
+router.post("/search", async function (req, res, next) {
+  try {
+    if (req.body) {
+      const area = req.body.area,
+        pageNum = req.body.pageNum,
+        date = req.body.date;
+
+      let festivalData = await axios.get(
+        `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${area}&pageNo=${pageNum}&numOfRows=6&eventEndDate=${date}`
+      );
+      const data = festivalData.data.response.body;
+      res.json(data);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  // axios.get(``)
+  //       .then(function (response) {
 });
 
 //축제 날짜 지역 post로 받아오기
