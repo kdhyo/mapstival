@@ -148,7 +148,7 @@ async function drop(gmapTitle, contentid) {
         contentid
       ); // 'neighborhoods[i]' 는 적도 위도값, 'i * 100' 는 마커들 떨어지는 속도 조절, 'gmapTitle[i]' 는 마커들 마우스 커서시 타이틀 보여주기
     }
-  }, 500);
+  }, 100);
 }
 
 var image = "../images/flower.gif"; //꽃모양 아이콘
