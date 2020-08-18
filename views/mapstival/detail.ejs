@@ -33,11 +33,18 @@
 
 </head>
 <style>
-  @font-face { font-family: 'Cafe24Simplehae'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff'); font-weight: normal; font-style: normal; }
+  @font-face {
+    font-family: 'Cafe24Simplehae';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   .festivaltitle {
     text-align: center;
   }
-  .heading1{
+
+  .heading1 {
     font-family: "Cafe24Simplehae", "NanumGothic", SDKukdetopokki-Lt;
   }
 
@@ -48,36 +55,39 @@
   .rat {
     text-align: center;
   }
-  .card-body{
-      width: 100% ;
-      height: 100%;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#85d3ff;
-      text-align:center;
-      color: #85d3ff;
-      /* color: #85d3ff; */
-      opacity: 1;
-      background-color: #fff;
-    }
-    .card-body input {
-      width: 100% ;
-      height: 100%;
-      border-width: 2.4px;
-      border-radius: 5px;
-      border-color:#85d3ff;
-      text-align:center;
-      /* color: #85d3ff; */
-      opacity: 1;
-      background-color: #fff;
-    }
-    .hr1 {
+
+  .card-body {
+    width: 100%;
+    height: 100%;
+    border-width: 2.4px;
+    border-radius: 5px;
+    border-color: #85d3ff;
+    text-align: center;
+    color: #85d3ff;
+    /* color: #85d3ff; */
+    opacity: 1;
+    background-color: #fff;
+  }
+
+  .card-body input {
+    width: 100%;
+    height: 100%;
+    border-width: 2.4px;
+    border-radius: 5px;
+    border-color: #85d3ff;
+    text-align: center;
+    /* color: #85d3ff; */
+    opacity: 1;
+    background-color: #fff;
+  }
+
+  .hr1 {
     border: 0;
     height: 1.5px;
     background: #ccc;
   }
-
 </style>
+
 <body>
   <div class="container">
     <div class="row">
@@ -148,7 +158,7 @@
       <% } %>
     </h4>
     <div class="comment-form-wrap pt-5">
-      <form action="/board/create?id=<%=data.contentid%>" class="p-5 bg-light" method="post">
+      <form class="p-5 bg-light" action="/" target="none" onsubmit="test()">
         <h4 class="mb-5">축제는 어땠나요?<br>소중한 후기를 적어주세요!</h4>
         <div class="form-group">
           <label for="name">Name *</label>
@@ -160,57 +170,25 @@
         </div>
         <div class="form-group">
           <label for="password">Rating *</label>
-          <div><% include ../includes/star %>
-          </div>
+          <div><% include ../includes/star %></div>
         </div>
         <div class="form-group">
           <label for="message">Message *</label>
           <input id="message" cols="30" rows="10" name="message" class="form-control"></input>
         </div>
         <div class="form-group">
-          <input type="submit" id="nullCK" value="Write" class="btn py-0 px-3  btn-primary" style="font-size: 20px"/>
+          <input type="submit" id="nullCK" value="Write" class="btn py-0 px-3  btn-primary" style="font-size: 20px" />
         </div>
       </form>
     </div>
     <div class="pt-5 mt-5">
-      <h3 class="mb-5">
-        <p><%= dbData.length%> 개의 댓글이 있어요!</p>
+      <h3 class="mb-5" id="dbDataLength">
       </h3>
-      
-      <ul class="comment-list">
-        <% if(dbData !== ""){ %>
-        <% for(i=0; i < dbData.length; i++) { %>
-        <li class="comment">
-          <div class="vcard bio">
-            <img src="/images/leave.jpg" alt="Image placeholder" />
-          </div>
-          <div class="comment-body">
-            <h3><%= dbData[i].nickname%>&nbsp;&nbsp;&nbsp;<button class="btn py-0 px-3 btn-primary" style="font-size: 15px" type=" button" data-toggle="collapse"
-              data-target=".multi-collapse<%=[i]%>" aria-expanded="false" aria-controls="togglePW<%=[i]%>">
-              Edit</button></h3>
-            <div class="meta"><%= dbData[i].updatedAt %></div>
-            <div class="meta">평점:<%= dbData[i].scope%>점
-              
-            </div>
-            <p>
-              <%= dbData[i].review %>
-            </p>
-            <form action="/board/passwordCheck" method="post" class="collapse multi-collapse<%=[i]%>" id="togglePW<%=[i]%>">
-              <input type="hidden" name="idx" value="<%= dbData[i].id%>" />
-              <div >
-                <div class="card card-body">
-                  <input type="password" name="password" value="" / placeholder="글 작성시 등록한 비밀번호를 입력하세요.">
-                  <input type="submit" value="확인" />
-                </div>
-              </div>
-            </form>
-          </div>
-        </li>
-        <% } %>
-        <% } %>
-
+      <ul class="comment-list" id="dbData">
+      </ul>
     </div>
   </div>
+  <iframe name="none" style="display:none;"></iframe>
   <!-- .col-md-8 -->
   <!--keyword-->
   <div class="col-md-4 sidebar ftco-animate">
@@ -220,15 +198,15 @@
           <span class="icon fa fa-search"></span>
           <h3 class="star">
             <% for(i=0; i < rating; i++) { %>
-            <span style="font-size:20px; color:gold;"><img src="../images/star.png" /></span>
+            <span style="font-size:20px; color:gold;"><img src="/images/star.png" /></span>
             <% } %>
             <%if(rating != "") {%>
-              <span style="font-size:20px; color:gold;"><img src="../images/star<%=ratings%>.png" /></span>
-              <% } %>
-            <% for(i = rating+(ratings/10); i < 4.1; i++) { %>
-              <span style="font-size:20px; color:gold;"><img src="../images/star0.png" /></span>
+            <span style="font-size:20px; color:gold;"><img src="/images/star<%=ratings%>.png" /></span>
             <% } %>
-            
+            <% for(i = rating+(ratings/10); i < 4.1; i++) { %>
+            <span style="font-size:20px; color:gold;"><img src="/images/star0.png" /></span>
+            <% } %>
+
           </h3>
           <span class="ion-android-star"></span>
           <h3 class="rat">
@@ -246,12 +224,13 @@
 
     <div class="sidebar-box ftco-animate">
       <h3>Recent Blog</h3>
-      <% for(i=0; i<blogData.length; i++){ %>
+      <% for(i = 0; i < blogData.length; i++){ %>
       <div class="block-21 mb-4 d-flex">
         <div class="text">
           <h3 class="heading">
             <b>
-            <a href="<%= blogData[i].link %>" target="_blank"><img src="/images/title.png" width="40px" height="35px">&nbsp&nbsp<%- blogData[i].title %></a>
+              <a href="<%= blogData[i].link %>" target="_blank"><img src="/images/title.png" width="40px"
+                  height="35px">&nbsp&nbsp<%- blogData[i].title %></a>
             </b>
           </h3>
           <h3 class="heading1">
@@ -259,13 +238,16 @@
           </h3>
           <div class="meta">
             <div>
-              <a href="<%= blogData[i].link %>" target="_blank"><img src="/images/naverblog.png" width="20px" height="16px">&nbsp;<%- blogData[i].bloggername %></a>
+              <a href="<%= blogData[i].link %>" target="_blank"><img src="/images/naverblog.png" width="20px"
+                  height="16px">&nbsp;<%- blogData[i].bloggername %></a>
             </div>
             <div>
-              <a href="<%= blogData[i].link %>" target="_blank">&nbsp;<span class="icon-calendar"></span>&nbsp;&nbsp;<%- blogData[i].postdate %></a>
-            </div><br /><hr class="hr1" />
+              <a href="<%= blogData[i].link %>" target="_blank">&nbsp;<span
+                  class="icon-calendar"></span>&nbsp;&nbsp;<%- blogData[i].postdate %></a>
+            </div><br />
+            <hr class="hr1" />
           </div>
-        </div><br/>
+        </div><br />
       </div>
       <% } %>
     </div>
@@ -274,7 +256,7 @@
   </div>
   </section>
 
-  <br><br>
+  <br><br><a id="focus" type="hidden"></a>
   <% include ../includes/topbutton %>
   <% include ../includes/footer %>
 
@@ -286,7 +268,6 @@
         stroke="#F96D00" />
     </svg>
   </div>
-
 
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
@@ -301,16 +282,15 @@
   <script src="/js/jquery.animateNumber.min.js"></script>
   <script src="/js/bootstrap-datepicker.js"></script>
   <script src="/js/jquery.timepicker.min.js"></script>
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s"></script>
   <script src="/js/main.js"></script>
-
   <script src="/js/star.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
- 
+
   <script>
+    let num = 0;
     //버튼 빈칸인지 확인하기
     $(document).ready(function () {
       $("#nullCK").click(function () {
@@ -320,8 +300,78 @@
       })
     })
   </script>
+  <script>
+    let id = "<%- value %>";
+    function test() {
+      const data = {
+        name: $("#name").val(),
+        password: $("#password").val(),
+        scope: $("#scope").val(),
+        message: $("#message").val(),
+      }
+      try {
+        axios.post(`http://localhost:3000/board/create?id=${id}`, data)
+        .then(async function(test) {
+          await dbDataSearch();
+          location.href=`#focus`
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
 
-<script src="/js/topbutton.js"></script>
+
+    function dbDataSearch() {
+      let dbDate = [];
+      try {
+        axios.post(`http://localhost:3000/board/search`, { id: id })
+        .then((result) => {
+          dbData = result.data;
+          $('#dbDataLength').empty();
+          $('#dbData').empty();
+          $('#dbDataLength').append(`<p>${dbData.length} 개의 댓글이 있어요!</p>`)
+          for(let i in dbData) {
+            num = i;
+            $('#dbData').append(`
+            <li class="comment">
+              <div class="vcard bio">
+                <img src="/images/leave.jpg" alt="Image placeholder" />
+              </div>
+              <div class="comment-body">
+                <h3>${dbData[i].nickname}&nbsp;&nbsp;&nbsp;<button class="btn py-0 px-3 btn-primary"
+                    style="font-size: 15px" type=" button" data-toggle="collapse" data-target=".multi-collapse${[i]}"
+                    aria-expanded="false" aria-controls="togglePW${[i]}">
+                    Edit</button></h3>
+                <div class="meta">${dbData[i].updatedAt}</div>
+                <div class="meta">평점: ${dbData[i].scope}점
+
+                </div>
+                <p>
+                  ${dbData[i].review}
+                </p>
+                <form action="/board/passwordCheck" method="post" class="collapse multi-collapse${[i]}"
+                  id="togglePW${[i]}">
+                  <input type="hidden" name="idx" value="${dbData[i].id}" />
+                  <div>
+                    <div class="card card-body">
+                      <input type="password" name="password" value="" / placeholder="글 작성시 등록한 비밀번호를 입력하세요.">
+                      <input type="submit" value="확인" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+            `)
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+      
+    }
+    dbDataSearch()
+  </script>
+  <script src="/js/topbutton.js"></script>
 </body>
 
 </html>

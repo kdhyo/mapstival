@@ -1,11 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const models = require("../models");
-const board = models.Board;
-const sequelize = require("sequelize");
-const Op = sequelize.Op;
 const API = require("../config/apikey");
 const axios = require("axios");
+const db = require("../models");
 
 // API key 선언
 const GOOGLE_KEY = API.googleAPI.API_KEY;
@@ -65,9 +62,7 @@ router.post("/search", async function (req, res, next) {
 //상세정보 페이지 이동
 //동기 처리방식
 router.get("/detail", async function (req, res, next) {
-  let value = "";
-
-  value = req.query.id;
+  let value = req.query.id;
 
   INFO_URL = `${FESTIVAL_URL}detailCommon?ServiceKey=${FESTIVAL_KEY}&contentId=${value}${FESTIVAL_ETC}&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y`;
   let DETAIL_URL = `${FESTIVAL_URL}detailIntro?ServiceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&contentId=${value}&contentTypeId=15`;
@@ -77,15 +72,6 @@ router.get("/detail", async function (req, res, next) {
   try {
     const INFO = await axios.get(INFO_URL);
     const DETAIL = await axios.get(DETAIL_URL);
-
-    //db 데이터 가져오기
-    const dbData = await board.findAll({
-      where: {
-        festival_id: {
-          [Op.like]: value,
-        },
-      },
-    });
 
     tourData = INFO.data.response.body.items.item;
     detail_Data = DETAIL.data.response.body.items.item;
@@ -124,7 +110,7 @@ router.get("/detail", async function (req, res, next) {
         rating: rating,
         ratings: ratings,
         ratingPutNumber: ratingPutNumber,
-        dbData: dbData,
+        value: value,
       });
     });
   } catch (err) {

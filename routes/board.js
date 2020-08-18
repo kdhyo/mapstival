@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const board = models.Board;
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const crypto = require("crypto");
 
 // 게시판 데이터 받아서 쿼리에 넣어주는 라우터
@@ -24,10 +27,13 @@ router.post("/create", async (req, res) => {
       review: req.body.message,
       salt: salt,
     };
-    const setData = await models.Board.create(data);
-    // console.log(setData);
-    const mapstivalId = encodeURIComponent(req.query.id);
-    return res.redirect("/mapstival/detail/?id=" + mapstivalId);
+
+    const docs = await models.Board.create(data);
+    res.json({
+      code: 200,
+      result: docs,
+      message: "성공",
+    });
   } catch (error) {
     return res.json({
       code: 500,
@@ -158,6 +164,25 @@ router.post("/update", async (req, res) => {
   } catch (error) {
     return res.send("왜 또 시발 에러야", error);
   }
+});
+
+router.post("/search", (req, res) => {
+  const id = req.body.id;
+
+  board
+    .findAll({
+      where: {
+        festival_id: {
+          [Op.like]: id,
+        },
+      },
+    })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = router;
