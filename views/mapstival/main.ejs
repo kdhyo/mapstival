@@ -241,34 +241,17 @@
       festivalList()
     }
 
-    async function festivalList() {
-      await axios.post(`http://localhost:3000/mapstival/search`, dataMerge)
-        .then(function (response) {
-          const list = response.data.items.item;
-          console.log(list)
-          if (Array.isArray(list)) {
-            if (list !== undefined) {
-              list.forEach(data => {
-                if (data.firstimage === undefined) {
-                  $('#eventStart').append(`
+    function eventDataAdd(data) {
+      if (data.firstimage === undefined) {
+        $('#eventStart').append(`
+          <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+            <div class="blog-entry" data-aos-delay="100" >
               <form action="/mapstival/detail" method="get">
                 <input type="hidden" name="id" value="${data.contentid}">
                 <button type="submit">
                   <img  class="block-20" src="./images/imagenone7.png" width="335px" />
-            </button>
-              </form>`);
-
-                } else {
-                  $('#eventStart').append(`
-              <form action="/mapstival/detail" method="get">
-                <input type="hidden" name="id" value="${data.contentid}">
-                <button type="submit">
-                  <img  class="block-20" src="${data.firstimage}" width="335px" />
-            </button>
-              </form>`);
-                }
-                $('#eventStart').append(`
-
+                </button>
+              </form>
               <div class="text p-4 d-block">
                 <div class="meta mb-3">
                   <div>일정</div>
@@ -278,49 +261,66 @@
                 </div>
                 <h3 id="festivaltitle">${data.title}<br></h3>
               </div>
-              `
-                );
-              })
-              if (list.length === 6) {
-                $('#morebtn').empty()
-                $('#morebtn').append(
-                  `
-              <button name="buttonClick" onclick="onMore()"><img src="/images/more.png" width="140px"
-              height="60px" /></button><br><br><br><br>
-              `
-                )
-              } else {
-                $('#morebtn').empty();
-              }
-            } else {
-              $('#eventStart').empty();
-              $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
-            }
-          } else if (response.data.items == "") {
-            $('#eventStart').empty();
-            $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
-          } else {
-            $('#eventStart').append(
-              `
+            </div>
+          </div>`
+        );
+
+      } else {
+        $('#eventStart').append(`
+          <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+            <div class="blog-entry" data-aos-delay="100" >
               <form action="/mapstival/detail" method="get">
-                <input type="hidden" name="id" value="${list.contentid}">
+                <input type="hidden" name="id" value="${data.contentid}">
                 <button type="submit">
-                  <img  class="block-20" src="${list.firstimage}" width="335px" />
-            </button>
+                  <img  class="block-20" src="${data.firstimage}" width="335px" />
+                </button>
               </form>
               <div class="text p-4 d-block">
                 <div class="meta mb-3">
                   <div>일정</div>
                   <div class="appendHtml"> </div>
-                  <div>${list.eventstartdate} ~ ${list.eventenddate}</div>
+                  <div>${data.eventstartdate} ~ ${data.eventenddate}</div>
                   <div><a class="meta-chat"><span class="icon-chat"></span> 6</a></div>
                 </div>
-                <h3 id="festivaltitle">${list.title}<br></h3>
+                <h3 id="festivaltitle">${data.title}<br></h3>
               </div>
-            
-              `
-            );
+            </div>
+          </div>`
+        );
+      }
+    }
+
+    async function festivalList() {
+      await axios.post(`http://localhost:3000/mapstival/search`, dataMerge)
+        .then(function (response) {
+          const list = response.data.items.item;
+          if (Array.isArray(list)) {
+            if (list !== undefined) {
+              list.forEach(data => {
+                eventDataAdd(data);
+              })
+              //More 버튼 생성 여부
+              if (list.length === 6) {
+                $('#morebtn').empty()
+                $('#morebtn').append(`
+                  <button name="buttonClick" onclick="onMore()">
+                    <img src="/images/more.png" width="140px" height="60px" />
+                  </button><br/><br/><br/><br/>`
+                );
+              } else {
+                $('#morebtn').empty()
+              }
+            } else {
+              $('#eventStart').empty();
+              $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
+            }
+          } else if (response.data.items === "") {
+            $('#eventStart').empty();
+            $('#eventStart').append(`<div>축제가 존재하지 않아용</div>`)
+          } else {
+            eventDataAdd(list);
           }
+          
         })
 
     }
@@ -354,17 +354,11 @@
   <% include ../includes/topbutton %>
   <section class="ftco-section ftco-degree-bg">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
-          <div class="blog-entry" data-aos-delay="100" id="eventStart">
-
-          </div>
-        </div>
+      <div class="row" id="eventStart">
       </div>
       <div>
         <div class="col text-center">
           <div class="rcc" id="morebtn">
-
           </div>
         </div>
       </div>
@@ -379,10 +373,6 @@
       <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
       <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
         stroke="#F96D00" /></svg></div>
-
-
-
-
   <script src="/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
@@ -395,8 +385,6 @@
   <script src="/js/jquery.animateNumber.min.js"></script>
   <script src="/js/bootstrap-datepicker.js"></script>
   <script src="/js/jquery.timepicker.min.js"></script>
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/js/main.js"></script>
   <script src="/js/topbutton.js"></script>
 </body>
