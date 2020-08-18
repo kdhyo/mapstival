@@ -15,8 +15,6 @@ const FESTIVAL_KEY = API.festivalAPI.API_KEY;
 const FESTIVAL_URL = API.festivalAPI.API_URL;
 const FESTIVAL_ETC = API.festivalAPI.API_ETC;
 
-// 맵 초기값 셋팅
-
 let reference = null;
 let rating = null;
 let ratingPutNumber = null;
@@ -24,7 +22,7 @@ let gmapx = null;
 let gmapy = null;
 let gtitle = null;
 
-//축제 메인페이지
+//축제 메인페이지 이동 시 초기 값 전송
 router.get("/", function (req, res, next) {
   // 지역 선택 초기 값
   let area = req.query.area;
@@ -42,6 +40,7 @@ router.get("/", function (req, res, next) {
   });
 });
 
+//축제 API 검색 POST
 router.post("/search", async function (req, res, next) {
   try {
     if (req.body) {
@@ -58,64 +57,7 @@ router.post("/search", async function (req, res, next) {
   } catch (err) {
     console.log(err);
   }
-  // axios.get(``)
-  //       .then(function (response) {
 });
-
-//축제 날짜 지역 post로 받아오기
-// router.post("/main", function (req, res, next) {
-//   if (req.body.startYear) {
-//     startYear = req.body.startYear;
-//     startMonth = req.body.startMonth;
-//     startDate = startYear + startMonth + "01";
-//     f_area = req.body.f_area;
-//     selected = {
-//       Month: `${startMonth}`,
-//       Year: `${startYear}`,
-//       f_area: `${f_area}`,
-//     };
-//     FNumber = 6;
-//     hidden = "";
-//   } else if (req.body.buttonClick) {
-//     MaxNumber = 6 + FNumber;
-//     FNumber += 6;
-//   }
-
-//   // console.log(startDate);
-
-//   axios
-//     .get(`${apiSetting(startDate, f_area, FNumber)}`)
-//     .then((response) => {
-//       tourData = [];
-//       const list = response.data.response.body.items.item;
-//       if (Array.isArray(list)) {
-//         if (list != undefined) {
-//           for (data in list) {
-//             tourData.push(list[data]);
-//           }
-//         } else {
-//           console.log("두번째 if");
-//           tourData = null;
-//         }
-//       } else if (response.data.response.body.items == "") {
-//         console.log("첫번째 if");
-//         tourData = "";
-//       } else {
-//         tourData.push(list);
-//       }
-//       if (tourData.length < FNumber) {
-//         hidden = "ok";
-//       }
-//       res.render("mapstival/main", {
-//         data: tourData,
-//         selected: selected,
-//         hidden: hidden,
-//       });
-//     })
-//     .catch((e) => {
-//       res.send(e);
-//     });
-// });
 
 //상세정보 페이지 이동
 //비동기 처리방식
@@ -273,11 +215,5 @@ router.get("/gmap", function (req, res, next) {
       res.send(e);
     });
 });
-
-// 행사 날짜 설정
-function apiSetting(startDate, f_area, FNumber) {
-  URL = `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${f_area}&pageNo=1&numOfRows=${FNumber}&eventEndDate=${startDate}`;
-  return URL;
-}
 
 module.exports = router;
