@@ -22,6 +22,9 @@ let gmapx = null;
 let gmapy = null;
 let gtitle = null;
 
+//한 축제데이터를 6개씩 호출할 예정
+let rows = 6;
+
 //축제 메인페이지 이동 시 초기 값 전송
 router.get("/", function (req, res, next) {
   // 지역 선택 초기 값
@@ -49,7 +52,7 @@ router.post("/search", async function (req, res, next) {
         date = req.body.date;
 
       let festivalData = await axios.get(
-        `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${area}&pageNo=${pageNum}&numOfRows=6&eventEndDate=${date}`
+        `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${area}&pageNo=${pageNum}&numOfRows=${rows}&eventEndDate=${date}`
       );
       const data = festivalData.data.response.body;
       res.json(data);
@@ -60,9 +63,8 @@ router.post("/search", async function (req, res, next) {
 });
 
 //상세정보 페이지 이동
-//비동기 처리방식
+//동기 처리방식
 router.get("/detail", async function (req, res, next) {
-  let setting = req.body;
   let value = "";
 
   value = req.query.id;

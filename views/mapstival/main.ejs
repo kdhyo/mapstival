@@ -154,28 +154,32 @@
   <script src="/js/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type='text/javascript'>
-  //페이지 번호
-  let pageNum = 1;
-    //지역, 연도, 월, 현재날짜 설정 변수
-    let area = "<%- selected.area %>"
+    // 지역, 페이지번호, 날짜 초기 값 설정
     let nowYear = parseInt("<%- selected.year %>");
     let nowMonth = "<%- selected.month %>"
-    const areaAll = ['전국', '서울', '인천', '대전', '대구', '광주', '부산', '울산', '세종', '경기', '강원', '충북', '충남', '경북', '경남', '전북', '전남', '제주']
-    const valueAll = ['', '1', '2', '3', '4', '5', '6', '7', '8', '31', '32', '33', '34', '35', '36', '37', '38', '39'];
-    const yearAll = [nowYear - 1, nowYear, nowYear + 1];
-
     //초기 날짜 설정
     if (nowMonth < 10) {
       nowMonth = `0${nowMonth}`;
     }
-    let date = `${nowYear}${nowMonth}01`;
+    let dataMerge = {
+      area: "<%- selected.area %>",
+      pageNum: 1,
+      date: `${nowYear}${nowMonth}01`
+    }
+    //지역, 연도, 월, 현재날짜 설정 변수
+
+    const areaAll = ['전국', '서울', '인천', '대전', '대구', '광주', '부산', '울산', '세종', '경기', '강원', '충북', '충남', '경북', '경남', '전북', '전남', '제주']
+    const valueAll = ['', '1', '2', '3', '4', '5', '6', '7', '8', '31', '32', '33', '34', '35', '36', '37', '38', '39'];
+    const yearAll = [nowYear - 1, nowYear, nowYear + 1];
+
+
 
 
     // 지역, 연도, 월 선택박스 생성
     function optionAdd() {
       axios.get('/').then(function () {
         for (let i = 0; i < areaAll.length; i++) {
-          if (valueAll[i] === area) {
+          if (valueAll[i] === dataMerge.area) {
             $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
           } else {
             $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
@@ -204,8 +208,8 @@
     }
 
     function changeArea(value) {
-      area = value;
-      pageNum = 1;
+      dataMerge.area = value;
+      dataMerge.pageNum = 1;
       $('#eventStart').empty();
       $('#morebtn').empty();
       festivalList()
@@ -213,8 +217,8 @@
 
     function changeYear(value) {
       nowYear = value;
-      date = `${nowYear}${nowMonth}01`;
-      pageNum = 1;
+      dataMerge.date = `${nowYear}${nowMonth}01`;
+      dataMerge.pageNum = 1;
       $('#eventStart').empty();
       $('#morebtn').empty();
       festivalList()
@@ -225,41 +229,46 @@
       if (nowMonth < 10) {
         nowMonth = `0${nowMonth}`;
       }
-      date = `${nowYear}${nowMonth}01`;
-      pageNum = 1;
+      dataMerge.date = `${nowYear}${nowMonth}01`;
+      dataMerge.pageNum = 1;
       $('#eventStart').empty();
       $('#morebtn').empty();
       festivalList()
     }
 
     function onMore() {
-      pageNum += 1;
+      dataMerge.pageNum += 1;
       festivalList()
     }
 
     async function festivalList() {
-      const data = {
-            area: area,
-            pageNum: pageNum,
-            date: date
-      }
-      const test = await axios.post(`http://localhost:3000/mapstival/search`, data)
-      .then(function (response) {
-        const list = response.data.items.item;
+      await axios.post(`http://localhost:3000/mapstival/search`, dataMerge)
+        .then(function (response) {
+          const list = response.data.items.item;
           console.log(list)
           if (Array.isArray(list)) {
             if (list !== undefined) {
               list.forEach(data => {
-                $('#eventStart').append(
-                  `
-              <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
-            <div class="blog-entry" data-aos-delay="100">
+                if (data.firstimage === undefined) {
+                  $('#eventStart').append(`
+              <form action="/mapstival/detail" method="get">
+                <input type="hidden" name="id" value="${data.contentid}">
+                <button type="submit">
+                  <img  class="block-20" src="./images/imagenone7.png" width="335px" />
+            </button>
+              </form>`);
+
+                } else {
+                  $('#eventStart').append(`
               <form action="/mapstival/detail" method="get">
                 <input type="hidden" name="id" value="${data.contentid}">
                 <button type="submit">
                   <img  class="block-20" src="${data.firstimage}" width="335px" />
             </button>
-              </form>
+              </form>`);
+                }
+                $('#eventStart').append(`
+
               <div class="text p-4 d-block">
                 <div class="meta mb-3">
                   <div>일정</div>
@@ -269,8 +278,6 @@
                 </div>
                 <h3 id="festivaltitle">${data.title}<br></h3>
               </div>
-            </div>
-          </div>
               `
                 );
               })
@@ -295,8 +302,6 @@
           } else {
             $('#eventStart').append(
               `
-              <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
-            <div class="blog-entry" data-aos-delay="100">
               <form action="/mapstival/detail" method="get">
                 <input type="hidden" name="id" value="${list.contentid}">
                 <button type="submit">
@@ -312,8 +317,7 @@
                 </div>
                 <h3 id="festivaltitle">${list.title}<br></h3>
               </div>
-            </div>
-          </div>
+            
               `
             );
           }
@@ -350,7 +354,12 @@
   <% include ../includes/topbutton %>
   <section class="ftco-section ftco-degree-bg">
     <div class="container">
-      <div class="row" id="eventStart">
+      <div class="row">
+        <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
+          <div class="blog-entry" data-aos-delay="100" id="eventStart">
+
+          </div>
+        </div>
       </div>
       <div>
         <div class="col text-center">
