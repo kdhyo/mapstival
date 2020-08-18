@@ -153,55 +153,63 @@ function getResponse(callback) {
       }
     });
 }
-// 지도페이지 이동
+
+// 구글맵
 const lat = [];
 const equ = [];
 const id = [];
 const gmapTitle = [];
 const gmapUrl = [];
-router.get("/gmap", function (req, res, next) {
+//구글맵 이동
+router.get("/gmap", async function (req, res, next) {
+  const gmapData = {
+    area : req.query.area,
+    date : req.query.date,
+  }
   axios
-    .get(`${URL}`)
-    .then((response) => {
-      let tourData = [];
-      const list = response.data.response.body.items.item;
-      if (Array.isArray(list)) {
-        if (list != undefined) {
-          for (data in list) {
-            tourData.push(list[data]);
-          }
-        } else {
-          tourData = null;
+  await axios.get(
+    `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${gmapData.area}&pageNo=1&numOfRows=100&eventEndDate=${gmapData.date}`)
+  .then((response) => {
+    let tourData = [];
+    const list = response.data.response.body.items.item;
+    if (Array.isArray(list)) {
+      if (list != undefined) {
+        for (data in list) {
+          tourData.push(list[data]);
         }
-      } else if (response.data.response.body.items === "") {
-        tourData = null;
       } else {
-        tourData.push(list);
+        tourData = null;
       }
-      //위도 경도 넣는곳
-      for (i = 0; i < tourData.length; i++) {
-        lat.push(tourData[i].mapy);
-        equ.push(tourData[i].mapx);
-        gmapTitle.push(tourData[i].title);
-        gmapUrl.push(tourData[i].mapx);
-        id.push(tourData[i].contentid);
-      }
-      res.render("mapstival/gmap", {
-        lat: lat,
-        equ: equ,
-        f_area: f_area,
-        gmapTitle: gmapTitle,
-        tourData: tourData,
-        id: id,
-      });
-      lat.length = 0;
-      equ.length = 0;
-      gmapTitle.length = 0;
-      id.length = 0;
-    })
-    .catch((e) => {
-      res.send(e);
+    } else if (response.data.response.body.items === "") {
+      tourData = null;
+    } else {
+      tourData.push(list);
+    }
+    //위도 경도 넣는곳
+    for (i = 0; i < tourData.length; i++) {
+      lat.push(parseFloat(tourData[i].mapy));
+      equ.push(parseFloat(tourData[i].mapx));
+      gmapTitle.push(tourData[i].title);
+      gmapUrl.push(tourData[i].mapx);
+      id.push(tourData[i].contentid);
+    }
+    res.render("mapstival/gmap", {
+      lat: lat,
+      equ: equ,
+      f_area: gmapData.area,
+      gmapTitle: gmapTitle,
+      tourData: tourData,
+      id: id,
     });
+    lat.length = 0;
+    equ.length = 0;
+    gmapTitle.length = 0;
+    id.length = 0;
+  })
+  .catch((e) => {
+    console.log(e)
+    res.send(e);
+  });
 });
 
 module.exports = router;

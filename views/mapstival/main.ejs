@@ -204,7 +204,10 @@
             }
           }
         })
+    }
 
+    function goingGmap(){
+      location.href=`mapstival/gmap?area=${dataMerge.area}&date=${dataMerge.date}`
     }
 
     function changeArea(value) {
@@ -339,7 +342,7 @@
   <div class="buttons">
 
     <div class="dropdown">
-      <a href="/mapstival/gmap"><button class="dropbtn"><img src="/images/map.png" width="150px"></button></a>
+        <button onclick="goingGmap()" class="dropbtn"><img src="/images/map.png" width="150px"></button>
     </div>
     <br />
     <select onchange="changeArea(this.value)" class="area" id="area" name="area">
