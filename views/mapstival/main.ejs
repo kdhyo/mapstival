@@ -151,8 +151,64 @@
       color: black;
     }
   </style>
+</head>
+
+<body>
+  <div class="buttons">
+
+    <div class="dropdown">
+      <button onclick="goingGmap()" class="dropbtn"><img src="/images/map.png" width="150px"></button>
+    </div>
+    <br />
+    <select onchange="changeArea(this.value)" class="area" id="area" name="area">
+    </select>
+    <select onchange="changeYear(this.value)" class="year" id="year" name="year">
+    </select>
+    <select onchange="changeMonth(this.value)" class="month" id="month" name="month">
+    </select>
+
+  </div>
+  </div>
+  <% include ../includes/topbutton %>
+  <section class="ftco-section ftco-degree-bg">
+    <div class="container">
+      <div class="row" id="eventStart">
+      </div>
+      <div>
+        <div class="col text-center">
+          <div class="rcc" id="morebtn">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br><br>
+  <% include ../includes/footer %>
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" /></svg></div>
+
   <script src="/js/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.easing.1.3.js"></script>
+  <script src="/js/jquery.waypoints.min.js"></script>
+  <script src="/js/jquery.stellar.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/aos.js"></script>
+  <script src="/js/jquery.animateNumber.min.js"></script>
+  <script src="/js/bootstrap-datepicker.js"></script>
+  <script src="/js/jquery.timepicker.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/topbutton.js"></script>
+
   <script type='text/javascript'>
     // 지역, 페이지번호, 날짜 초기 값 설정
     let nowYear = parseInt("<%- selected.year %>");
@@ -176,38 +232,32 @@
 
 
     // 지역, 연도, 월 선택박스 생성
-    function optionAdd() {
-      axios.get('/').then(function () {
-        for (let i = 0; i < areaAll.length; i++) {
-          if (valueAll[i] === dataMerge.area) {
-            $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
-          } else {
-            $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
-          }
+    async function optionAdd() {
+      for (let i = 0; i < areaAll.length; i++) {
+        if (valueAll[i] === dataMerge.area) {
+          $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
+        } else {
+          $('#area').append(`<option value="${valueAll[i]}" >${areaAll[i]}</option>`)
         }
-      })
-        .then(function () {
-          for (const year in yearAll) {
-            if (yearAll[year] === nowYear) {
-              $('#year').append(`<option value="${yearAll[year]}" selected >${yearAll[year]}년</option>`)
-            } else {
-              $('#year').append(`<option value="${yearAll[year]}" >${yearAll[year]}년</option>`)
-            }
-          }
-        })
-        .then(function () {
-          for (let i = 1; i <= 12; i++) {
-            if (i === parseInt(nowMonth)) {
-              $('#month').append(`<option value="${i}" selected>${i}월</option>`)
-            } else {
-              $('#month').append(`<option value="${i}">${i}월</option>`)
-            }
-          }
-        })
+      }
+      for (const year in yearAll) {
+        if (yearAll[year] === nowYear) {
+          $('#year').append(`<option value="${yearAll[year]}" selected >${yearAll[year]}년</option>`)
+        } else {
+          $('#year').append(`<option value="${yearAll[year]}" >${yearAll[year]}년</option>`)
+        }
+      }
+      for (let i = 1; i <= 12; i++) {
+        if (i === parseInt(nowMonth)) {
+          $('#month').append(`<option value="${i}" selected>${i}월</option>`)
+        } else {
+          $('#month').append(`<option value="${i}">${i}월</option>`)
+        }
+      }
     }
 
-    function goingGmap(){
-      location.href=`mapstival/gmap?area=${dataMerge.area}&date=${dataMerge.date}`
+    function goingGmap() {
+      location.href = `mapstival/gmap?area=${dataMerge.area}&date=${dataMerge.date}`
     }
 
     function changeArea(value) {
@@ -293,8 +343,8 @@
       }
     }
 
-    async function festivalList() {
-      await axios.post(`http://localhost:3000/mapstival/search`, dataMerge)
+    function festivalList() {
+      axios.post(`http://localhost:3000/mapstival/search`, dataMerge)
         .then(function (response) {
           const list = response.data.items.item;
           if (Array.isArray(list)) {
@@ -323,7 +373,7 @@
           } else {
             eventDataAdd(list);
           }
-          
+
         })
 
     }
@@ -332,64 +382,8 @@
       festivalList()
       optionAdd()
     }
-
     init()
-
   </script>
-</head>
-
-<body>
-  <div class="buttons">
-
-    <div class="dropdown">
-        <button onclick="goingGmap()" class="dropbtn"><img src="/images/map.png" width="150px"></button>
-    </div>
-    <br />
-    <select onchange="changeArea(this.value)" class="area" id="area" name="area">
-    </select>
-    <select onchange="changeYear(this.value)" class="year" id="year" name="year">
-    </select>
-    <select onchange="changeMonth(this.value)" class="month" id="month" name="month">
-    </select>
-
-  </div>
-  </div>
-  <% include ../includes/topbutton %>
-  <section class="ftco-section ftco-degree-bg">
-    <div class="container">
-      <div class="row" id="eventStart">
-      </div>
-      <div>
-        <div class="col text-center">
-          <div class="rcc" id="morebtn">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <br><br>
-  <% include ../includes/footer %>
-
-
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-        stroke="#F96D00" /></svg></div>
-  <script src="/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/jquery.easing.1.3.js"></script>
-  <script src="/js/jquery.waypoints.min.js"></script>
-  <script src="/js/jquery.stellar.min.js"></script>
-  <script src="/js/owl.carousel.min.js"></script>
-  <script src="/js/jquery.magnific-popup.min.js"></script>
-  <script src="/js/aos.js"></script>
-  <script src="/js/jquery.animateNumber.min.js"></script>
-  <script src="/js/bootstrap-datepicker.js"></script>
-  <script src="/js/jquery.timepicker.min.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/topbutton.js"></script>
 </body>
 
 </html>

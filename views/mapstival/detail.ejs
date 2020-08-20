@@ -158,7 +158,7 @@
       <% } %>
     </h4>
     <div class="comment-form-wrap pt-5">
-      <form class="p-5 bg-light" action="/" target="none" onsubmit="test()">
+      <form class="p-5 bg-light" action="/" target="none" onsubmit="dbDataUpdate()">
         <h4 class="mb-5">축제는 어땠나요?<br>소중한 후기를 적어주세요!</h4>
         <div class="form-group">
           <label for="name">Name *</label>
@@ -290,7 +290,7 @@
 
 
   <script>
-    let num = 0;
+    let id = "<%- value %>";
     //버튼 빈칸인지 확인하기
     $(document).ready(function () {
       $("#nullCK").click(function () {
@@ -299,10 +299,9 @@
         if ($("#message").val().length == 0) { alert("후기내용을 입력해주세요."); $("#message").focus(); return false; }
       })
     })
-  </script>
-  <script>
-    let id = "<%- value %>";
-    function test() {
+    
+    //게시판 데이터 업데이트
+    function dbDataUpdate() {
       const data = {
         name: $("#name").val(),
         password: $("#password").val(),
@@ -321,6 +320,7 @@
     }
 
 
+    // 게시판 데이터 불러오는 함수
     function dbDataSearch() {
       let dbDate = [];
       try {
@@ -331,7 +331,6 @@
           $('#dbData').empty();
           $('#dbDataLength').append(`<p>${dbData.length} 개의 댓글이 있어요!</p>`)
           for(let i in dbData) {
-            num = i;
             $('#dbData').append(`
             <li class="comment">
               <div class="vcard bio">

@@ -62,6 +62,9 @@
 23. AWS Mysql 서비스 구축
 24. 개인 도메인 구매 후 AWS Route 53 사용
 25. 개인 도메인과 AWS 서비스 연동 및 서비스 배포
-26. axios를 ejs에서 활용하여 api 비동기 처리
-27. detail 페이지 db정보 비동기 처리
+
+-----2020/08/20 완료
+26. axios를 ejs에서 활용하여 축제api 비동기 처리
+27. 첫 detail 페이지 축제 API async/await를 활용한 동기방식 처리
+28. detail 페이지 게시판 댓글 DB정보 비동기 방식 처리
 ```

@@ -118,6 +118,7 @@ router.get("/detail", async function (req, res, next) {
   }
 });
 
+//구글 평점 리뷰 API
 function getResponse(callback) {
   var reviewName = encodeURI(gtitle); //리뷰 검색 키워드
   var reviewlat = gmapx; // 리뷰 적도
@@ -136,9 +137,6 @@ function getResponse(callback) {
             `https://maps.googleapis.com/maps/api/place/details/json?reference=${reference}&key=${GOOGLE_KEY}`
           )
           .then((response) => {
-            // for (i = 0; i < 10; i++) {
-            //   tourData.push(response.data.response.body.items.item[i]);
-            // }
             rating = response.data.result.rating;
             ratingPutNumber = response.data.result.user_ratings_total;
 
@@ -166,10 +164,10 @@ router.get("/gmap", async function (req, res, next) {
     area: req.query.area,
     date: req.query.date,
   };
-  axios;
+  rows = 50;
   await axios
     .get(
-      `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${gmapData.area}&pageNo=1&numOfRows=100&eventEndDate=${gmapData.date}`
+      `${FESTIVAL_URL}searchFestival?serviceKey=${FESTIVAL_KEY}${FESTIVAL_ETC}&listYN=Y&areaCode=${gmapData.area}&pageNo=1&numOfRows=${rows}&eventEndDate=${gmapData.date}`
     )
     .then((response) => {
       let tourData = [];
