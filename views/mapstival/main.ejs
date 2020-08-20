@@ -233,7 +233,7 @@
 
     // 지역, 연도, 월 선택박스 생성
     async function optionAdd() {
-      for (let i = 0; i < areaAll.length; i++) {
+        for (let i = 0; i < areaAll.length; i++) {
         if (valueAll[i] === dataMerge.area) {
           $('#area').append(`<option value="${valueAll[i]}" selected >${areaAll[i]}</option>`)
         } else {
