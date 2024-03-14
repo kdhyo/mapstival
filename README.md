@@ -68,3 +68,9 @@
 27. 첫 detail 페이지 축제 API async/await를 활용한 동기방식 처리
 28. detail 페이지 게시판 댓글 DB정보 비동기 방식 처리
 ```
+
+## 메인 축제들 페이지 (축제 정보 API에서 데이터 받아오기)
+![맵스티벌2](https://github.com/kdhyo/mapstival/assets/54700818/522ad876-bcda-4e07-8502-1e4e3217e60c)
+
+## 축제 상세 정보 페이지 (축제 관련 블로그도 API로 조회)
+![맵스티벌1](https://github.com/kdhyo/mapstival/assets/54700818/196ca0b5-735c-4616-99b9-f46731633ad3)
